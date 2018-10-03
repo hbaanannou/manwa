@@ -1,0 +1,12 @@
+<%= render 'layouts/myshow/before_myshow', mytitle: "Area" %>
+
+<div class="m-widget13__item">
+    <span class="m-widget13__desc m--align-right">
+      Area Name
+    </span>
+  <span class="m-widget13__text m-widget13__text-bolder">
+      <%= @area_pro_asset.area_pro_asset_name %>
+    </span>
+</div>
+
+<%= render 'layouts/myshow/after_myshow', editpath: edit_area_pro_asset_path(@area_pro_asset), backpath: area_pro_assets_path %>

@@ -1,0 +1,12 @@
+<%= render 'layouts/myshow/before_myshow', mytitle: "Color" %>
+
+<div class="m-widget13__item">
+    <span class="m-widget13__desc m--align-right">
+      Color Name
+    </span>
+  <span class="m-widget13__text m-widget13__text-bolder">
+      <%= @color_asset.color_asset_name %>
+    </span>
+</div>
+
+<%= render 'layouts/myshow/after_myshow', editpath: edit_color_asset_path(@color_asset), backpath: color_assets_path %>

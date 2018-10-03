@@ -1,0 +1,41 @@
+<!--Begin::Section-->
+<div class="m-section">
+  <div class="m-section__content">
+    <span style="font-size: medium"><b>Spares - Purchase Request: <span class="m--font-danger">#PR<%= params[:pr_id] %></span></b></span>
+    <div class="table-responsive">
+    <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover text-center">
+      <thead>
+      <tr>
+        <th>*</th>
+        <th>Spare num.</th>
+        <th>Description</th>
+        <th>Replacement Code</th>
+        <th>Will Purchase Qu.</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% if @breakdown_spares_by_spare_status_4.any? %>
+        <% @breakdown_spares_by_spare_status_4.each_with_index do |breakdown_spare, index| %>
+          <tr>
+            <td><%= index + 1 %></td>
+
+            <td><%= breakdown_spare.spare_part_number %></td>
+
+            <td><%= breakdown_spare.spare_description %></td>
+
+            <td><%= breakdown_spare.replacement_code %></td>
+
+            <td><%= breakdown_spare.willpurchase_spare_quantity %></td>
+          </tr>
+        <% end %>
+      <% else %>
+        <tr>
+          <th scope="row" class="text-center" colspan="17">No PRs Data</th>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div>
+<!--End::Section-->

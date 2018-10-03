@@ -1,0 +1,13 @@
+<h3 class="m-subheader__title m-subheader__title--separator">
+Operations
+</h3>
+<big class="text-muted">
+  Employee: 
+  <% unless params[:asset_id].blank? %>
+  <strong>
+    <span class="m--font-brand"> <%= Employee.find(params[:emp_id]).employee_number %></span>
+    / <%= Employee.find(params[:emp_id]).employee_name %> 
+    / <%= Employee.find(params[:emp_id]).employee_mobile %> 
+  </strong> 
+  <% end %>
+</big>

@@ -1,0 +1,12 @@
+<%= render 'layouts/myshow/before_myshow', mytitle: "User" %>
+
+  <div class="m-widget13__item">
+    <span class="m-widget13__desc m--align-right">
+      User Email
+    </span>
+    <span class="m-widget13__text m-widget13__text-bolder">
+      <%= @user.email %>
+    </span>
+  </div>
+
+<%= render 'layouts/myshow/after_myshow', mytitle: "User", editpath: edit_admin_user_path(@user), backpath: admin_users_path %>

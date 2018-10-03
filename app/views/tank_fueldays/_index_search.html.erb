@@ -1,0 +1,33 @@
+<div class="m-subheader ">
+  <div class="d-flex align-items-center">
+    <div class="mr-auto">
+	  <!-- left side content here -->
+    </div>
+    <div>
+
+	  <%= search_form_for @q, remote: true, class: "m-form m-form--fit form-inline" do |f| %>
+
+        <%= f.search_field :data_asset_data_asset_serial_cont, class: "form-control m-input--fixed-small", placeholder: "Tank No." %>
+
+
+        &nbsp;&nbsp;<%= f.collection_select :site_asset_province_asset_area_asset_id_eq, AreaAsset.order(:area_asset_name), :id, :area_asset_name, {include_blank: "Area: Any"}, {class: "form-control m-input--fixed m-select2"} %>
+
+        <%= f.grouped_collection_select :site_asset_province_asset_id_eq, AreaAsset.order(:area_asset_name), :province_assets, :area_asset_name, :id, :province_asset_name, {include_blank: "Province: Any"}, {class: "form-control m-input--fixed-normal m-select2"} %>
+
+        <%= f.grouped_collection_select :site_asset_id_eq, ProvinceAsset.order(:province_asset_name), :site_assets, :province_asset_name, :id, :site_asset_name, {include_blank: "Site: Any"}, {class: "form-control m-input--fixed-normal m-select2"} %>
+
+
+        &nbsp;&nbsp;<%= f.collection_select :employee_id_eq, Employee.order(:employee_name), :id, :employee_name, {include_blank: "Employee: Any"}, {class: "form-control m-input--fixed m-select2"} %>
+
+
+        &nbsp; From:&nbsp; <%= f.search_field :day_gteq, class: "form-control m-input--fixed", placeholder: "Date Start", type: "date" %>
+        &nbsp; To:&nbsp; <%= f.search_field :day_lteq, class: "form-control m-input--fixed", placeholder: "Date End", type: "date" %>
+
+
+        <%= f.submit "Search", class: "btn btn-brand m-2" %>
+        
+      <% end %>
+
+    </div>
+  </div>
+</div>

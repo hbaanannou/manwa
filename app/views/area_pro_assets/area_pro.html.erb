@@ -1,0 +1,85 @@
+<div class="m-grid__item m-grid__item--fluid m-wrapper">
+	<div class="m-subheader ">
+		<div class="d-flex align-items-center">
+			<div class="mr-auto">
+
+				<h3 class="m-subheader__title ">
+					Dashboard
+						<span class="m-portlet__head-icon">
+							<%= link_to area_pro_area_pro_assets_path(area_id: params[:area_id], p_name: 'all'), class: "all-refresh", remote: true do %>
+			        <i class="flaticon-list-3"></i>
+			        <% end %>
+		      	</span>
+
+		    <%= javascript_tag do %>
+
+	      	$(function() {
+					  setTimeout(updateTransfers, 5 * 60 * 1000);
+					});
+
+					function updateTransfers () {
+						$(".all-refresh")[0].click();
+					  setTimeout(updateTransfers, 5 * 60 * 1000);
+					}
+				    
+				<% end %>
+
+
+				</h3>
+			</div>
+		</div>
+	</div>
+	<div class="m-content">
+
+<% if current_user.role?(:production_admin) %>
+
+<div class="row">
+  <div class="col-xl-12">
+		<div class="m-portlet m-portlet--bordered-semi m-portlet--full-height ">
+			<div class="m-portlet__head"  id="con_header">
+				<%= render 'con_header' %>
+			</div>
+			<div class="m-portlet__body" id="concrete">
+    		<%= render 'concrete' %>
+    	</div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xl-12">
+  	<div class="m-portlet m-portlet--bordered-semi m-portlet--full-height ">
+			<div class="m-portlet__head"  id="asph_header">
+				<%= render 'asph_header' %>
+			</div>
+			<div class="m-portlet__body" id="asphalt">
+    		<%= render 'asphalt' %>
+    	</div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xl-12">
+  	<div class="m-portlet m-portlet--bordered-semi m-portlet--full-height ">
+			<div class="m-portlet__head"  id="cru_header">
+				<%= render 'cru_header' %>
+			</div>
+			<div class="m-portlet__body" id="crusher">
+    		<%= render 'crusher' %>
+    	</div>
+    </div>
+  </div>
+</div>
+
+<% end %>
+
+	</div>
+</div>
+
+
+<%= javascript_tag do %>
+  concrete_high_line_one( '#line_concrete' , '/area_pro_assets/con_area_pro_lines.json?area_id=<%= params[:area_id] %>', 'one_line')
+  asphalt_high_line_one( '#line_asphalt' , '/area_pro_assets/asph_area_pro_lines.json?area_id=<%= params[:area_id] %>', 'one_line')
+  crusher_high_line_one( '#line_crusher' , '/area_pro_assets/cru_area_pro_lines.json?area_id=<%= params[:area_id] %>', 'one_line')
+<% end %>

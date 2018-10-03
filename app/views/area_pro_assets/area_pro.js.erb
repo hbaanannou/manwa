@@ -1,0 +1,3 @@
+concrete_high_line( '#line_concrete' , '/area_pro_assets/con_area_pro_lines.json?area_id=<%= params[:area_id] %>&start_date=<%= session[:start_date] if session[:start_date].present? %>&end_date=<%= session[:end_date] if session[:end_date].present? %>', 'area')
+asphalt_high_line( '#line_asphalt' , '/area_pro_assets/asph_area_pro_lines.json?area_id=<%= params[:area_id] %>&start_date=<%= session[:start_date] if session[:start_date].present? %>&end_date=<%= session[:end_date] if session[:end_date].present? %>', 'area')
+crusher_high_line( '#line_crusher' , '/area_pro_assets/cru_area_pro_lines.json?area_id=<%= params[:area_id] %>&start_date=<%= session[:start_date] if session[:start_date].present? %>&end_date=<%= session[:end_date] if session[:end_date].present? %>', 'area')

@@ -1,0 +1,65 @@
+<!--begin:: Widgets/Authors Profit-->
+<div class="m-portlet m-portlet--bordered-semi m-portlet--full-height ">
+  <div class="m-portlet__head">
+    <div class="m-portlet__head-caption">
+      <div class="m-portlet__head-title">
+        <h3 class="m-portlet__head-text">
+          <strong>Concrete Report:</strong>
+        </h3>
+        
+      </div>
+    </div>
+    <div class="m-portlet__head-tools">
+
+    </div>
+  </div>
+  <div class="m-portlet__body">
+
+    <div class="form-group m-form__group row">
+      <div class="col-lg-4">
+        <%= form_tag con_province_pro_details_lines_province_pro_assets_path, method: :get, remote: true, class: "m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" do %>
+        <div class="row">
+          <div class="col-lg-9">
+            <%= date_field_tag :start_date, nil, {class: "form-control m-input"} %>
+          </div>
+
+          <div class="col-lg-3">
+            <%= submit_tag 'Start', class: "btn m-btn--pill m-btn--air btn-outline-info m-btn m-btn--outline-2x" %>
+          </div>
+
+          <%= hidden_field_tag 'province_id', params[:province_id] %>
+
+        </div>
+        <% end %>
+      </div>
+    <div class="col-lg-4 text-center">
+      <span data-toggle="m-tooltip" data-placement="top" data-original-title="Clear Dates">
+      <%= link_to con_province_pro_details_lines_province_pro_assets_path(province_id: params[:province_id]), remote: true, alt: "Clear", class: "m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" do %><i class="la la-eraser"></i><% end %>
+      </span>
+    </div>
+      <div class="col-lg-4">
+        <%= form_tag con_province_pro_details_lines_province_pro_assets_path, method: :get, remote: true, class: "m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" do %>
+        <div class="row">
+          <div class="col-lg-9">
+            <%= date_field_tag :end_date, nil, {class: "form-control m-input"} %>
+          </div>
+
+          <div class="col-lg-3">
+            <%= submit_tag 'End', class: "btn m-btn--pill m-btn--air btn-outline-danger m-btn m-btn--outline-2x" %>
+          </div>
+
+          <%= hidden_field_tag 'province_id', params[:province_id] %>
+
+        </div>
+        <% end %>
+      </div>
+    </div>
+
+
+    <div id='line_concrete'></div>
+
+
+  </div>
+
+</div>
+<!--end:: Widgets/Authors Profit-->

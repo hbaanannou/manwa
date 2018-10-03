@@ -1,0 +1,29 @@
+<div class="m-subheader ">
+  <div class="d-flex align-items-center">
+    <div class="mr-auto">
+      <h3 class="m-subheader__title m-subheader__title--separator">
+        Report
+      </h3>
+    </div>
+	  <!-- left side content here -->
+    <div>
+      <%= form_tag monthly_checklists_path, remote: true, method: :get, class: "m-form m-form--fit form-inline" do %>
+      <% if current_user.role?(:rchecklist) %>
+        Asset: &nbsp; <%= select_tag "asset_id", options_from_collection_for_select(DataAsset.by_riyadh.order(data_asset_serial: :asc), "id", "data_asset_serial"), include_blank: 'Select Asset Number', class: "form-control m-input m-input--fixed-normal m-select2" %>
+      <% elsif current_user.role?(:tchecklist) %>
+        <%= select_tag "asset_id", options_from_collection_for_select(DataAsset.by_tabuk.order(data_asset_serial: :asc), "id", "data_asset_serial"), include_blank: 'Select Asset Number', class: "form-control m-input m-input--fixed-normal m-select2" %>
+      <% else %>
+        <%= select_tag "asset_id", options_from_collection_for_select(DataAsset.order(data_asset_serial: :asc), "id", "data_asset_serial"), include_blank: 'Select Asset Number', class: "form-control m-input m-input--fixed-normal m-select2" %>
+      <% end %>
+
+
+      &nbsp; Stary Date: &nbsp; <%= date_field_tag :start_date, nil, {class: "form-control m-input"} %>
+
+      &nbsp; End Date: &nbsp; <%= date_field_tag :end_date, nil, {class: "form-control m-input"} %>
+
+        <%= submit_tag 'Select', class: "btn btn-brand m-2" %>
+
+      <% end %>
+    </div>
+  </div>
+</div>

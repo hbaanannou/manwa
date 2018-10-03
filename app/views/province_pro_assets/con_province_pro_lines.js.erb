@@ -1,0 +1,10 @@
+<% if params[:con_chart_display] == 'con_details' %>
+concrete_high_line( '#line_concrete' , '/province_pro_assets/con_province_pro_lines.json?province_id=<%= params[:province_id] %>&start_date=<%= session[:start_date] if session[:start_date].present? %>&end_date=<%= session[:end_date] if session[:end_date].present? %>', 'province')
+$("#con_header").html("<%=j render 'con_header' %>")
+<% elsif params[:con_chart_display] == 'con_summary' %>
+concrete_high_line_one( '#line_concrete' , '/province_pro_assets/con_province_pro_lines.json?province_id=<%= params[:province_id] %>&start_date=<%= session[:start_date] if session[:start_date].present? %>&end_date=<%= session[:end_date] if session[:end_date].present? %>', 'one_line')
+$("#con_header").html("<%=j render 'con_header' %>")
+<% else %>
+concrete_high_line_one( '#line_concrete' , '/province_pro_assets/con_province_pro_lines.json?province_id=<%= params[:province_id] %>&start_date=<%= session[:start_date] if session[:start_date].present? %>&end_date=<%= session[:end_date] if session[:end_date].present? %>', 'one_line')
+$("#con_header").html("<%=j render 'con_header' %>")
+<% end %>

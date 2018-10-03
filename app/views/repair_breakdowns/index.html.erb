@@ -1,0 +1,62 @@
+<%= render 'layouts/myindex/before_myindex_back', mytitle: "Breakdowns", pages_collection: @repair_breakdowns, pages_model: "breakdown", backpath: :back %>
+
+<thead>
+<tr>
+  <th>Repair order</th>
+  <th>Asset Number</th>
+  <th>Site</th>
+  <th>Breakdown</th>
+  <th class="text-center">Work Order Status</th>
+  <th class="text-center">Spares</th>
+  <th class="text-center">Edit Work Order</th>
+</tr>
+</thead>
+<tbody>
+<% if @repair_breakdowns.any? %>
+  <% @repair_breakdowns.each do |repair_breakdown| %>
+    <tr>
+
+      <td>#RO <%= repair_breakdown.repair_order.id %></td>
+
+      <td><%= repair_breakdown.repair_order.data_asset.data_asset_serial %></td>
+
+      <td><%= repair_breakdown.repair_order.site_asset.site_asset_name %></td>
+
+      <td><%= repair_breakdown.repair_breakdown_name %></td>
+
+      <td class="text-center">
+        <% if repair_breakdown.notopened? %>
+        <span class="m--font-default">Not Opened</span>
+        <% elsif repair_breakdown.opened? %>
+        <span class="m--font-success">Opened</span>
+        <% elsif repair_breakdown.hold? %>
+        <span class="m--font-danger">Hold</span>
+        <% elsif repair_breakdown.close? %>
+        <span class="m--font-brand">Close</span>
+        <% else %>
+        <%= repair_breakdown.breakdown_status %>
+        <% end %>
+      </td>
+
+      <td class="text-center"><%= repair_breakdown.breakdown_spares.count %></td>
+
+      <td class="text-center">
+        <% if (repair_breakdown.repair_order.received? || repair_breakdown.repair_order.opened? || repair_breakdown.repair_order.hold?) && current_user.role?(:workshops_site) %>
+          <%= link_to edit_repair_breakdown_path(repair_breakdown, ro_id: params[:ro_id]), alt: "Edit", class: "m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill", data: { toggle: "m-tooltip", placement: "bottom", original_title: "Work Order"} do %><i class="la la-edit"></i><% end %>
+        <% end %>
+
+        <% if current_user.role?(:assets_admin) || current_user.role?(:workshops_manager) %>
+          <%= link_to repair_breakdown, alt: "Delete", class: "m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill", method: :delete, data: { toggle: "m-tooltip", placement: "bottom", original_title: "Delete", confirm: 'Are you sure?' } do %><i class="la la-trash"></i><% end %>
+        <% end %>
+      </td>
+
+    </tr>
+  <% end %>
+<% else %>
+  <tr>
+    <th scope="row" class="text-center" colspan="12">No Breakdowns Data</th>
+  </tr>
+<% end %>
+</tbody>
+
+<%= render 'layouts/myindex/after_myindex', pages_collection: @repair_breakdowns, pages_model: "breakdown" %>

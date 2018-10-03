@@ -1,0 +1,18 @@
+$("#show_navigate").html("<%=j render 'show_navigate' %>")
+$("#show_content").html("<%=j render 'show_content' %>")
+
+$(function() {
+    // owl carousel
+    var options = {
+        items: 1,
+        margin: 10,
+        loop: true,
+        nav: true,
+        animateOut: 'fadeOut',
+        navText: []
+    }
+
+    $('.owl-carousel').each(function(){
+        $(this).owlCarousel(options);
+    });
+});

@@ -1,0 +1,20 @@
+<div class="m-subheader ">
+  <div class="d-flex align-items-center">
+    <div class="mr-auto">
+	  <!-- left side content here -->
+	</div>
+	<div>
+
+	  <%= search_form_for @q, remote: true, class: "m-form m-form--fit form-inline" do |f| %>
+
+        <%= f.collection_select :pro_crusher_type_id_eq, ProCrusherType.order(:pro_crusher_type_name), :id, :pro_crusher_type_name, {include_blank: "Type: Any"}, {class: "form-control m-input--fixed m-select2"} %>
+
+        <%= hidden_field_tag :pro_crusher_id, params[:pro_crusher_id] %>
+
+        <%= f.submit "Search", class: "btn btn-brand m-2" %>
+        
+      <% end %>
+
+    </div>
+  </div>
+</div>

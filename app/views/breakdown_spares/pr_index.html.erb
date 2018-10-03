@@ -1,0 +1,268 @@
+<!-- BEGIN: Subheader -->
+<div class="m-subheader ">
+  <div class="d-flex align-items-center">
+    <div class="mr-auto">
+      <h3 class="m-subheader__title m-subheader__title--separator">
+        Index
+      </h3>
+    </div>
+  </div>
+</div>
+<!-- END: Subheader -->
+
+<!--Begin::m-content-->
+<div class="m-content">
+  <!--Begin::Row-->
+  <div class="row">
+    <!--Begin::col-xl-12-->
+    <div class="col-xl-12">
+      <!--begin::Portlet-->
+      <div class="m-portlet " id="m_portlet">
+        <div class="m-portlet__head">
+          <div class="m-portlet__head-caption">
+            <div class="m-portlet__head-title">
+              <span class="m-portlet__head-icon">
+                <i class="flaticon-user m--font-brand"></i>
+              </span>
+              <h3 class="m-portlet__head-text">
+                Spares - Purchase Request: <span class="m--font-danger">#PR<%= params[:pr_id] %></span>
+              </h3>
+            </div>
+          </div>
+          <div class="m-portlet__head-tools">
+            <ul class="m-portlet__nav">
+              
+              <li class="m-portlet__nav-item">
+              <%= link_to pr_index_breakdown_spares_path(pr_id: params[:pr_id], format: :pdf), class: "btn m-btn m-btn--icon m-btn--pill m-btn--air btn-danger", target: "_blank" do %>
+                <span>
+                  <i class="la la-file"></i>
+                  <span>
+                    Create PDF For Well Purchase
+                  </span>
+                </span>
+              <% end %>
+            </li>
+
+            </ul>
+          </div>
+        </div>
+
+        <!--Begin::m-portlet__body-->
+        <div class="m-portlet__body">
+
+          <!--Begin::Section-->
+          <div class="m-section">
+            <div class="m-section__content">
+              
+<ul class="nav nav-pills m-2" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" data-toggle="tab" href="#m_tabs_10_4">
+      <i class="la la-money"></i>
+      Well Purchase &nbsp;
+      <% if @breakdown_spares_by_spare_status_4.count > 0 %>
+      <span class="m-badge m-badge--danger"><%= @breakdown_spares_by_spare_status_4.count %></span>
+      <% end %>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#m_tabs_10_5">
+      <i class="la la-money"></i>
+      Purchased &nbsp;
+      <% if @breakdown_spares_by_spare_status_5.count > 0 %>
+      <span class="m-badge m-badge--danger"><%= @breakdown_spares_by_spare_status_5.count %></span>
+      <% end %>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#m_tabs_10_6">
+      <i class="la la-angle-double-down"></i>
+      Received By Store &nbsp;
+      <% if @breakdown_spares_by_spare_status_8.count > 0 %>
+      <span class="m-badge m-badge--danger"><%= @breakdown_spares_by_spare_status_8.count %></span>
+      <% end %>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#m_tabs_10_7">
+      <i class="la la-ban"></i>
+      Refused &nbsp;
+      <% if @breakdown_spares_by_spare_status_7.count > 0 %>
+      <span class="m-badge m-badge--danger"><%= @breakdown_spares_by_spare_status_7.count %></span>
+      <% end %>
+    </a>
+  </li>
+</ul>
+
+<hr>
+
+<div class="tab-content">
+  <div class="tab-pane active" id="m_tabs_10_4" role="tabpanel">
+    <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover">
+    <thead>
+    <tr>
+      <th>Spare num.</th>
+      <th>Description</th>
+      <th>Replacement Code</th>
+      <th>Will Purchase Qu.</th>
+      <% if current_user.role?(:assets_admin) || current_user.role?(:workshops_manager) %>
+      <th>Actions</th>
+      <% end %>
+    </tr>
+    </thead>
+    <tbody>
+    <% if @breakdown_spares_by_spare_status_4.any? %>
+      <% @breakdown_spares_by_spare_status_4.each do |breakdown_spare| %>
+        <tr>
+
+          <td><%= breakdown_spare.spare_part_number %></td>
+
+          <td><%= breakdown_spare.spare_description %></td>
+
+          <td><%= breakdown_spare.replacement_code %></td>
+
+          <td><%= breakdown_spare.willpurchase_spare_quantity %></td>
+          
+          <% if current_user.role?(:assets_admin) || current_user.role?(:workshops_manager) %>
+            <td>
+              <%= link_to breakdown_spare, alt: "Delete", class: "m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill", method: :delete, data: { toggle: "m-tooltip", placement: "bottom", original_title: "Delete", confirm: 'Are you sure?' } do %><i class="la la-trash"></i><% end %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <th scope="row" class="text-center" colspan="12">No Spares Data</th>
+      </tr>
+    <% end %>
+    </tbody>
+    </table>
+  </div>
+
+  <div class="tab-pane" id="m_tabs_10_5" role="tabpanel">
+    <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover">
+    <thead>
+    <tr>
+      <th>Spare num.</th>
+      <th>Description</th>
+      <th>Replacement Code</th>
+      <th>Requested Qu.</th>
+      <% if current_user.role?(:assets_admin) || current_user.role?(:workshops_manager) %>
+      <th>Actions</th>
+      <% end %>
+    </tr>
+    </thead>
+    <tbody>
+    <% if @breakdown_spares_by_spare_status_5.any? %>
+      <% @breakdown_spares_by_spare_status_5.each do |breakdown_spare| %>
+        <tr>
+
+          <td><%= breakdown_spare.spare_part_number %></td>
+
+          <td><%= breakdown_spare.spare_description %></td>
+
+          <td><%= breakdown_spare.replacement_code %></td>
+
+          <td><%= breakdown_spare.willpurchase_spare_quantity %></td>
+          
+          <% if current_user.role?(:assets_admin) || current_user.role?(:workshops_manager) %>
+            <td>
+              <%= link_to breakdown_spare, alt: "Delete", class: "m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill", method: :delete, data: { toggle: "m-tooltip", placement: "bottom", original_title: "Delete", confirm: 'Are you sure?' } do %><i class="la la-trash"></i><% end %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <th scope="row" class="text-center" colspan="12">No Spares Data</th>
+      </tr>
+    <% end %>
+    </tbody>
+    </table>
+  </div>
+
+  <div class="tab-pane" id="m_tabs_10_6" role="tabpanel">
+    <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover">
+    <thead>
+    <tr>
+      <th>Spare num.</th>
+      <th>Description</th>
+      <th>Replacement Code</th>
+      <th>Requested Qu.</th>
+      <% if current_user.role?(:assets_admin) || current_user.role?(:workshops_manager) %>
+      <th>Actions</th>
+      <% end %>
+    </tr>
+    </thead>
+    <tbody>
+    <% if @breakdown_spares_by_spare_status_8.any? %>
+      <% @breakdown_spares_by_spare_status_8.each do |breakdown_spare| %>
+        <tr>
+
+          <td><%= breakdown_spare.spare_part_number %></td>
+
+          <td><%= breakdown_spare.spare_description %></td>
+
+          <td><%= breakdown_spare.replacement_code %></td>
+
+          <td><%= breakdown_spare.willpurchase_spare_quantity %></td>
+          
+          <% if current_user.role?(:assets_admin) || current_user.role?(:workshops_manager) %>
+            <td>
+              <%= link_to breakdown_spare, alt: "Delete", class: "m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill", method: :delete, data: { toggle: "m-tooltip", placement: "bottom", original_title: "Delete", confirm: 'Are you sure?' } do %><i class="la la-trash"></i><% end %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <th scope="row" class="text-center" colspan="12">No Spares Data</th>
+      </tr>
+    <% end %>
+    </tbody>
+    </table>
+  </div>
+
+  <div class="tab-pane" id="m_tabs_10_7" role="tabpanel">
+    <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover">
+    <thead>
+    <tr>
+      <th>Spare num.</th>
+      <th>Description</th>
+      <th>Replacement Code</th>
+      <th>Requested Qu.</th>
+      <% if current_user.role?(:assets_admin) || current_user.role?(:workshops_manager) %>
+      <th>Actions</th>
+      <% end %>
+    </tr>
+    </thead>
+    <tbody>
+    <% if @breakdown_spares_by_spare_status_7.any? %>
+      <% @breakdown_spares_by_spare_status_7.each do |breakdown_spare| %>
+        <tr>
+
+          <td><%= breakdown_spare.spare_part_number %></td>
+
+          <td><%= breakdown_spare.spare_description %></td>
+
+          <td><%= breakdown_spare.replacement_code %></td>
+
+          <td><%= breakdown_spare.willpurchase_spare_quantity %></td>
+          
+          <% if current_user.role?(:assets_admin) || current_user.role?(:workshops_manager) %>
+            <td>
+              <%= link_to breakdown_spare, alt: "Delete", class: "m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill", method: :delete, data: { toggle: "m-tooltip", placement: "bottom", original_title: "Delete", confirm: 'Are you sure?' } do %><i class="la la-trash"></i><% end %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <th scope="row" class="text-center" colspan="12">No Spares Data</th>
+      </tr>
+    <% end %>
+    </tbody>
+    </table>
+  </div>
+</div>
+
+<%= render 'layouts/myindex/after_myindex_tabs', pages_collection: @breakdown_spares, pages_model: "spare" %>

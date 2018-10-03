@@ -1,0 +1,27 @@
+<!-- BEGIN: Subheader -->
+<div class="m-subheader ">
+  <div class="d-flex align-items-center">
+    
+    <div class="mr-auto"  id="emp_charts_navigate_left">
+      <%= render 'emp_charts_navigate_left' %>
+    </div>
+
+    <div>
+      <%= form_tag emp_charts_data_assets_path, method: :get, class: "m-form m-form--fit form-inline" do %>
+        <%= select_tag "emp_id", options_from_collection_for_select(policy_scope(Employee.order(employee_name: :asc)), "id", "number_name"), include_blank: 'Select Employee', class: "form-control m-input m-input--fixed-normal m-select2" %>
+        <%= submit_tag 'Select', class: "btn btn-brand m-2" %>
+
+      <% end %>
+      </div>
+
+      <div class="m--align-right" id="emp_charts_navigate">
+        <%= render 'emp_charts_navigate' %>
+      </div>
+
+  </div>
+</div>
+<!-- END: Subheader -->
+
+<div class="m-content" id="emp_charts_content">
+  <%= render 'emp_charts_content' %>
+</div>

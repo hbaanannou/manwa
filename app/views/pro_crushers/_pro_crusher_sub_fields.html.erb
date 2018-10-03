@@ -1,0 +1,31 @@
+<div class="form-group m-form__group row nested-fields">
+	<div class="col-lg-1"></div>
+	<div class="col-lg-2">
+		<span class="required">
+		<%= f.select :pro_crusher_type_id, ProCrusherType.all.collect {|p| [p.pro_crusher_type_name, p.id]}, {include_blank: 'Select crusher Type'}, class: "form-control m-input m-select2", required: true %>
+		</span>
+		<span class="m-form__help">crusher Type</span>
+	</div>
+	<div class="col-lg-1">
+		<%= f.collection_radio_buttons(:measurement, { Meter: :meter, Load: :rad }, :second, :first) do |b| %>
+      <%= b.label(class: "m-radio m-radio--bold #{'m-radio--state-brand' if b.text == :Meter} #{'m-radio--state-success' if b.text == :Rad}") { b.radio_button + b.text + content_tag(:span) } %> 
+    <% end %>
+	</div>
+	<div class="col-lg-2">
+		<%= f.number_field :pro_crusher_amount, class: "form-control m-input required", placeholder: "Amount", min: '0', step: :any %>
+		<span class="m-form__help">Amount</span>
+	</div>
+	<div class="col-lg-2">
+		<%= f.select :pro_reason_id, ProReason.all.collect {|p| [p.pro_reason_name, p.id]}, {include_blank: 'Select Reason'}, class: "form-control m-input m-select2" %>
+		<span class="m-form__help">Reason</span>
+	</div>
+	<div class="col-lg-3">
+		<%= f.text_area :pro_crusher_note, class: "form-control m-input", placeholder: "Notes" %>
+      <span class="m-form__help">Please enter Notes</span>
+	</div>
+	<div class="col-lg-1">
+		<%= link_to_remove_association f, class: "m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" do %>
+		<i class="la la-trash"></i>
+		<% end %>
+	</div>
+</div>

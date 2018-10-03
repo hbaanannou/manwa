@@ -1,0 +1,101 @@
+<style>
+.breakdown_spares {
+    counter-reset: Serial;           /* Set the Serial counter to 0 */
+}
+
+label.serial-label:first-child:after {
+  counter-increment: Serial;      /* Increment the Serial counter */
+  content: " # " counter(Serial) " "; /* Display the counter */
+}
+</style>
+
+<!--begin::Form-->
+<%= form_with(model: matrial_request, local: true, class: "m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed") do |form| %>
+
+  <%= render 'layouts/myform/error_myform', object: matrial_request %>
+
+
+<br>
+<br>
+  <h5 class="offset-lg-1 left__div__border--brand m--font-brand"> &nbsp; MARTIAL REQUEST <span class="m--font-danger">#MR <%= matrial_request.id %></span> SPARES:</h5>
+
+  <div class="form-group m-form__group row">
+    <div class="col-lg-2">
+      Spare Part Number
+    </div>
+    <div class="col-lg-2">
+      Description
+    </div>
+    <div class="col-lg-1">
+      Requested Qu.
+    </div>
+    <div class="col-lg-2">
+      Availability
+    </div>
+    <div class="col-lg-1">
+      Available Qu.
+    </div>
+    <div class="col-lg-2">
+      Replacement Code
+    </div>
+
+    <% if current_user.role?(:workshops_manager) %>
+    <div class="col-lg-2">
+      Approved Qu.
+    </div>
+    <% end %>
+
+    <% if current_user.role?(:workshops_site) && matrial_request.breakdown_spares.by_spare_status_6.count > 0 %>
+    <div class="col-lg-2">
+      Receiving
+    </div>
+    <% end %>
+
+  </div>
+
+  <div class="breakdown_spares">
+
+    <% matrial_request.breakdown_spares.by_not_received.by_not_refused.each do |breakdown_spare_row| %>
+
+      <%= form.fields_for :breakdown_spares, breakdown_spare_row do |breakdown_spare| %>
+    
+        <%= render partial: 'breakdown_spare_fields', locals: {f: breakdown_spare, breakdown_spare_row: breakdown_spare_row}  %>
+
+      <% end %>
+
+    <% end %>
+  </div>
+
+  <% if current_user.role?(:rstore) || current_user.role?(:tstore) %>
+  <div class="form-group m-form__group row">
+    <label class="col-form-label col-lg-2">Send for Confirmation</label>
+    <div class="col-9">
+      <div class="m-checkbox-inline">
+
+        <label class="m-checkbox m-checkbox--bold m-checkbox--state-brand">
+        <%= form.check_box :store_done %> Send it to Workshops Manager to confirm it.
+        <span></span>
+        </label>
+      </div>
+    </div>
+  </div>
+  <% elsif current_user.role?(:workshops_manager) %>
+  <div class="form-group m-form__group row">
+    <label class="col-form-label col-lg-2">Send Confirmation</label>
+    <div class="col-9">
+      <div class="m-checkbox-inline">
+
+        <label class="m-checkbox m-checkbox--bold m-checkbox--state-brand">
+        <%= form.check_box :manager_done %> Return to store as confirmation.
+        <span></span>
+        </label>
+      </div>
+    </div>
+  </div>
+  <% end %>
+
+
+  <%= render 'layouts/myform/submit_myform', form: form, cancelpath: matrial_requests_path %>
+
+<% end %>
+<!--end::Form-->

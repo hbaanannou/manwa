@@ -1,0 +1,360 @@
+
+
+<!--begin::Form-->
+<%= form_with(model: checklist, local: true, class: "m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed") do |form| %>
+  
+  <%= render 'layouts/myform/error_myform', object: checklist %>
+  
+  <div class="form-group m-form__group row">
+    <%= form.label :data_asset_id, "Asset Number", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <% if action?('new', 'create') %>
+        <%= form.select :data_asset_id, [[@data_asset.data_asset_serial, @data_asset.id]], {}, {class: "form-control m-input"} %>
+      <% elsif action?('edit', 'update') %>
+        <% if current_user.role?(:rchecklist) %>
+          <%= form.select :data_asset_id, DataAsset.by_riyadh.order(data_asset_serial: :asc).collect {|p| [p.data_asset_serial, p.id]}, {include_blank: 'Select Asset Number'}, class: "form-control m-input m-select2", required: true %>
+        <% elsif current_user.role?(:tchecklist) %>
+          <%= form.select :data_asset_id, DataAsset.by_tabuk.order(data_asset_serial: :asc).collect {|p| [p.data_asset_serial, p.id]}, {include_blank: 'Select Asset Number'}, class: "form-control m-input m-select2", required: true %>
+        <% else %>
+          <%= form.select :data_asset_id, DataAsset.all.order(data_asset_serial: :asc).collect {|p| [p.data_asset_serial, p.id]}, {include_blank: 'Select Asset Number'}, class: "form-control m-input m-select2", required: true %>
+        <% end %>
+      <% end %>
+      <span class="m-form__help">Asset Number</span>
+    </div>
+
+
+    <%= form.label :day, "Day Date", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <% if params[:previous_checklist] %>
+        <% if Checklist.find(params[:previous_checklist]).day.thursday? %>
+          <%= form.date_field :day, class: "form-control m-input required", placeholder: "Day Date", required: true, value: Checklist.find(params[:previous_checklist]).day + 2 %>
+        <% else %>
+          <%= form.date_field :day, class: "form-control m-input required", placeholder: "Day Date", required: true, value: Checklist.find(params[:previous_checklist]).day + 1 %>
+        <% end %>
+        <span class="m-form__help">Day Date (Next working day)</span>
+      <% else %>
+        <%= form.date_field :day, class: "form-control m-input required", placeholder: "Day Date", required: true %>
+      <span class="m-form__help">Please enter Day Date</span>
+      <% end %>
+    </div>
+  </div>
+
+
+  <div class="form-group m-form__group row">
+    <%= form.label :hours, "Daily Working Hours", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <% if params[:previous_checklist] %>
+      <%= form.number_field :hours, class: "form-control m-input required", placeholder: "Daily Working Hours", required: true, min: '0', step: :any, value: Checklist.find(params[:previous_checklist]).hours %>
+      <span class="m-form__help">Previous Working Hours</span>
+      <% else %>
+      <%= form.number_field :hours, class: "form-control m-input required", placeholder: "Daily Working Hours", required: true, min: '0', step: :any %>
+      <span class="m-form__help">Please enter Daily Working Hours</span>
+      <% end %>
+    </div>
+    <%= form.label :meters, "Meter Reading", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <% if params[:previous_checklist] %>
+      <%= form.number_field :meters, class: "form-control m-input", placeholder: "Meter Reading", min: '0', step: :any, value: Checklist.find(params[:previous_checklist]).meters %>
+      <span class="m-form__help">Previous Meter Reading</span>
+      <% else %>
+        <% if Checklist.where(data_asset_id: params[:asset_id]).last %>
+          <%= form.number_field :meters, class: "form-control m-input", placeholder: "Meter Reading", min: '0', step: :any, value: Checklist.where(data_asset_id: params[:asset_id]).last.meters %>
+        <% else %>
+          <%= form.number_field :meters, class: "form-control m-input", placeholder: "Meter Reading", min: '0', step: :any %>
+        <% end %>
+      <span class="m-form__help">Please enter Meter Reading - Or 0 for N/A</span>
+      <% end %>
+    </div>
+  </div>
+
+
+  <% if params[:previous_checklist] %>
+
+
+  <div class="form-group m-form__group row">
+      <div class="col-12 text-center">
+        <div class="m-checkbox-inline">
+
+          <label class="m-checkbox">
+          <%= form.check_box :engine_oil, checked: Checklist.find(params[:previous_checklist]).engine_oil %> Engine Oil
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :hydraulic_oil, checked: Checklist.find(params[:previous_checklist]).hydraulic_oil %> Hydraulic Oil
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :gear_oil, checked: Checklist.find(params[:previous_checklist]).gear_oil %> Gear Oil
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :breake_oil, checked: Checklist.find(params[:previous_checklist]).breake_oil %> Breake Oil
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :battery_water, checked: Checklist.find(params[:previous_checklist]).battery_water %> Battery Water
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :air_filter, checked: Checklist.find(params[:previous_checklist]).air_filter %> Air Filter
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :fuel_water_separator, checked: Checklist.find(params[:previous_checklist]).fuel_water_separator %> Fuel Water Separator
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :fuel_tank, checked: Checklist.find(params[:previous_checklist]).fuel_tank %> Fuel Tank
+          <span></span>
+          </label>
+
+          </div>
+      </div>
+    </div>
+
+    <div class="form-group m-form__group row">
+      <div class="col-12 text-center">
+        <div class="m-checkbox-inline">
+
+          <label class="m-checkbox">
+          <%= form.check_box :radiator_coolant_hoses, checked: Checklist.find(params[:previous_checklist]).radiator_coolant_hoses %> Radiator Coolant Hoses
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :lights_gauges, checked: Checklist.find(params[:previous_checklist]).lights_gauges %> Lights Gauges
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :joints_pto_shaft, checked: Checklist.find(params[:previous_checklist]).joints_pto_shaft %> Joints Pto Shaft
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :chain_tension, checked: Checklist.find(params[:previous_checklist]).chain_tension %> Chain Tension
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :tire_pressure, checked: Checklist.find(params[:previous_checklist]).tire_pressure %> Tire Pressure
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :tire_bolt, checked: Checklist.find(params[:previous_checklist]).tire_bolt %> Tire Bolt
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :fan_belt_tension, checked: Checklist.find(params[:previous_checklist]).fan_belt_tension %> Fan Belt Tension
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :air_tank, checked: Checklist.find(params[:previous_checklist]).air_tank %> Air Tank
+          <span></span>
+          </label>
+
+        </div>
+        <span class="m-form__help">Previous Checks</span>
+      </div>
+    </div>
+
+
+  <% else %>
+
+    <div class="form-group m-form__group row">
+      <div class="col-12 text-center">
+        <div class="m-checkbox-inline">
+
+          <label class="m-checkbox">
+          <%= form.check_box :engine_oil %> Engine Oil
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :hydraulic_oil %> Hydraulic Oil
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :gear_oil %> Gear Oil
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :breake_oil %> Breake Oil
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :battery_water %> Battery Water
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :air_filter %> Air Filter
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :fuel_water_separator %> Fuel Water Separator
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :fuel_tank %> Fuel Tank
+          <span></span>
+          </label>
+
+          </div>
+      </div>
+    </div>
+
+    <div class="form-group m-form__group row">
+      <div class="col-12 text-center">
+        <div class="m-checkbox-inline">
+
+          <label class="m-checkbox">
+          <%= form.check_box :radiator_coolant_hoses %> Radiator Coolant Hoses
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :lights_gauges %> Lights Gauges
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :joints_pto_shaft %> Joints Pto Shaft
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :chain_tension %> Chain Tension
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :tire_pressure %> Tire Pressure
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :tire_bolt %> Tire Bolt
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :fan_belt_tension %> Fan Belt Tension
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :air_tank %> Air Tank
+          <span></span>
+          </label>
+
+        </div>
+        <span class="m-form__help">Please Uncheck Not Done</span>
+      </div>
+    </div>
+
+  <% end %>
+
+
+    <div class="form-group m-form__group row">
+    <%= form.label :site_asset_id, "Project", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+        <% if params[:previous_checklist] %>
+          <%= form.select :site_asset_id, SiteAsset.all.collect {|p| [p.site_asset_name, p.id]}, {selected: Checklist.find(params[:previous_checklist]).site_asset_id, include_blank: 'Select Project'}, class: "form-control m-input m-select2", required: true %>
+          <span class="m-form__help">Previous Asset Project</span>
+        <% else %>
+          <% if action?('new', 'create') %>
+          <%= form.select :site_asset_id, SiteAsset.all.collect {|p| [p.site_asset_name, p.id]}, {selected: DataAsset.find(params[:asset_id]).site_asset_id, include_blank: 'Select Project'}, class: "form-control m-input m-select2", required: true %>
+          <% elsif action?('edit', 'update') %>
+
+            <% if current_user.role?(:rchecklist) %>
+            <%= form.select :site_asset_id, SiteAsset.by_riyadh.collect {|p| [p.site_asset_name, p.id]}, {include_blank: 'Select Project'}, class: "form-control m-input m-select2", required: true %>
+            <% elsif current_user.role?(:tchecklist) %>
+            <%= form.select :site_asset_id, SiteAsset.by_tabuk.collect {|p| [p.site_asset_name, p.id]}, {include_blank: 'Select Project'}, class: "form-control m-input m-select2", required: true %>
+            <% else %>
+              <%= form.select :site_asset_id, SiteAsset.all.collect {|p| [p.site_asset_name, p.id]}, {include_blank: 'Select Project'}, class: "form-control m-input m-select2", required: true %>
+            <% end %>
+          
+          <% end %>
+
+          <label class="m-checkbox mt-2">
+          <%= form.check_box :wrong_site %> Select if Wrong Project
+          <span></span>
+          </label>
+          <span class="m-form__help">Correct The Project if wrong and select the box</span>
+        <% end %>
+    </div>
+
+    <%= form.label :employee_id, "Employee", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+        <% if params[:previous_checklist] %>
+          <%= form.select :employee_id, Employee.all.collect {|p| [p.employee_number + " - " + p.employee_name, p.id]}, {selected: Checklist.find(params[:previous_checklist]).employee_id, include_blank: 'Select Employee'}, class: "form-control m-input m-select2", required: true %>
+          <span class="m-form__help">Previous Asset Employee</span>
+        <% else %>
+        <% if action?('new', 'create') %>
+          <%= form.select :employee_id, Employee.all.collect {|p| [p.employee_number + " - " + p.employee_name, p.id]}, {selected: DataAsset.find(params[:asset_id]).employee_id, include_blank: 'Select Employee'}, class: "form-control m-input m-select2", required: true %>
+          <% elsif action?('edit', 'update') %>
+          <%= form.select :employee_id, Employee.all.collect {|p| [p.employee_number + " - " + p.employee_name, p.id]}, {include_blank: 'Select Employee'}, class: "form-control m-input m-select2", required: true %>
+          <% end %>
+
+          <label class="m-checkbox mt-2">
+          <%= form.check_box :wrong_employee %> Select if Wrong Employee
+          <span></span>
+          </label>
+          <span class="m-form__help">Correct The Employee if wrong and select the box</span>
+        <% end %>
+    </div>
+  </div>
+
+
+
+
+  <div class="form-group m-form__group row">
+    <%= form.label :supervisor_id, "Supervisor", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <span class="required">
+        <% if params[:previous_checklist] %>
+          <%= form.select :supervisor_id, Employee.all.collect {|p| [p.employee_number + " - " + p.employee_name, p.id]}, {selected: Checklist.find(params[:previous_checklist]).supervisor_id, include_blank: 'Select Supervisor'}, class: "form-control m-input m-select2", required: true %>
+          <span class="m-form__help">Previous Supervisor</span>
+        <% else %>
+          <%= form.select :supervisor_id, Employee.all.collect {|p| [p.employee_number + " - " + p.employee_name, p.id]}, {include_blank: 'Select Supervisor'}, class: "form-control m-input m-select2", required: true %>
+          <span class="m-form__help">Please select The Supervisor</span>
+        <% end %>
+      </span>
+    </div>
+
+    <%= form.label :notes, "Notes", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <%= form.text_area :notes, class: "form-control m-input", placeholder: "Notes" %>
+      <span class="m-form__help">Please enter Notes</span>
+    </div>
+  </div>
+
+
+
+
+  <% if params[:asset_id] %>
+    <%= hidden_field_tag 'asset_id', params[:asset_id] %>
+  <% end %>
+
+  
+  <%= render 'layouts/myform/submit_myform', form: form, cancelpath: data_assets_path %>
+  
+<% end %>
+<!--end::Form-->
+

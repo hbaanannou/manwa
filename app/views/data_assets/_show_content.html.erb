@@ -1,0 +1,1525 @@
+<div class="row">
+<div class="col-xl-6">
+  <!--begin:: Widgets/Authors Profit-->
+  <div class="m-portlet m-portlet--bordered-semi m-portlet--full-height ">
+    <div class="m-portlet__head">
+      <div class="m-portlet__head-caption">
+        <div class="m-portlet__head-title">
+          <h3 class="m-portlet__head-text">
+            <strong><span class="m--font-brand"><%= @data_asset.data_asset_serial %> </span></strong>
+            / <%= @data_asset.type_asset.type_asset_name %> 
+            / <%= @data_asset.model_asset.model_asset_name %> 
+            / 
+            <% if @data_asset.data_asset_in_use %>
+              <span class="m--font-success">In Use </span>
+            <% else %>
+              <span class="m--font-danger">Out of Use </span>
+            <% end %> 
+          </h3>
+        </div>
+      </div>
+      <div class="m-portlet__head-tools">
+        <%= link_to 'Edit', edit_data_asset_path(@data_asset), class: "m-widget__detalis  btn m-btn--pill  btn-accent" %>
+        <%= link_to 'Back', data_assets_path(request.query_parameters), class: "btn m-btn--pill btn-secondary" %>
+      </div>
+    </div>
+    <div class="m-portlet__body">
+
+      <div class="owl-carousel owl-theme show-nav-hover">
+      <% if @data_asset.images.attached? %>
+
+        <% @data_asset.images.each do |image| %>
+          <div>
+            <span class="img-thumbnail d-block m-1">
+              <%= image_tag image.variant(resize: "600x450"), alt: "", class: "img-fluid" %>
+            </span>
+
+              <%= link_to 'Open original image', image, class: "btn btn-secondary m-btn m-btn--custom m-btn--label-info m-btn--bolder float-left m-1", target: "_blank" %>
+
+              <%= link_to 'Create PDF document', data_asset_path(@data_asset, image_id: image.id, format: :pdf), class: "btn btn-secondary m-btn m-btn--custom m-btn--label-danger m-btn--bolder float-right m-1", target: "_blank" %>
+
+          </div>
+        <% end %>
+
+      <% else %>
+      <%= image_tag "no-image.jpg", alt: "", class: "img-fluid" %>
+      <% end %>
+      </div>
+
+    </div>
+
+
+
+
+  </div>
+  <!--end:: Widgets/Authors Profit-->
+</div>
+
+
+<div class="col-xl-6">
+  <!--Begin::Main Portlet-->
+  <div class="m-portlet">
+
+    <div class="m-portlet__head">
+      <div class="m-portlet__head-caption">
+
+        <ul class="nav nav-pills mt-3 mb-3" role="tablist">
+
+          <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#m_tabs_1_1">
+              <i class="la la-database"></i>
+              Asset Main Data
+            </a>
+          </li>
+
+          <% unless current_user.role?(:assets_site) || current_user.role?(:assets_province) %>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#m_tabs_1_2">
+              <i class="la la-gear"></i>
+              Engine
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#m_tabs_1_3">
+              <i class="la la-wrench"></i>
+              Transmission
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#m_tabs_1_4">
+              <i class="la la-cogs"></i>
+              Concrete Mixer
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#m_tabs_1_5">
+              <i class="la la-tencent-weibo"></i>
+              Concrete Pump
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#m_tabs_1_6">
+              <i class="la la-plug"></i>
+              Generator
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#m_tabs_1_7">
+              <i class="la la-map-marker"></i>
+              Accident
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#m_tabs_1_8">
+              <i class="la la-money"></i>
+              Financial
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#m_tabs_1_9">
+              <i class="la la-user"></i>
+              Employee
+            </a>
+          </li>
+          <% end %>
+
+          <% if current_user.role?(:admin) %>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#m_tabs_1_10">
+                <i class="la la-lock"></i>
+                Admin
+              </a>
+            </li>
+          <% end %>
+        </ul>
+
+      </div>
+    </div>
+
+
+
+<div class="tab-content">
+  <div class="tab-pane active" id="m_tabs_1_1" role="tabpanel">
+
+    <div class="m-portlet__body m-portlet__body--no-padding">
+      <div class="row m-row--no-padding m-row--col-separator-xl">
+        <div class="col-md-12 col-lg-12 col-xl-6">
+          <!--begin:: Widgets/Stats2-1 -->
+          <div class="m-widget1">
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--brand">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Asset No.
+                  </h3>
+                  <span class="m-widget1__desc">
+                    رقم المعدة
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-brand">
+                    <%= @data_asset.data_asset_serial %>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--danger">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Type
+                  </h3>
+                  <span class="m-widget1__desc">
+                    نوع المعدة
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-danger">
+                    <%= @data_asset.type_asset.type_asset_name %>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--dark">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Model
+                  </h3>
+                  <span class="m-widget1__desc">
+                    موديل المعدة
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-dark">
+                    <%= @data_asset.model_asset.model_asset_name %>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--success">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    In Use?
+                  </h3>
+                  <span class="m-widget1__desc">
+                    هل مستخدمة؟
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <% if @data_asset.data_asset_in_use %>
+                  <span class="m-widget1__number_2 m--font-success">
+                    In Use
+                  </span>
+                  <% else %>
+                  <span class="m-widget1__number_2 m--font-danger">
+                    Out of Use
+                  </span>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--success">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Status
+                  </h3>
+                  <span class="m-widget1__desc">
+                    حالتها الحالية
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-success">
+                    <%= @data_asset.status_asset.status_asset_name %>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--primary">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Area
+                  </h3>
+                  <span class="m-widget1__desc">
+                    المنطقة
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-primary">
+                    <%= @data_asset.province_asset.area_asset.area_asset_name %>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--primary">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Province
+                  </h3>
+                  <span class="m-widget1__desc">
+                    المحافظة
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-primary">
+                    <%= @data_asset.province_asset.province_asset_name %>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--primary">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Site
+                  </h3>
+                  <span class="m-widget1__desc">
+                    الموقع
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-primary">
+                    <%= @data_asset.site_asset.site_asset_name %>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--warning">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Color
+                  </h3>
+                  <span class="m-widget1__desc">
+                    لون المعدة
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-warning">
+                    <%= @data_asset.color_asset.color_asset_name %>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="col-md-12 col-lg-12 col-xl-6">
+          <!--begin:: Widgets/Stats2-2 -->
+          <div class="m-widget1">
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--warning">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Chassis No.
+                  </h3>
+                  <span class="m-widget1__desc">
+                    رقم الشاسيه
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-warning">
+                    <%= @data_asset.data_asset_chassis_no ? @data_asset.data_asset_chassis_no : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--warning">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Made In
+                  </h3>
+                  <span class="m-widget1__desc">
+                    دولة الصنع
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-warning">
+                    <%= @data_asset.data_asset_madein ? @data_asset.data_asset_madein : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--success">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Arrived Date
+                  </h3>
+                  <span class="m-widget1__desc">
+                    تاريخ الوصول
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-success">
+                    <%= @data_asset.data_asset_arrived_date ? @data_asset.data_asset_arrived_date : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--success">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Warranty
+                  </h3>
+                  <span class="m-widget1__desc">
+                    الضمان
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-success">
+                    <%= @data_asset.data_asset_warranty ? @data_asset.data_asset_warranty : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--info">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Plate Number
+                  </h3>
+                  <span class="m-widget1__desc">
+                    رقم اللوحة
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-info">
+                    <%= @data_asset.data_asset_plate_no ? @data_asset.data_asset_plate_no : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--accent">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Manuf. Year
+                  </h3>
+                  <span class="m-widget1__desc">
+                    سنة الصنع
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-accent">
+                    <%= @data_asset.data_asset_manufacture_year ? @data_asset.data_asset_manufacture_year : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--danger">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Condition
+                  </h3>
+                  <span class="m-widget1__desc">
+                    الحالة الحالية
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-danger">
+                    <%= @data_asset.data_asset_current_condition ? @data_asset.data_asset_current_condition : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--danger">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Remarks
+                  </h3>
+                  <span class="m-widget1__desc">
+                    الملاحظات
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-danger">
+                    <%= @data_asset.data_asset_remarks ? @data_asset.data_asset_remarks : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <!--begin:: Widgets/Stats2-2 -->
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="tab-pane" id="m_tabs_1_2" role="tabpanel">
+
+    <div class="m-portlet__body m-portlet__body--no-padding">
+      <div class="row m-row--no-padding m-row--col-separator-xl">
+        <div class="col-md-12 col-lg-12 col-xl-6">
+          <!--begin:: Widgets/Stats2-1 -->
+          <div class="m-widget1">
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--brand">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Model
+                  </h3>
+                  <span class="m-widget1__desc">
+                    الموديل
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-brand">
+                    <%= @data_asset.data_asset_engine_model_1 ? @data_asset.data_asset_engine_model_1 : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--danger">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Serial No.
+                  </h3>
+                  <span class="m-widget1__desc">
+                    التسلسل
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-danger">
+                    <%= @data_asset.data_asset_engine_serial_no_1 ? @data_asset.data_asset_engine_serial_no_1 : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--dark">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Family
+                  </h3>
+                  <span class="m-widget1__desc">
+                    العائلة
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-dark">
+                    <%= @data_asset.data_asset_engine_family_1 ? @data_asset.data_asset_engine_family_1 : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--success">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Arrangement
+                  </h3>
+                  <span class="m-widget1__desc">
+                    الترتيب
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-success">
+                    <%= @data_asset.data_asset_engine_arrangement_1 ? @data_asset.data_asset_engine_arrangement_1 : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--success">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Displacement No.
+                  </h3>
+                  <span class="m-widget1__desc">
+                    رقم الإزاحة
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-success">
+                    <%= @data_asset.data_asset_engine_displacement_no_1 ? @data_asset.data_asset_engine_displacement_no_1 : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--primary">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Rating
+                  </h3>
+                  <span class="m-widget1__desc">
+                    التقييم
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-primary">
+                    <%= @data_asset.data_asset_engine_rating_1 ? @data_asset.data_asset_engine_rating_1 : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--primary">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Code
+                  </h3>
+                  <span class="m-widget1__desc">
+                    الكود
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-primary">
+                    <%= @data_asset.data_asset_engine_code_1 ? @data_asset.data_asset_engine_code_1 : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+        <div class="col-md-12 col-lg-12 col-xl-6">
+          <!--begin:: Widgets/Stats2-2 -->
+          <div class="m-widget1">
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--warning">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Model 2
+                  </h3>
+                  <span class="m-widget1__desc">
+                    الموديل 2
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-warning">
+                    <%= @data_asset.data_asset_engine_model_2 ? @data_asset.data_asset_engine_model_2 : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--warning">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Serial No. 2
+                  </h3>
+                  <span class="m-widget1__desc">
+                    التسلسل 2
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-warning">
+                    <%= @data_asset.data_asset_engine_serial_2 ? @data_asset.data_asset_engine_serial_2 : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--success">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Family 2
+                  </h3>
+                  <span class="m-widget1__desc">
+                    العائلة 2
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-success">
+                    <%= @data_asset.data_asset_engine_family_2 ? @data_asset.data_asset_engine_family_2 : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--success">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Arrangement 2
+                  </h3>
+                  <span class="m-widget1__desc">
+                    الترتيب 2
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-success">
+                    <%= @data_asset.data_asset_engine_arrangement_2 ? @data_asset.data_asset_engine_arrangement_2 : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--info">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Displacement No. 2
+                  </h3>
+                  <span class="m-widget1__desc">
+                    رقم الإزاحة 2
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-info">
+                    <%= @data_asset.data_asset_engine_displacement_no_2 ? @data_asset.data_asset_engine_displacement_no_2 : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--accent">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Rating 2
+                  </h3>
+                  <span class="m-widget1__desc">
+                    التقييم 2
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-accent">
+                    <%= @data_asset.data_asset_engine_rating_2 ? @data_asset.data_asset_engine_rating_2 : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--danger">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Code 2
+                  </h3>
+                  <span class="m-widget1__desc">
+                    الكود 2
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-danger">
+                    <%= @data_asset.data_asset_engine_code_2 ? @data_asset.data_asset_engine_code_2 : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+          <!--begin:: Widgets/Stats2-2 -->
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+<div class="tab-pane" id="m_tabs_1_3" role="tabpanel">
+
+    <div class="m-portlet__body m-portlet__body--no-padding">
+      <div class="row m-row--no-padding m-row--col-separator-xl">
+        <div class="col-md-12 col-lg-12 col-xl-6">
+          <!--begin:: Widgets/Stats2-1 -->
+          <div class="m-widget1">
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--brand">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Model
+                  </h3>
+                  <span class="m-widget1__desc">
+                    موديل
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-brand">
+                    <%= @data_asset.data_asset_transmission_model ? @data_asset.data_asset_transmission_model : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--danger">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Serial No.
+                  </h3>
+                  <span class="m-widget1__desc">
+                    السريال
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-danger">
+                    <%= @data_asset.data_asset_transmission_serial_no ? @data_asset.data_asset_transmission_serial_no : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+ 
+          </div>
+        </div>
+        <div class="col-md-12 col-lg-12 col-xl-6">
+          <!--begin:: Widgets/Stats2-2 -->
+          <div class="m-widget1">
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--warning">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Arrangement
+                  </h3>
+                  <span class="m-widget1__desc">
+                    الترتيب
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-warning">
+                    <%= @data_asset.data_asset_transmission_arrangement ? @data_asset.data_asset_transmission_arrangement : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <!--begin:: Widgets/Stats2-2 -->
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="tab-pane" id="m_tabs_1_4" role="tabpanel">
+
+    <div class="m-portlet__body m-portlet__body--no-padding">
+      <div class="row m-row--no-padding m-row--col-separator-xl">
+        <div class="col-md-12 col-lg-12 col-xl-6">
+          <!--begin:: Widgets/Stats2-1 -->
+          <div class="m-widget1">
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--brand">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Name
+                  </h3>
+                  <span class="m-widget1__desc">
+                    الاسم
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-brand">
+                    <%= @data_asset.data_asset_concrete_mixer_name ? @data_asset.data_asset_concrete_mixer_name : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--danger">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Model
+                  </h3>
+                  <span class="m-widget1__desc">
+                    الموديل
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-danger">
+                    <%= @data_asset.data_asset_concrete_mixer_model ? @data_asset.data_asset_concrete_mixer_model : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="col-md-12 col-lg-12 col-xl-6">
+          <!--begin:: Widgets/Stats2-2 -->
+          <div class="m-widget1">
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--warning">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Serial No.
+                  </h3>
+                  <span class="m-widget1__desc">
+                    السريال
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-warning">
+                    <%= @data_asset.data_asset_concrete_mixer_serial_no ? @data_asset.data_asset_concrete_mixer_serial_no : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--warning">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Capacity
+                  </h3>
+                  <span class="m-widget1__desc">
+                    المساحة
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-warning">
+                    <%= @data_asset.data_asset_concrete_mixer_capacity ? @data_asset.data_asset_concrete_mixer_capacity : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <!--begin:: Widgets/Stats2-2 -->
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="tab-pane" id="m_tabs_1_5" role="tabpanel">
+
+    <div class="m-portlet__body m-portlet__body--no-padding">
+      <div class="row m-row--no-padding m-row--col-separator-xl">
+        <div class="col-md-12 col-lg-12 col-xl-6">
+          <!--begin:: Widgets/Stats2-1 -->
+          <div class="m-widget1">
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--brand">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Name
+                  </h3>
+                  <span class="m-widget1__desc">
+                    الاسم
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-brand">
+                    <%= @data_asset.data_asset_concrete_pump_name ? @data_asset.data_asset_concrete_pump_name : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--danger">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Model
+                  </h3>
+                  <span class="m-widget1__desc">
+                    الموديل
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-danger">
+                    <%= @data_asset.data_asset_concrete_pump_model ? @data_asset.data_asset_concrete_pump_model : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="col-md-12 col-lg-12 col-xl-6">
+          <!--begin:: Widgets/Stats2-2 -->
+          <div class="m-widget1">
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--warning">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Serial No.
+                  </h3>
+                  <span class="m-widget1__desc">
+                    السريال
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-warning">
+                    <%= @data_asset.data_asset_concrete_pump_serial_no ? @data_asset.data_asset_concrete_pump_serial_no : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <!--begin:: Widgets/Stats2-2 -->
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="tab-pane" id="m_tabs_1_6" role="tabpanel">
+
+    <div class="m-portlet__body m-portlet__body--no-padding">
+      <div class="row m-row--no-padding m-row--col-separator-xl">
+        <div class="col-md-12 col-lg-12 col-xl-6">
+          <!--begin:: Widgets/Stats2-1 -->
+          <div class="m-widget1">
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--brand">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Number
+                  </h3>
+                  <span class="m-widget1__desc">
+                    الرقم
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-brand">
+                    <%= @data_asset.data_asset_generator_no ? @data_asset.data_asset_generator_no : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--danger">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Controller No.
+                  </h3>
+                  <span class="m-widget1__desc">
+                    رقم المتحكم
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-danger">
+                    <%= @data_asset.data_asset_generator_controller_no ? @data_asset.data_asset_generator_controller_no : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--dark">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Governor No.
+                  </h3>
+                  <span class="m-widget1__desc">
+                    رقم المنظم
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-dark">
+                    <%= @data_asset.data_asset_generator_governor_no ? @data_asset.data_asset_generator_governor_no : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--success">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Alternator No.
+                  </h3>
+                  <span class="m-widget1__desc">
+                    رقم مولد التيار
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-success">
+                    <%= @data_asset.data_asset_generator_alternator_no ? @data_asset.data_asset_generator_alternator_no : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--success">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Alternator Model
+                  </h3>
+                  <span class="m-widget1__desc">
+                    موديل مولد التيار
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-success">
+                    <%= @data_asset.data_asset_generator_alternator_model ? @data_asset.data_asset_generator_alternator_model : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--primary">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Alternator Serial No.
+                  </h3>
+                  <span class="m-widget1__desc">
+                    سريال مولد التيار
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-primary">
+                    <%= @data_asset.data_asset_generator_alternator_serial_no ? @data_asset.data_asset_generator_alternator_serial_no : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--primary">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Rated Voltage
+                  </h3>
+                  <span class="m-widget1__desc">
+                    الفولطية
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-primary">
+                    <%= @data_asset.data_asset_generator_rated_voltage ? @data_asset.data_asset_generator_rated_voltage : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--primary">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Phase
+                  </h3>
+                  <span class="m-widget1__desc">
+                    الفاز
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-primary">
+                    <%= @data_asset.data_asset_generator_phase ? @data_asset.data_asset_generator_phase : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="col-md-12 col-lg-12 col-xl-6">
+          <!--begin:: Widgets/Stats2-2 -->
+          <div class="m-widget1">
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--warning">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Rated Frequency
+                  </h3>
+                  <span class="m-widget1__desc">
+                    التردد
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-warning">
+                    <%= @data_asset.data_asset_generator_rated_frequency ? @data_asset.data_asset_generator_rated_frequency : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--warning">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Rated Current Prime
+                  </h3>
+                  <span class="m-widget1__desc">
+                    الحالي
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-warning">
+                    <%= @data_asset.data_asset_generator_rated_current_prime ? @data_asset.data_asset_generator_rated_current_prime : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--success">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Rated RPM
+                  </h3>
+                  <span class="m-widget1__desc">
+                    آر بي إم
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-success">
+                    <%= @data_asset.data_asset_generator_rated_rpm ? @data_asset.data_asset_generator_rated_rpm : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--success">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Altitude
+                  </h3>
+                  <span class="m-widget1__desc">
+                    ارتفاع
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-success">
+                    <%= @data_asset.data_asset_generator_altitude ? @data_asset.data_asset_generator_altitude : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--info">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Rated Power
+                  </h3>
+                  <span class="m-widget1__desc">
+                    القدرة
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-info">
+                    <%= @data_asset.data_asset_generator_rated_power ? @data_asset.data_asset_generator_rated_power : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--accent">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Manuf. Year
+                  </h3>
+                  <span class="m-widget1__desc">
+                    سنة الصنع
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-accent">
+                    <%= @data_asset.data_asset_generator_manufacture_year ? @data_asset.data_asset_generator_manufacture_year : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--danger">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Made In
+                  </h3>
+                  <span class="m-widget1__desc">
+                    بلد الصنع
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-danger">
+                    <%= @data_asset.data_asset_generator_madein ? @data_asset.data_asset_generator_madein : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+          <!--begin:: Widgets/Stats2-2 -->
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="tab-pane" id="m_tabs_1_7" role="tabpanel">
+
+    <div class="m-portlet__body m-portlet__body--no-padding">
+      <div class="row m-row--no-padding m-row--col-separator-xl">
+
+<% if @data_asset.accident_assets.any? %>
+        
+
+        <% @data_asset.accident_assets.each_with_index do |accident_asset, index| %>
+        <div class="col-md-12 col-lg-12 col-xl-6">
+          <div class="m-widget1">
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--brand">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Acc(<%= index + 1 %>) Date
+                  </h3>
+                  <span class="m-widget1__desc">
+                    تاريخ الحادث
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-brand">
+                    <%= accident_asset.accident_asset_date %>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12 col-lg-12 col-xl-6">
+          <div class="m-widget1">
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--warning">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Acc(<%= index + 1 %>) Det.
+                  </h3>
+                  <span class="m-widget1__desc">
+                    تفاصيل الحادث
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-warning">
+                    <%= accident_asset.accident_asset_remarks ? accident_asset.accident_asset_remarks : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <% end %>
+        
+<% else %>
+<div class="col-md-12 col-lg-12 col-xl-12">
+  <div class="m-widget1">
+    <div class="m-widget1__item">
+      <div class="text-center">No Accident</div>
+    </div>
+  </div>
+</div>
+<% end %>
+
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="tab-pane" id="m_tabs_1_8" role="tabpanel">
+
+    <div class="m-portlet__body m-portlet__body--no-padding">
+      <div class="row m-row--no-padding m-row--col-separator-xl">
+        <div class="col-md-12 col-lg-12 col-xl-6">
+          <!--begin:: Widgets/Stats2-1 -->
+          <div class="m-widget1">
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--brand">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Acquisition Value
+                  </h3>
+                  <span class="m-widget1__desc">
+                    قيمة الإستحواذ
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-brand">
+                    <%= @data_asset.data_asset_acquisition_value ? @data_asset.data_asset_acquisition_value : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--danger">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Book Value
+                  </h3>
+                  <span class="m-widget1__desc">
+                    القيمة الدفترية
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-danger">
+                    <%= @data_asset.data_asset_book_value ? @data_asset.data_asset_book_value : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="col-md-12 col-lg-12 col-xl-6">
+          <!--begin:: Widgets/Stats2-2 -->
+          <div class="m-widget1">
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--warning">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Acquisition Date
+                  </h3>
+                  <span class="m-widget1__desc">
+                    تاريخ الإستحواذ
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-warning">
+                    <%= @data_asset.data_asset_acquisition_date ? @data_asset.data_asset_acquisition_date : "---" %>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+          <!--begin:: Widgets/Stats2-2 -->
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="tab-pane" id="m_tabs_1_9" role="tabpanel">
+    <div class="m-portlet__body m-portlet__body--no-padding">
+      <div class="row m-row--no-padding m-row--col-separator-xl">
+        <div class="col-md-12 col-lg-12 col-xl-6">
+          <!--begin:: Widgets/Stats2-1 -->
+          <div class="m-widget1">
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--warning">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Emp. Number
+                  </h3>
+                  <span class="m-widget1__desc">
+                    رقم الموظف
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-warning">
+                    <%= @data_asset.employee.employee_number %>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12 col-lg-12 col-xl-6">
+          <!--begin:: Widgets/Stats2-2 -->
+          <div class="m-widget1">
+
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--warning">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Emp. Name
+                  </h3>
+                  <span class="m-widget1__desc">
+                    اسم الموظف
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-warning">
+                    <%= @data_asset.employee.employee_name %>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--warning">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Emp. Mobile
+                  </h3>
+                  <span class="m-widget1__desc">
+                    جوال الموظف
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-warning">
+                    <%= @data_asset.employee.employee_mobile %>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <!--begin:: Widgets/Stats2-2 -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="tab-pane" id="m_tabs_1_10" role="tabpanel">
+    <div class="m-portlet__body m-portlet__body--no-padding">
+      <div class="row m-row--no-padding m-row--col-separator-xl">
+        <div class="col-md-12 col-lg-12 col-xl-6">
+          <!--begin:: Widgets/Stats2-1 -->
+          <div class="m-widget1">
+
+            <% if current_user.role?(:assets_admin) %>
+            <div class="m-widget1__item">
+              <div class="row align-items-center left__div__border--dark">
+                <div class="col">
+                  <h3 class="m-widget1__title">
+                    Last Update
+                  </h3>
+                  <span class="m-widget1__desc">
+                    صاحب آخر تحديث
+                  </span>
+                </div>
+                <div class="col m--align-right">
+                  <span class="m-widget1__number_2 m--font-dark">
+                    <%= @data_asset.user.assignments.first.employee.employee_name %>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <% end %>
+
+          </div>
+        </div>
+        <div class="col-md-12 col-lg-12 col-xl-6">
+          <!--begin:: Widgets/Stats2-2 -->
+          <div class="m-widget1">
+
+
+
+          </div>
+          <!--begin:: Widgets/Stats2-2 -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+</div>
+
+
+
+  </div>
+  <!--End::Main Portlet-->
+</div>
+
+</div>

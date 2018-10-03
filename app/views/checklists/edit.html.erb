@@ -1,0 +1,11 @@
+<% if current_user.role?(:rchecklist) %>
+	<%= render 'layouts/myform/before_myform_edit', mytitle: "Checklist (Riyadh)" %>
+<% elsif current_user.role?(:tchecklist) %>
+	<%= render 'layouts/myform/before_myform_edit', mytitle: "Checklist (Tabuk)" %>
+<% else %>
+	<%= render 'layouts/myform/before_myform_edit', mytitle: "Checklist" %>
+<% end %>
+
+<%= render 'form', checklist: @checklist %>
+
+<%= render 'layouts/myform/after_myform' %>

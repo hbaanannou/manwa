@@ -1,0 +1,62 @@
+<div class="form-group m-form__group row nested-fields">
+
+	<div class="col-lg-2">
+		<div class="form-control m-input"><%= breakdown_spare_row.spare_part_number %></div>
+	</div>
+
+	<div class="col-lg-2">
+		<div class="form-control m-input"><%= breakdown_spare_row.spare_description %></div>
+	</div>
+
+	<div class="col-lg-2">
+		<div class="form-control m-input"><%= breakdown_spare_row.replacement_code %></div>
+	</div>
+
+	<% if current_user.role?(:rstore) || current_user.role?(:tstore) %>
+
+	<div class="col-lg-1">
+		<div class="form-control m-input"><%= breakdown_spare_row.spare_quantity %></div>
+	</div>
+
+	<div class="col-lg-1">
+		<div class="form-control m-input"><%= breakdown_spare_row.available_spare_quantity ? breakdown_spare_row.available_spare_quantity : 0 %></div>
+	</div>
+
+	<div class="col-lg-1">
+		<div class="form-control m-input"><%= breakdown_spare_row.approved_spare_quantity %></div>
+	</div>
+
+	<% end %>
+
+
+	<div class="col-lg-1">
+	<% if ( current_user.role?(:rstore) || current_user.role?(:tstore) ) && ( !breakdown_spare_row.purchased? && !breakdown_spare_row.receivedbystore? ) %>
+	<%= f.number_field :willpurchase_spare_quantity, class: "form-control m-input", placeholder: "Num.", min: '0', step: :any %>
+	<% elsif current_user.role?(:purchase) || ( current_user.role?(:rstore) || current_user.role?(:tstore) ) %>
+	<div class="form-control m-input"><%= breakdown_spare_row.willpurchase_spare_quantity %></div>
+	<% end %>
+	</div>
+
+
+	<% if current_user.role?(:purchase) %>
+	<div class="col-lg-2">
+		<div class="m-radio-inline">
+	    <%= f.collection_radio_buttons(:spare_status, { Purchased: :purchased, Refused: :refused }, :second, :first) do |b| %>
+	      <%= b.label(class: "m-radio m-radio--bold #{'m-radio--state-success' if b.text == :Purchased} #{'m-radio--state-danger' if b.text == :Refused}") { b.radio_button + b.text + content_tag(:span) } %> 
+	    <% end %>
+	  </div>
+	</div>
+	<% end %>
+
+
+	<% if (current_user.role?(:rstore) || current_user.role?(:tstore)) && (breakdown_spare_row.purchased? || breakdown_spare_row.receivedbystore?) %>
+	<div class="col-lg-2">
+		<div class="m-radio-inline">
+	    <%= f.collection_radio_buttons(:spare_status, { Purchased: :purchased, Received: :receivedbystore }, :second, :first) do |b| %>
+	      <%= b.label(class: "m-radio m-radio--bold #{'m-radio--state-primary' if b.text == :Purchased} #{'m-radio--state-success' if b.text == :Received}") { b.radio_button + b.text + content_tag(:span) } %> 
+	    <% end %>
+	  </div>
+	</div>
+	<% end %>
+
+</div>

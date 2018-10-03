@@ -1,0 +1,36 @@
+<%= render 'layouts/myindex/before_myindex', mytitle: "Accidents", pages_collection: @accident_assets, pages_model: "accident", newlink: true, newtitle: "Accident", newpath: new_accident_asset_path %>
+
+<thead>
+<tr>
+  <th>Asset Serial</th>
+  <th>accident Date</th>
+  <th>Actions</th>
+</tr>
+</thead>
+<tbody>
+<% if @accident_assets.any? %>
+  <% @accident_assets.each do |accident_asset| %>
+    <tr>
+
+      <td><%= accident_asset.data_asset.data_asset_serial %></td>
+
+      <td><%= accident_asset.accident_asset_date %></td>
+
+      <td><%= link_to accident_asset, alt: "Show", class: "m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill", data: { toggle: "m-tooltip", placement: "bottom", original_title: "Show"} do %><i class="la la-ellipsis-h"></i><% end %>
+
+        <%= link_to edit_accident_asset_path(accident_asset), alt: "Edit", class: "m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill", data: { toggle: "m-tooltip", placement: "bottom", original_title: "Edit" } do %><i class="la la-edit"></i><% end %>
+
+        <% if current_user.role?(:assets_admin) %>
+          <%= link_to accident_asset, alt: "Delete", class: "m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill", method: :delete, data: { toggle: "m-tooltip", placement: "bottom", original_title: "Delete", confirm: 'Are you sure?' } do %><i class="la la-trash"></i><% end %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+<% else %>
+  <tr>
+    <th scope="row" class="text-center" colspan="12">No Accidents</th>
+  </tr>
+<% end %>
+</tbody>
+
+<%= render 'layouts/myindex/after_myindex', pages_collection: @accident_assets, pages_model: "accident" %>

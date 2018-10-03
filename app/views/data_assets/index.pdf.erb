@@ -1,0 +1,92 @@
+<!--Begin::Section-->
+<div class="m-section">
+  <div class="m-section__content">
+    <div class="table-responsive">
+    <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover text-center">
+      <thead>
+        <tr style="font-size: 1.4rem;">
+          <th>*</th>
+          <th>No.</th>
+          <th>Type</th>
+          <th>Model</th>
+          <th>Serial</th>
+          <th>Plate</th>
+          <th>Color</th>
+          <th>M.Y.</th>
+          <th>Status</th>
+          <% unless current_user.role?(:assets_site) || current_user.role?(:assets_province) %>
+          <th>Area</th>
+          <% end %>
+          <% unless current_user.role?(:assets_site) || current_user.role?(:assets_province) %>
+          <th>Province</th>
+          <% end %>
+          <% unless current_user.role?(:assets_site) %>
+          <th>Site</th>
+          <% end %>
+          <th>Use?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @data_assets_pdf.any? %>
+        <% @data_assets_pdf.each_with_index do |data_asset, index| %>
+          <tr>
+            <td><%= index + 1 %></td>
+            <td class="m--font-brand"><strong><%= data_asset.data_asset_serial %></strong></td>
+            <td><%= data_asset.type_asset.type_asset_name %></td>
+            <td><%= data_asset.model_asset.model_asset_name %></td>
+            <td><%= data_asset.data_asset_serial %></td>
+            <td><%= data_asset.data_asset_plate_no %></td>
+            <td><%= data_asset.color_asset.color_asset_name %></td>
+            <td><%= data_asset.data_asset_manufacture_year %></td>
+            <td>
+              <% if data_asset.status_asset.id == 1 %>
+                <span class="m-badge m-badge--success m-badge--wide"><%= data_asset.status_asset.status_asset_name %></span>
+                <% elsif data_asset.status_asset.id == 2 %>
+                <span class="m-badge m-badge--primary m-badge--wide"><%= data_asset.status_asset.status_asset_name %></span>
+                <% elsif data_asset.status_asset.id == 3 %>
+                <span class="m-badge m-badge--info m-badge--wide"><%= data_asset.status_asset.status_asset_name %></span>
+                <% elsif data_asset.status_asset.id == 4 %>
+                <span class="m-badge m-badge--danger m-badge--wide"><%= data_asset.status_asset.status_asset_name %></span>
+                <% elsif data_asset.status_asset.id == 5 %>
+                <span class="m-badge m-badge--warning m-badge--wide"><%= data_asset.status_asset.status_asset_name %></span>
+                <% elsif data_asset.status_asset.id == 6 %>
+                <span class="m-badge m-badge--secondary m-badge--wide"><%= data_asset.status_asset.status_asset_name %></span>
+              <% end %>
+            </td>
+            
+            <% unless current_user.role?(:assets_site) || current_user.role?(:assets_province) %>
+            <td>
+              <% if data_asset.province_asset.area_asset.area_asset_name == "Riyadh" %>
+                <span class="m-badge m-badge--primary m-badge--dot"></span>&nbsp;<span class="m--font-bold m--font-primary"><%= data_asset.province_asset.area_asset.area_asset_name %></span>
+              <% else %>
+                <span class="m-badge m-badge--danger m-badge--dot"></span>&nbsp;<span class="m--font-bold m--font-danger"><%= data_asset.province_asset.area_asset.area_asset_name %></span>
+              <% end %>
+            </td>
+            <% end %>
+            <% unless current_user.role?(:assets_site) || current_user.role?(:assets_province) %>
+            <td><%= data_asset.province_asset.province_asset_name %></td>
+            <% end %>
+            <% unless current_user.role?(:assets_site) %>
+            <td><%= data_asset.site_asset.site_asset_name %></td>
+            <% end %>
+
+            <td>
+              <% if data_asset.data_asset_in_use %>
+                <span class="m-badge m-badge--success m-badge--wide m-badge--rounded">Yes</span>
+              <% else %>
+                <span class="m-badge m-badge--danger m-badge--wide m-badge--rounded">No</span>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+        <% else %>
+        <tr>
+          <td colspan="12">No Assets</td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div>
+<!--End::Section-->

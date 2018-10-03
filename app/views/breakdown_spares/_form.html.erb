@@ -1,0 +1,31 @@
+<!--begin::Form-->
+<%= form_with(model: breakdown_spare, local: true, class: "m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed") do |form| %>
+
+  <%= render 'layouts/myform/error_myform', object: breakdown_spare %>
+
+    <% if current_user.role?(:rstore) || current_user.role?(:tstore) %>
+    <div class="form-group m-form__group row">
+      <%= form.label :spare_status, "Spare Status", class: "col-lg-2 col-form-label" %>
+      <div class="col-lg-8">
+        <div class="m-radio-inline">
+          <%= form.collection_radio_buttons(:spare_status, { Requested: :requested, Avaliable: :avaliable, 'Will Purchase': :willpurchase, Posted: :posted, Refuse: :refused }, :second, :first) do |b| %>
+            <%= b.label(class: "m-radio m-radio--bold #{'m-radio--state-brand' if b.text == :'Will Purchase'} #{'m-radio--state-success' if b.text == :Avaliable} #{'m-radio--state-danger' if b.text == :Refuse}") { b.radio_button + b.text + content_tag(:span) } %> 
+          <% end %>
+        </div>
+        <span class="m-form__help">Please Select Spare Status</span>
+      </div>
+    </div>
+
+    <div class="form-group m-form__group row refused_fields">
+      <%= form.label :refuse_reason, "Refuse Reason", class: "col-lg-2 col-form-label" %>
+      <div class="col-lg-8">
+        <%= form.text_area :refuse_reason, class: "form-control m-input required", placeholder: "Refuse Reason" %>
+        <span class="m-form__help">Please enter Refuse Reason</span>
+      </div>
+    </div>
+    <% end %>
+
+
+  <%= render 'layouts/myform/submit_myform', form: form, cancelpath: root_path %>
+<% end %>
+<!--end::Form-->

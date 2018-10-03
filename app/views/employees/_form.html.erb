@@ -1,0 +1,29 @@
+<!--begin::Form-->
+<%= form_with(model: employee, local: true, class: "m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed") do |form| %>
+
+  <%= render 'layouts/myform/error_myform', object: employee %>
+
+  <div class="form-group m-form__group row">
+    <%= form.label :employee_number, "Employee Number", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <%= form.text_field :employee_number, class: "form-control m-input", placeholder: "Employee Number", required: true %>
+      <span class="m-form__help">Please enter Employee Number</span>
+    </div>
+    <%= form.label :employee_name, "Employee Name", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <%= form.text_field :employee_name, class: "form-control m-input", placeholder: "Employee Name", required: true %>
+      <span class="m-form__help">Please enter Employee Name</span>
+    </div>
+  </div>
+  <div class="form-group m-form__group row">
+      <%= form.label :employee_mobile, "Employee Mobile", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <%= form.text_field :employee_mobile, class: "form-control m-input", placeholder: "Employee Mobile", required: true %>
+      <span class="m-form__help">Please enter Employee Mobile</span>
+    </div>
+  </div>
+
+  <%= render 'layouts/myform/submit_myform', form: form, cancelpath: employees_path %>
+
+<% end %>
+<!--end::Form-->

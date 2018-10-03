@@ -1,0 +1,18 @@
+<!--begin::Form-->
+<%= form_with(model: area_pro_asset, local: true, class: "m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed") do |form| %>
+
+  <%= render 'layouts/myform/error_myform', object: area_pro_asset %>
+
+  <div class="form-group m-form__group row">
+    <%= form.label :area_pro_asset_name, "Area Name", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <%= form.text_field :area_pro_asset_name, class: "form-control m-input", placeholder: "Area Name", required: true %>
+      <span class="m-form__help">Please enter area Name</span>
+    </div>
+  </div>
+
+
+  <%= render 'layouts/myform/submit_myform', form: form, cancelpath: area_pro_assets_path %>
+
+<% end %>
+<!--end::Form-->

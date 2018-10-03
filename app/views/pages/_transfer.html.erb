@@ -1,0 +1,653 @@
+<div class="m-portlet m-portlet--full-height ">
+	<div class="m-portlet__head">
+		<div class="m-portlet__head-caption">
+			<div class="m-portlet__head-title">
+				<span class="m-portlet__head-icon">
+	        <i class="flaticon-paper-plane m--font-brand"></i>
+      	</span>
+				<h3 class="m-portlet__head-text">
+					Transfer Requests
+				</h3>
+				<span class="m-portlet__head-icon pl-2">
+        	<%= link_to home_pages_path(p_name: 'transfer'), remote: true do %>
+	        	<i class="flaticon-refresh m--font-danger"></i>
+	        <% end %>
+      	</span>
+			</div>
+		</div>
+		<div class="m-portlet__head-tools">
+			<ul class="nav nav-pills nav-pills--brand m-nav-pills--align-right m-nav-pills--btn-pill m-nav-pills--btn-sm" role="tablist">
+
+				<% if current_user.role?(:assets_manager) %>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link active" data-toggle="tab" href="#transfer_tab1_content" role="tab">
+						Opened &nbsp;
+						<% if @transfer_assets.opened.count > 0 %>
+						<span class="m-badge m-badge--default"><%= @transfer_assets.opened.count %></span>
+						<% end %>
+					</a>
+				</li>
+				<% end %>
+				<% if current_user.role?(:assets_province) %>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link active" data-toggle="tab" href="#transfer_tab2_content" role="tab">
+						Opened &nbsp;
+						<% if @transfer_assets.by_delivery_province_user_0(current_user.id).count > 0 %>
+						<span class="m-badge m-badge--default"><%= @transfer_assets.by_delivery_province_user_0(current_user.id).count %></span>
+						<% end %>
+					</a>
+				</li>
+				<% end %>
+				<% if current_user.role?(:assets_site) %>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link active" data-toggle="tab" href="#transfer_tab3_content" role="tab">
+						Opened &nbsp;
+						<% if @transfer_assets.by_delivery_site_user_0(current_user.id).count > 0 %>
+						<span class="m-badge m-badge--default"><%= @transfer_assets.by_delivery_site_user_0(current_user.id).count %></span>
+						<% end %>
+					</a>
+				</li>
+				<% end %>
+
+				<% if current_user.role?(:assets_manager) %>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link" data-toggle="tab" href="#transfer_tab4_content" role="tab">
+						Accepted &nbsp;
+						<% if @transfer_assets.accepted.count > 0 %>
+						<span class="m-badge m-badge--success"><%= @transfer_assets.accepted.count %></span>
+						<% end %>
+					</a>
+				</li>
+				<% end %>
+				<% if current_user.role?(:assets_province) %>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link" data-toggle="tab" href="#transfer_tab5_content" role="tab">
+						Accepted From &nbsp;
+						<% if @transfer_assets.by_delivery_province_user_1(current_user.id).count > 0 %>
+						<span class="m-badge m-badge--success"><%= @transfer_assets.by_delivery_province_user_1(current_user.id).count %></span>
+						<% end %>
+					</a>
+				</li>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link" data-toggle="tab" href="#transfer_tab6_content" role="tab">
+						Accepted To &nbsp;
+						<% if @transfer_assets.by_receive_province_user_1(current_user.id).count > 0 %>
+						<span class="m-badge m-badge--danger"><%= @transfer_assets.by_receive_province_user_1(current_user.id).count %></span>
+						<% end %>
+					</a>
+				</li>
+				<% end %>
+				<% if current_user.role?(:assets_site) %>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link" data-toggle="tab" href="#transfer_tab7_content" role="tab">
+						Accepted From &nbsp;
+						<% if @transfer_assets.by_delivery_site_user_1(current_user.id).count > 0 %>
+						<span class="m-badge m-badge--success"><%= @transfer_assets.by_delivery_site_user_1(current_user.id).count %></span>
+						<% end %>
+					</a>
+				</li>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link" data-toggle="tab" href="#transfer_tab8_content" role="tab">
+						Accepted To &nbsp;
+						<% if @transfer_assets.by_receive_site_user_1(current_user.id).count > 0 %>
+						<span class="m-badge m-badge--danger"><%= @transfer_assets.by_receive_site_user_1(current_user.id).count %></span>
+						<% end %>
+					</a>
+				</li>
+				<% end %>
+
+				<% if current_user.role?(:assets_manager) %>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link" data-toggle="tab" href="#transfer_tab9_content" role="tab">
+						Posted &nbsp;
+						<% if @transfer_assets.posted.count > 0 %>
+						<span class="m-badge m-badge--success"><%= @transfer_assets.posted.count %></span>
+						<% end %>
+					</a>
+				</li>
+				<% end %>
+				<% if current_user.role?(:assets_province) %>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link" data-toggle="tab" href="#transfer_tab10_content" role="tab">
+						Posted From &nbsp;
+						<% if @transfer_assets.by_delivery_province_user_3(current_user.id).count > 0 %>
+						<span class="m-badge m-badge--default"><%= @transfer_assets.by_delivery_province_user_3(current_user.id).count %></span>
+						<% end %>
+					</a>
+				</li>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link" data-toggle="tab" href="#transfer_tab11_content" role="tab">
+						Posted To &nbsp;
+						<% if @transfer_assets.by_receive_province_user_3(current_user.id).count > 0 %>
+						<span class="m-badge m-badge--success"><%= @transfer_assets.by_receive_province_user_3(current_user.id).count %></span>
+						<% end %>
+					</a>
+				</li>
+				<% end %>
+				<% if current_user.role?(:assets_site) %>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link" data-toggle="tab" href="#transfer_tab12_content" role="tab">
+						Posted From &nbsp;
+						<% if @transfer_assets.by_delivery_site_user_3(current_user.id).count > 0 %>
+						<span class="m-badge m-badge--default"><%= @transfer_assets.by_delivery_site_user_3(current_user.id).count %></span>
+						<% end %>
+					</a>
+				</li>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link" data-toggle="tab" href="#transfer_tab13_content" role="tab">
+						Posted To &nbsp;
+						<% if @transfer_assets.by_receive_site_user_3(current_user.id).count > 0 %>
+						<span class="m-badge m-badge--success"><%= @transfer_assets.by_receive_site_user_3(current_user.id).count %></span>
+						<% end %>
+					</a>
+				</li>
+				<% end %>
+
+				<% if current_user.role?(:assets_manager) %>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link " data-toggle="tab" href="#transfer_tab14_content" role="tab">
+						Received &nbsp;
+						<% if @transfer_assets.received.count > 0 %>
+						<span class="m-badge m-badge--success"><%= @transfer_assets.received.count %></span>
+						<% end %>
+					</a>
+				</li>
+				<% end %>
+				<% if current_user.role?(:assets_province) %>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link " data-toggle="tab" href="#transfer_tab15_content" role="tab">
+						Transferred &nbsp;
+						<% if @transfer_assets.by_delivery_province_user_4(current_user.id).count > 0 %>
+						<span class="m-badge m-badge--default"><%= @transfer_assets.by_delivery_province_user_4(current_user.id).count %></span>
+						<% end %>
+					</a>
+				</li>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link " data-toggle="tab" href="#transfer_tab16_content" role="tab">
+						Received &nbsp;
+						<% if @transfer_assets.by_receive_province_user_4(current_user.id).count > 0 %>
+						<span class="m-badge m-badge--success"><%= @transfer_assets.by_receive_province_user_4(current_user.id).count %></span>
+						<% end %>
+					</a>
+				</li>
+				<% end %>
+				<% if current_user.role?(:assets_site) %>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link " data-toggle="tab" href="#transfer_tab17_content" role="tab">
+						Transferred &nbsp;
+						<% if @transfer_assets.by_delivery_site_user_4(current_user.id).count > 0 %>
+						<span class="m-badge m-badge--default"><%= @transfer_assets.by_delivery_site_user_4(current_user.id).count %></span>
+						<% end %>
+					</a>
+				</li>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link " data-toggle="tab" href="#transfer_tab18_content" role="tab">
+						Received &nbsp;
+						<% if @transfer_assets.by_receive_site_user_4(current_user.id).count > 0 %>
+						<span class="m-badge m-badge--success"><%= @transfer_assets.by_receive_site_user_4(current_user.id).count %></span>
+						<% end %>
+					</a>
+				</li>
+				<% end %>
+
+				<% if current_user.role?(:assets_manager) %>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link" data-toggle="tab" href="#transfer_tab19_content" role="tab">
+						Refused &nbsp;
+						<% if @transfer_assets.refused.count > 0 %>
+						<span class="m-badge m-badge--danger"><%= @transfer_assets.refused.count %></span>
+						<% end %>
+					</a>
+				</li>
+				<% end %>
+				<% if current_user.role?(:assets_province) %>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link" data-toggle="tab" href="#transfer_tab20_content" role="tab">
+						Refused &nbsp;
+						<% if @transfer_assets.by_delivery_province_user_2(current_user.id).count > 0 %>
+						<span class="m-badge m-badge--danger"><%= @transfer_assets.by_delivery_province_user_2(current_user.id).count %></span>
+						<% end %>
+					</a>
+				</li>
+				<% end %>
+				<% if current_user.role?(:assets_site) %>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link" data-toggle="tab" href="#transfer_tab21_content" role="tab">
+						Refused &nbsp;
+						<% if @transfer_assets.by_delivery_site_user_2(current_user.id).count > 0 %>
+						<span class="m-badge m-badge--danger"><%= @transfer_assets.by_delivery_site_user_2(current_user.id).count %></span>
+						<% end %>
+					</a>
+				</li>
+				<% end %>
+
+			</ul>
+		</div>
+	</div>
+	<div class="m-portlet__body">
+		<!--begin::Content-->
+		<div class="tab-content">
+
+			<% if current_user.role?(:assets_manager) %>
+				<div class="tab-pane active" id="transfer_tab1_content" aria-expanded="true">
+
+					<div class="m-widget5">
+						<% if @transfer_assets.opened.count > 0 %>
+						<% @transfer_assets.opened.each do |transfer_asset| %>
+						
+							<%= render 'item_transfer', transfer_asset: transfer_asset, transfer_status: transfer_asset.transfer_status, can_edit: true  %>
+
+					<% end %>
+					<% else %>
+						<p class="text-center"> - No Opened Requestes now - </p>
+					<% end %>
+
+					</div>
+				</div>
+			<% end %>
+
+			<% if current_user.role?(:assets_province) %>
+				<div class="tab-pane active" id="transfer_tab2_content" aria-expanded="true">
+
+					<div class="m-widget5">
+					
+						<% if @transfer_assets.by_delivery_province_user_0(current_user.id).count > 0 %>
+						<% @transfer_assets.by_delivery_province_user_0(current_user.id).each do |transfer_asset| %>
+
+						<%= render 'item_transfer', transfer_asset: transfer_asset, transfer_status: transfer_asset.transfer_status, can_edit: false  %>
+
+					<% end %>
+					<% else %>
+						<p class="text-center"> - No Opened Requestes now - </p>
+					<% end %>
+
+					</div>
+
+				</div>
+			<% end %>
+
+			<% if current_user.role?(:assets_site) %>
+				<div class="tab-pane active" id="transfer_tab3_content" aria-expanded="true">
+
+					<div class="m-widget5">
+					
+						<% if @transfer_assets.by_delivery_site_user_0(current_user.id).count > 0 %>
+						<% @transfer_assets.by_delivery_site_user_0(current_user.id).each do |transfer_asset| %>
+						
+						<%= render 'item_transfer', transfer_asset: transfer_asset, transfer_status: transfer_asset.transfer_status, can_edit: false  %>	
+
+					<% end %>
+					<% else %>
+						<p class="text-center"> - No Opened Requestes now - </p>
+					<% end %>
+
+					</div>
+
+				</div>
+			<% end %>
+
+
+			<% if current_user.role?(:assets_manager) %>
+				<div class="tab-pane" id="transfer_tab4_content" aria-expanded="false">
+
+					<div class="m-widget5">
+						<% if @transfer_assets.accepted.count > 0 %>
+						<% @transfer_assets.accepted.each do |transfer_asset| %>
+
+						<%= render 'item_transfer', transfer_asset: transfer_asset, transfer_status: transfer_asset.transfer_status, can_edit: false  %>	
+
+					<% end %>
+					<% else %>
+						<p class="text-center"> - No Accepted Requestes now - </p>
+					<% end %>
+						
+					</div>
+
+				</div>
+			<% end %>
+
+
+		<% if current_user.role?(:assets_province) %>
+			<div class="tab-pane" id="transfer_tab5_content" aria-expanded="false">
+
+				<div class="m-widget5">
+					<% if @transfer_assets.by_delivery_province_user_1(current_user.id).count > 0 %>
+					<% @transfer_assets.by_delivery_province_user_1(current_user.id).each do |transfer_asset| %>
+
+					<%= render 'item_transfer', transfer_asset: transfer_asset, transfer_status: transfer_asset.transfer_status, can_edit: false  %>
+
+				<% end %>
+				<% else %>
+					<p class="text-center"> - No Accepted Requestes now - </p>
+				<% end %>
+					
+				</div>
+
+			</div>
+
+			<div class="tab-pane" id="transfer_tab6_content" aria-expanded="false">
+
+				<div class="m-widget5">
+					<% if @transfer_assets.by_receive_province_user_1(current_user.id).count > 0 %>
+					<% @transfer_assets.by_receive_province_user_1(current_user.id).each do |transfer_asset| %>
+
+					<%= render 'item_transfer', transfer_asset: transfer_asset, transfer_status: transfer_asset.transfer_status, can_edit: false  %>
+
+				<% end %>
+				<% else %>
+					<p class="text-center"> - No Accepted Requestes now - </p>
+				<% end %>
+					
+				</div>
+
+			</div>
+		<% end %>
+
+		<% if current_user.role?(:assets_site) %>
+			<div class="tab-pane" id="transfer_tab7_content" aria-expanded="false">
+
+				<div class="m-widget5">
+					<% if @transfer_assets.by_delivery_site_user_1(current_user.id).count > 0 %>
+					<% @transfer_assets.by_delivery_site_user_1(current_user.id).each do |transfer_asset| %>
+
+					<%= render 'item_transfer', transfer_asset: transfer_asset, transfer_status: transfer_asset.transfer_status, can_edit: true  %>
+
+				<% end %>
+				<% else %>
+					<p class="text-center"> - No Accepted Requestes now - </p>
+				<% end %>
+					
+				</div>
+
+			</div>
+
+			<div class="tab-pane" id="transfer_tab8_content" aria-expanded="false">
+
+				<div class="m-widget5">
+					<% if @transfer_assets.by_receive_site_user_1(current_user.id).count > 0 %>
+					<% @transfer_assets.by_receive_site_user_1(current_user.id).each do |transfer_asset| %>
+
+					<%= render 'item_transfer', transfer_asset: transfer_asset, transfer_status: transfer_asset.transfer_status, can_edit: false  %>
+
+				<% end %>
+				<% else %>
+					<p class="text-center"> - No Accepted Requestes now - </p>
+				<% end %>
+					
+				</div>
+
+			</div>
+		<% end %>
+
+		<% if current_user.role?(:assets_manager) %>
+			<div class="tab-pane" id="transfer_tab9_content" aria-expanded="false">
+
+				<div class="m-widget5">
+					<% if @transfer_assets.posted.count > 0 %>
+					<% @transfer_assets.posted.each do |transfer_asset| %>
+
+					<%= render 'item_transfer', transfer_asset: transfer_asset, transfer_status: transfer_asset.transfer_status, can_edit: false  %>
+
+				<% end %>
+				<% else %>
+					<p class="text-center"> - No Posted Requestes now - </p>
+				<% end %>
+					
+				</div>
+
+			</div>
+		<% end %>
+
+
+		<% if current_user.role?(:assets_province) %>
+			<div class="tab-pane" id="transfer_tab10_content" aria-expanded="false">
+
+				<div class="m-widget5">
+					<% if @transfer_assets.by_delivery_province_user_3(current_user.id).count > 0 %>
+					<% @transfer_assets.by_delivery_province_user_3(current_user.id).each do |transfer_asset| %>
+
+					<%= render 'item_transfer', transfer_asset: transfer_asset, transfer_status: transfer_asset.transfer_status, can_edit: false  %>
+
+				<% end %>
+				<% else %>
+					<p class="text-center"> - No Posted Requestes now - </p>
+				<% end %>
+					
+				</div>
+
+			</div>
+
+
+			<div class="tab-pane" id="transfer_tab11_content" aria-expanded="false">
+
+				<div class="m-widget5">
+					<% if @transfer_assets.by_receive_province_user_3(current_user.id).count > 0 %>
+					<% @transfer_assets.by_receive_province_user_3(current_user.id).each do |transfer_asset| %>
+
+					<%= render 'item_transfer', transfer_asset: transfer_asset, transfer_status: transfer_asset.transfer_status, can_edit: false  %>
+
+				<% end %>
+				<% else %>
+					<p class="text-center"> - No Posted Requestes now - </p>
+				<% end %>
+					
+				</div>
+
+			</div>
+		<% end %>
+
+
+		<% if current_user.role?(:assets_site) %>
+			<div class="tab-pane" id="transfer_tab12_content" aria-expanded="false">
+
+				<div class="m-widget5">
+					<% if @transfer_assets.by_delivery_site_user_3(current_user.id).count > 0 %>
+					<% @transfer_assets.by_delivery_site_user_3(current_user.id).each do |transfer_asset| %>
+
+					<%= render 'item_transfer', transfer_asset: transfer_asset, transfer_status: transfer_asset.transfer_status, can_edit: false  %>
+
+				<% end %>
+				<% else %>
+					<p class="text-center"> - No Posted Requestes now - </p>
+				<% end %>
+					
+				</div>
+
+			</div>
+
+
+			<div class="tab-pane" id="transfer_tab13_content" aria-expanded="false">
+
+				<div class="m-widget5">
+					<% if @transfer_assets.by_receive_site_user_3(current_user.id).count > 0 %>
+					<% @transfer_assets.by_receive_site_user_3(current_user.id).each do |transfer_asset| %>
+
+					<%= render 'item_transfer', transfer_asset: transfer_asset, transfer_status: transfer_asset.transfer_status, can_edit: true  %>
+
+				<% end %>
+				<% else %>
+					<p class="text-center"> - No Posted Requestes now - </p>
+				<% end %>
+					
+				</div>
+
+			</div>
+		<% end %>
+
+
+		<% if current_user.role?(:assets_manager) %>
+			<div class="tab-pane" id="transfer_tab14_content" aria-expanded="false">
+
+				<p class="text-center"> - Last 5 Received transfer - </p>
+
+				<div class="m-widget5">
+					<% if @transfer_assets.received.count > 0 %>
+					<% @transfer_assets.received.limit(5).each do |transfer_asset| %>
+
+					<%= render 'item_transfer', transfer_asset: transfer_asset, transfer_status: transfer_asset.transfer_status, can_edit: false  %>
+
+				<% end %>
+				<% else %>
+					<p class="text-center"> - No Received Requestes now - </p>
+				<% end %>
+					
+				</div>
+
+			</div>
+		<% end %>
+
+
+		<% if current_user.role?(:assets_province) %>
+			<div class="tab-pane" id="transfer_tab15_content" aria-expanded="false">
+
+				<p class="text-center"> - Last 5 Delivered transfer - </p>
+
+				<div class="m-widget5">
+					<% if @transfer_assets.by_delivery_province_user_4(current_user.id).count > 0 %>
+					<% @transfer_assets.by_delivery_province_user_4(current_user.id).limit(5).each do |transfer_asset| %>
+
+					<%= render 'item_transfer', transfer_asset: transfer_asset, transfer_status: 'Transferred', can_edit: false  %>
+
+				<% end %>
+				<% else %>
+					<p class="text-center"> - No Transferred Requestes now - </p>
+				<% end %>
+					
+				</div>
+
+			</div>
+
+
+			<div class="tab-pane" id="transfer_tab16_content" aria-expanded="false">
+
+				<p class="text-center"> - Last 5 Received transfer - </p>
+
+				<div class="m-widget5">
+					<% if @transfer_assets.by_receive_province_user_4(current_user.id).count > 0 %>
+					<% @transfer_assets.by_receive_province_user_4(current_user.id).limit(5).each do |transfer_asset| %>
+
+					<%= render 'item_transfer', transfer_asset: transfer_asset, transfer_status: transfer_asset.transfer_status, can_edit: false  %>
+
+				<% end %>
+				<% else %>
+					<p class="text-center"> - No Received Requestes now - </p>
+				<% end %>
+					
+				</div>
+
+			</div>
+		<% end %>
+
+
+		<% if current_user.role?(:assets_site) %>
+			<div class="tab-pane" id="transfer_tab17_content" aria-expanded="false">
+
+				<p class="text-center"> - Last 5 Delivered transfer - </p>
+
+				<div class="m-widget5">
+					<% if @transfer_assets.by_delivery_site_user_4(current_user.id).count > 0 %>
+					<% @transfer_assets.by_delivery_site_user_4(current_user.id).limit(5).each do |transfer_asset| %>
+
+					<%= render 'item_transfer', transfer_asset: transfer_asset, transfer_status: 'Transferred', can_edit: false  %>
+
+				<% end %>
+				<% else %>
+					<p class="text-center"> - No Transferred Requestes now - </p>
+				<% end %>
+					
+				</div>
+
+			</div>
+
+
+			<div class="tab-pane" id="transfer_tab18_content" aria-expanded="false">
+
+				<p class="text-center"> - Last 5 Received transfer - </p>
+
+				<div class="m-widget5">
+					<% if @transfer_assets.by_receive_site_user_4(current_user.id).count > 0 %>
+					<% @transfer_assets.by_receive_site_user_4(current_user.id).limit(5).each do |transfer_asset| %>
+
+					<%= render 'item_transfer', transfer_asset: transfer_asset, transfer_status: transfer_asset.transfer_status, can_edit: false  %>
+
+				<% end %>
+				<% else %>
+					<p class="text-center"> - No Received Requestes now - </p>
+				<% end %>
+					
+				</div>
+
+			</div>
+		<% end %>
+
+		<% if current_user.role?(:assets_manager) %>
+			<div class="tab-pane" id="transfer_tab19_content" aria-expanded="false">
+
+				<p class="text-center"> - Last 5 Refused transfer - </p>
+
+				<div class="m-widget5">
+					<% if @transfer_assets.refused.count > 0 %>
+					<% @transfer_assets.refused.limit(5).each do |transfer_asset| %>
+
+					<%= render 'item_transfer', transfer_asset: transfer_asset, transfer_status: transfer_asset.transfer_status, can_edit: false  %>
+
+				<% end %>
+				<% else %>
+					<p class="text-center"> - No Refused Requestes now - </p>
+				<% end %>
+					
+				</div>
+
+			</div>
+		<% end %>
+
+
+		<% if current_user.role?(:assets_province) %>
+			<div class="tab-pane" id="transfer_tab20_content" aria-expanded="false">
+
+				<p class="text-center"> - Last 5 Refused transfer - </p>
+
+				<div class="m-widget5">
+					<% if @transfer_assets.by_delivery_province_user_2(current_user.id).count > 0 %>
+					<% @transfer_assets.by_delivery_province_user_2(current_user.id).limit(5).each do |transfer_asset| %>
+
+					<%= render 'item_transfer', transfer_asset: transfer_asset, transfer_status: transfer_asset.transfer_status, can_edit: false  %>
+
+				<% end %>
+				<% else %>
+					<p class="text-center"> - No Refused Requestes now - </p>
+				<% end %>
+					
+				</div>
+
+			</div>
+		<% end %>
+
+
+		<% if current_user.role?(:assets_site) %>
+			<div class="tab-pane" id="transfer_tab21_content" aria-expanded="false">
+
+				<p class="text-center"> - Last 5 Refused transfer - </p>
+
+				<div class="m-widget5">
+					<% if @transfer_assets.by_delivery_site_user_2(current_user.id).count > 0 %>
+					<% @transfer_assets.by_delivery_site_user_2(current_user.id).limit(5).each do |transfer_asset| %>
+
+					<%= render 'item_transfer', transfer_asset: transfer_asset, transfer_status: transfer_asset.transfer_status, can_edit: false  %>
+
+				<% end %>
+				<% else %>
+					<p class="text-center"> - No Refused Requestes now - </p>
+				<% end %>
+					
+				</div>
+
+			</div>
+		<% end %>
+
+
+
+		</div>
+		<!--end::Content-->
+	</div>
+</div>

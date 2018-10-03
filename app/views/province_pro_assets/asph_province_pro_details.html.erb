@@ -1,0 +1,58 @@
+<div class="m-grid__item m-grid__item--fluid m-wrapper">
+	<div class="m-subheader ">
+		<div class="d-flex align-items-center">
+			<div class="mr-auto">
+
+				<h3 class="m-subheader__title ">
+					Dashboard
+						<span class="m-portlet__head-icon">
+							<%= link_to asph_province_pro_details_province_pro_assets_path(province_id: params[:province_id], p_name: 'all'), class: "all-refresh", remote: true do %>
+			        <i class="flaticon-list-3"></i>
+			        <% end %>
+		      	</span>
+
+		    <%= javascript_tag do %>
+
+	      	$(function() {
+					  setTimeout(updateTransfers, 5 * 60 * 1000);
+					});
+
+					function updateTransfers () {
+						$(".all-refresh")[0].click();
+					  setTimeout(updateTransfers, 5 * 60 * 1000);
+					}
+				    
+				<% end %>
+
+
+				</h3>
+			</div>
+		</div>
+	</div>
+	<div class="m-content">
+
+<% if current_user.role?(:production_admin) %>
+<div class="row">
+  <div class="col-xl-12" id="asphalt">
+    <%= render 'asphalt_details' %>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xl-12" id="asphalt_data">
+    <%= render 'asphalt_details_data' %>
+  </div>
+</div>
+
+<% end %>
+
+
+	</div>
+</div>
+
+
+<%= javascript_tag do %>
+  asphalt_high_line( '#line_asphalt' , '/province_pro_assets/asph_province_pro_details_lines.json?province_id=<%= params[:province_id] %>', 'province')
+
+  asphalt_details('/province_pro_assets/asph_province_pro_details_lines.json?province_id=<%= params[:province_id] %>')
+<% end %>

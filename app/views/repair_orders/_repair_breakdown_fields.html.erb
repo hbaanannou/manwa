@@ -1,0 +1,11 @@
+<div class="form-group m-form__group row nested-fields">
+	<%= f.label :repair_breakdown_name, "Breakdown", class: "col-lg-2 col-form-label serial-label" %>
+	<div class="col-lg-8">
+	<%= f.text_field :repair_breakdown_name, class: "form-control m-input", placeholder: "Breakdown Details" %>
+	</div>
+	<div class="col-lg-2">
+		<%= link_to_remove_association f, class: "m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" do %>
+		<i class="la la-trash"></i>
+		<% end %>
+	</div>
+</div>

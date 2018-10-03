@@ -1,0 +1,33 @@
+<%= render 'layouts/myindex/before_myindex', mytitle: "Areas", pages_collection: @area_assets, pages_model: "area", newlink: true, newtitle: "Area", newpath: new_area_asset_path %>
+
+<thead>
+<tr>
+  <th>Area Name</th>
+  <th>Actions</th>
+</tr>
+</thead>
+<tbody>
+<% if @area_assets.any? %>
+  <% @area_assets.each do |area_asset| %>
+    <tr>
+
+      <td><%= area_asset.area_asset_name %></td>
+
+      <td><%= link_to area_asset, alt: "Show", class: "m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill", data: { toggle: "m-tooltip", placement: "bottom", original_title: "Show"} do %><i class="la la-ellipsis-h"></i><% end %>
+
+        <%= link_to edit_area_asset_path(area_asset), alt: "Edit", class: "m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill", data: { toggle: "m-tooltip", placement: "bottom", original_title: "Edit" } do %><i class="la la-edit"></i><% end %>
+
+        <% if current_user.role?(:assets_admin) %>
+          <%= link_to area_asset, alt: "Delete", class: "m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill", method: :delete, data: { toggle: "m-tooltip", placement: "bottom", original_title: "Delete", confirm: 'Are you sure?' } do %><i class="la la-trash"></i><% end %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+<% else %>
+  <tr>
+    <th scope="row" class="text-center" colspan="12">No Areas</th>
+  </tr>
+<% end %>
+</tbody>
+
+<%= render 'layouts/myindex/after_myindex', pages_collection: @area_assets, pages_model: "area" %>

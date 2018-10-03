@@ -1,0 +1,62 @@
+<!-- BEGIN: Subheader -->
+<div class="m-subheader ">
+  <div class="d-flex align-items-center">
+    <div class="mr-auto">
+      <h3 class="m-subheader__title m-subheader__title--separator">
+        New
+      </h3>
+    </div>
+
+      <div>
+      <%= form_tag new_checklist_path, method: :get, class: "m-form m-form--fit form-inline" do %>
+      <% if current_user.role?(:rchecklist) %>
+        <%= select_tag "asset_id", options_from_collection_for_select(DataAsset.by_riyadh.order(data_asset_serial: :asc), "id", "data_asset_serial"), include_blank: 'Select Asset Number', class: "form-control m-input m-input--fixed-normal m-select2" %>
+      <% elsif current_user.role?(:tchecklist) %>
+        <%= select_tag "asset_id", options_from_collection_for_select(DataAsset.by_tabuk.order(data_asset_serial: :asc), "id", "data_asset_serial"), include_blank: 'Select Asset Number', class: "form-control m-input m-input--fixed-normal m-select2" %>
+      <% else %>
+        <%= select_tag "asset_id", options_from_collection_for_select(DataAsset.order(data_asset_serial: :asc), "id", "data_asset_serial"), include_blank: 'Select Asset Number', class: "form-control m-input m-input--fixed-normal m-select2" %>
+      <% end %>
+
+        <%= submit_tag 'Select', class: "btn btn-brand m-2" %>
+
+      <% end %>
+      </div>
+
+  </div>
+</div>
+
+
+
+<% unless params[:asset_id].blank? %>
+
+<!-- END: Subheader -->
+<div class="m-content">
+  <div class="row">
+    <div class="col-lg-12">
+      <!--begin::Portlet-->
+      <div class="m-portlet">
+        <div class="m-portlet__head">
+          <div class="m-portlet__head-caption">
+            <div class="m-portlet__head-title">
+              <span class="m-portlet__head-icon">
+                <i class="la la-arrow-circle-o-right"></i>
+              </span>
+              <h3 class="m-portlet__head-text">
+                <% if current_user.role?(:rchecklist) %>
+                New Checklist (Riyadh)
+                <% elsif current_user.role?(:tchecklist) %>
+                New Checklist (Tabuk)
+                <% else %>
+                New Checklist
+                <% end %>
+              </h3>
+            </div>
+          </div>
+        </div>
+
+<%= render 'form', checklist: @checklist %>
+
+<%= render 'layouts/myform/after_myform' %>
+
+<% end %>
+

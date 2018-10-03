@@ -1,0 +1,180 @@
+<%= render 'layouts/myshow/before_myshow', mytitle: "RO #{@repair_order.id}" %>
+
+
+<form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed">
+
+<% if (@repair_order.requested? || @repair_order.received? || @repair_order.opened? || @repair_order.hold? || @repair_order.repaired? || @repair_order.returned?) && (current_user.id == @repair_order.site_user_id || current_user.id == @repair_order.province_user_id || current_user.id == @repair_order.workshop_site_user_id || current_user.role?(:workshops_manager)) %>
+
+  <h4 class="text-center pt-3">Repair Order:</h4>
+
+  <div class="form-group m-form__group row">
+    <label class="col-form-label col-lg-2">Asset Number</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @repair_order.data_asset.data_asset_serial %></span>
+    </div>
+
+    <label class="col-form-label col-lg-2">From Site</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @repair_order.site_asset.site_asset_name %></span>
+    </div>
+  </div>
+
+  <div class="form-group m-form__group row">
+    <label class="col-form-label col-lg-2">Emp. Name</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @repair_order.data_asset.employee.employee_name %></span>
+    </div>
+
+    <label class="col-form-label col-lg-2">Emp. No.</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @repair_order.data_asset.employee.employee_number %></span>
+    </div>
+  </div>
+
+  <div class="form-group m-form__group row">
+    <label class="col-form-label col-lg-2">Transfer date</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @repair_order.transfer_date %></span>
+    </div>
+
+    <label class="col-form-label col-lg-2">Transfer time</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @repair_order.transfer_time.strftime("%I:%M %p") %></span>
+    </div>
+  </div>
+
+
+  <div class="form-group m-form__group row">
+    <label class="col-form-label col-lg-2">The Request by</label>
+    <div class="col-lg-3">
+        <span class="form-control"><%= @repair_order.site_asset.user.assignments.first.employee.employee_name %></span>
+    </div>
+
+    <label class="col-form-label col-lg-2">Request Date</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @repair_order.created_at.to_date %></span>
+    </div>
+  </div>
+
+  <div class="form-group m-form__group row">
+    <label class="col-form-label col-lg-2">Breakdowns</label>
+    <div class="col-lg-8">
+      <% @repair_order.repair_breakdowns.each do |breakdown| %>
+        <% if @repair_order.delivery_done? && (current_user.role?(:workshops_site) || current_user.role?(:workshops_manager)) %>
+          <span class="form-control font-weight-bold"><u><%= link_to breakdown.repair_breakdown_name, edit_repair_breakdown_path(breakdown, ro_id: @repair_order.id), class: "m--font-danger" %></u></span>
+        <% else %>
+          <span class="form-control font-weight-bold"><%= breakdown.repair_breakdown_name %></span>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+<% end %>
+
+
+<% if (@repair_order.received? || @repair_order.opened? || @repair_order.hold? || @repair_order.repaired? || @repair_order.returned?) && (current_user.id == @repair_order.site_user_id || current_user.id == @repair_order.province_user_id || current_user.id == @repair_order.workshop_site_user_id || current_user.role?(:workshops_manager)) %>
+
+<br>
+  <h4 class="text-center pt-3">Workshop Receiving Details:</h4>
+
+  <div class="m-form__group text-center">
+
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @repair_order.workshop_ignition_switch %>">
+      Workshop ignition switch
+      <span></span>
+    </label>
+
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @repair_order.workshop_equipment_card %>">
+      Workshop equipment card
+      <span></span>
+    </label>
+
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @repair_order.workshop_driver_card %>">
+      Workshop driver card
+      <span></span>
+    </label>
+
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @repair_order.workshop_maintenance_card %>">
+      Workshop maintenance card
+      <span></span>
+    </label>
+
+  </div>
+
+  <div class="form-group m-form__group row">
+    <label class="col-form-label col-lg-2">Workshop Received by</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @repair_order.workshop_site_user.assignments.first.employee.employee_name %></span>
+    </div>
+    <label class="col-form-label col-lg-2">Workshop Receive Date</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @repair_order.workshop_site_action_date.to_date %></span>
+    </div>
+  </div>
+
+<% end %>
+
+<% if (@repair_order.repaired? || @repair_order.returned?) && (current_user.id == @repair_order.site_user_id || current_user.id == @repair_order.province_user_id || current_user.id == @repair_order.workshop_site_user_id || current_user.role?(:workshops_manager)) %>
+
+<br>
+  <h4 class="text-center pt-3">Workshop Repaire Details:</h4>
+
+  <div class="form-group m-form__group row">
+    <label class="col-form-label col-lg-2">Repaire Note</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @repair_order.workshop_site_repair_note %></span>
+    </div>
+    <label class="col-form-label col-lg-2">Repaire Date</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @repair_order.workshop_site_repair_date.to_date %></span>
+    </div>
+  </div>
+
+<% end %>
+
+
+<% if (@repair_order.returned?) && (current_user.id == @repair_order.site_user_id || current_user.id == @repair_order.province_user_id || current_user.id == @repair_order.workshop_site_user_id || current_user.role?(:workshops_manager)) %>
+
+<br>
+  <h4 class="text-center pt-3">Workshop Return Details:</h4>
+
+  <div class="m-form__group text-center">
+
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @repair_order.return_ignition_switch %>">
+      Workshop ignition switch
+      <span></span>
+    </label>
+
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @repair_order.return_equipment_card %>">
+      Workshop equipment card
+      <span></span>
+    </label>
+
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @repair_order.return_driver_card %>">
+      Workshop driver card
+      <span></span>
+    </label>
+
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @repair_order.return_maintenance_card %>">
+      Workshop maintenance card
+      <span></span>
+    </label>
+
+  </div>
+
+  <div class="form-group m-form__group row">
+    <label class="col-form-label col-lg-2">Return Received by</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @repair_order.site_user.assignments.first.employee.employee_name %></span>
+    </div>
+    <label class="col-form-label col-lg-2">Return Receive Date</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @repair_order.return_site_action_date.to_date %></span>
+    </div>
+  </div>
+
+<% end %>
+
+</form>
+
+<%= render 'layouts/myshow/after_myshow_back', backpath: :back %>

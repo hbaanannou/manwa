@@ -1,0 +1,187 @@
+<div class="m-portlet__head">
+  <div class="m-portlet__head-caption">
+    <div class="m-portlet__head-title">
+      <span class="m-portlet__head-icon">
+        <i class="flaticon-truck m--font-brand"></i>
+      </span>
+      <h3 class="m-portlet__head-text">
+        Assets
+      </h3>
+    </div>
+  </div>
+  <div class="m-portlet__head-tools">
+    <ul class="m-portlet__nav">
+
+
+      <li class="m-portlet__nav-item" id="clear_filters">
+        <% if params[:q] %>
+          <%= link_to request.path, class: "btn m-btn m-btn--pill m-btn--air btn-info mr-4" do %>
+            <span>
+              <i class="la la-filter"></i>
+              <span>
+                Clear Filters
+              </span>
+            </span>
+          <% end %>
+        <% end %>
+      </li>
+
+
+      <li class="m-portlet__nav-item">
+        <%= link_to data_assets_path(q: request.parameters[:q],format: :pdf), class: "btn m-btn m-btn--icon m-btn--pill m-btn--air btn-danger", target: "_blank" do %>
+          <span>
+            <i class="la la-file"></i>
+            <span>
+              Create PDF document
+            </span>
+          </span>
+        <% end %>
+      </li>
+
+      <% if current_user.role?(:assets_admin) %>
+      <li class="m-portlet__nav-item">
+        <%= link_to new_data_asset_path, class: "btn m-btn m-btn--icon m-btn--pill m-btn--air btn-success" do %>
+          <span>
+            <i class="la la-plus"></i>
+            <span>
+              Add Asset
+            </span>
+          </span>
+        <% end %>
+      </li>
+      <% end %>
+
+    </ul>
+  </div>
+</div>
+
+<!--Begin::m-portlet__body-->
+<div class="m-portlet__body">
+<div class="mb-5 pb-2">
+  <div class="digg_pagination m--pull-left">
+    <span class="page_info">
+      <%= page_entries_info @data_assets, model: 'asset' %>
+    </span>
+  </div>
+  <div class="digg_pagination m--pull-right">
+    <%= will_paginate @data_assets, :container => false %>
+  </div>
+</div>
+
+<!--Begin::Section-->
+<div class="m-section">
+  <div class="m-section__content">
+    <div class="table-responsive">
+    <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover text-center">
+      <thead>
+        <tr>
+          <th><%= sort_link(@q, :data_asset_serial, 'Asset No.') %></th>
+          <th><%= sort_link(@q, :type_asset_id, 'Type') %></th>
+          <th><%= sort_link(@q, :model_asset_id, 'Model') %></th>
+          <th>Plate No.</th>
+          <th><%= sort_link(@q, :color_asset_id, 'Color') %></th>
+          <th><%= sort_link(@q, :data_asset_manufacture_year, 'M. Year') %></th>
+          <th><%= sort_link(@q, :status_asset_id, 'Status') %></th>
+          <% unless current_user.role?(:assets_site) || current_user.role?(:assets_province) %>
+          <th><%= sort_link(@q, :province_asset_area_asset_id, 'Area') %></th>
+          <% end %>
+          <% unless current_user.role?(:assets_site) || current_user.role?(:assets_province) %>
+          <th><%= sort_link(@q, :province_asset_id, 'Province') %></th>
+          <% end %>
+          <% unless current_user.role?(:assets_site) %>
+          <th><%= sort_link(@q, :site_asset_id, 'Site') %></th>
+          <% end %>
+          <th><%= sort_link(@q, :data_asset_in_use, 'In Use?') %></th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @data_assets.any? %>
+        <% @data_assets.each do |data_asset| %>
+          <tr>
+            <td class="m--font-brand"><strong><%= data_asset.data_asset_serial %></strong></td>
+            <td><%= data_asset.type_asset.type_asset_name %></td>
+            <td><%= data_asset.model_asset.model_asset_name %></td>
+            <td><%= data_asset.data_asset_plate_no %></td>
+            <td><%= data_asset.color_asset.color_asset_name %></td>
+            <td><%= data_asset.data_asset_manufacture_year %></td>
+            <td>
+              <% if data_asset.status_asset.id == 1 %>
+                <span class="m-badge m-badge--success m-badge--wide"><%= data_asset.status_asset.status_asset_name %></span>
+                <% elsif data_asset.status_asset.id == 2 %>
+                <span class="m-badge m-badge--primary m-badge--wide"><%= data_asset.status_asset.status_asset_name %></span>
+                <% elsif data_asset.status_asset.id == 3 %>
+                <span class="m-badge m-badge--info m-badge--wide"><%= data_asset.status_asset.status_asset_name %></span>
+                <% elsif data_asset.status_asset.id == 4 %>
+                <span class="m-badge m-badge--danger m-badge--wide"><%= data_asset.status_asset.status_asset_name %></span>
+                <% elsif data_asset.status_asset.id == 5 %>
+                <span class="m-badge m-badge--warning m-badge--wide"><%= data_asset.status_asset.status_asset_name %></span>
+                <% elsif data_asset.status_asset.id == 6 %>
+                <span class="m-badge m-badge--secondary m-badge--wide"><%= data_asset.status_asset.status_asset_name %></span>
+              <% end %>
+            </td>
+            <% unless current_user.role?(:assets_site) || current_user.role?(:assets_province) %>
+            <td>
+              <% if data_asset.province_asset.area_asset.area_asset_name == "Riyadh" %>
+                <span class="m-badge m-badge--primary m-badge--dot"></span>&nbsp;<span class="m--font-bold m--font-primary"><%= data_asset.province_asset.area_asset.area_asset_name %></span>
+              <% else %>
+                <span class="m-badge m-badge--danger m-badge--dot"></span>&nbsp;<span class="m--font-bold m--font-danger"><%= data_asset.province_asset.area_asset.area_asset_name %></span>
+              <% end %>
+            </td>
+            <% end %>
+            <% unless current_user.role?(:assets_site) || current_user.role?(:assets_province) %>
+            <td><%= data_asset.province_asset.province_asset_name %></td>
+            <% end %>
+            <% unless current_user.role?(:assets_site) %>
+            <td><%= data_asset.site_asset.site_asset_name %></td>
+            <% end %>
+            <td>
+              <% if data_asset.data_asset_in_use %>
+                <span class="m-badge m-badge--success m-badge--wide m-badge--rounded">Yes</span>
+              <% else %>
+                <span class="m-badge m-badge--danger m-badge--wide m-badge--rounded">No</span>
+              <% end %>
+            </td>
+            <td>
+
+              <%= link_to data_asset_path(data_asset, request.query_parameters), alt: "Show", class: "m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill", data: {toggle: "m-tooltip", placement: "bottom", original_title: "Show"} do %><i class="la la-ellipsis-h"></i><% end %>
+
+              <% if current_user.role?(:assets_admin) || current_user.role?(:assets_manager) || current_user.role?(:workshops_manager) || current_user.role?(:assets_province) || current_user.role?(:assets_site)  %>
+                <%= link_to charts_data_assets_path(asset_id: data_asset.id), alt: "Charts", class: "m-portlet__nav-link btn m-btn m-btn--hover-info m-btn--icon m-btn--icon-only m-btn--pill", data: {toggle: "m-tooltip", placement: "bottom", original_title: "Charts"} do %><i class="la la-line-chart"></i><% end %>
+              <% end %>
+
+              <% if current_user.role?(:assets_admin) || current_user.role?(:assets_province) || current_user.role?(:assets_site)  %>
+                <%= link_to edit_data_asset_path(data_asset), alt: "Edit", class: "m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill", data: {toggle: "m-tooltip", placement: "bottom", original_title: "Edit"} do %><i class="la la-edit"></i><% end %>
+              <% end %>
+
+              <% if current_user.role?(:assets_admin) %>
+                <%= link_to data_asset_path(data_asset, type: :normal), alt: "Delete", class: "m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill", method: :delete, data: {toggle: "m-tooltip", placement: "bottom", original_title: "Delete", confirm: 'Are you sure?' } do %><i class="la la-trash"></i><% end %>
+              <% end %>
+
+            </td>
+          </tr>
+        <% end %>
+        <% else %>
+        <tr>
+          <td colspan="13">No Assets</td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div>
+<!--End::Section-->
+
+<div class="mb-3 pb-3">
+  <div class="digg_pagination m--pull-left">
+    <span class="page_info">
+      <%= page_entries_info @data_assets, model: 'asset' %>
+    </span>
+  </div>
+  <div class="digg_pagination m--pull-right">
+    <%= will_paginate @data_assets, :container => false %>
+  </div>
+</div>
+</div>
+<!--End::m-portlet__body-->

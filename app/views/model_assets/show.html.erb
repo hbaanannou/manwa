@@ -1,0 +1,23 @@
+<%= render 'layouts/myshow/before_myshow', mytitle: "Model" %>
+
+<div class="m-widget13__item">
+    <span class="m-widget13__desc m--align-right">
+      Model Name
+    </span>
+  <span class="m-widget13__text m-widget13__text-bolder">
+      <%= @model_asset.model_asset_name %>
+    </span>
+</div>
+
+<div class="m-widget13__item">
+    <span class="m-widget13__desc m--align-right">
+      Type Name
+    </span>
+  <span class="m-widget13__text m-widget13__text-bolder">
+      <% @model_asset.type_asset_ids.map do |r| %>
+        <%= "#{TypeAsset.find(r).type_asset_name}, " %>
+      <% end %>
+    </span>
+</div>
+
+<%= render 'layouts/myshow/after_myshow', editpath: edit_model_asset_path(@model_asset), backpath: model_assets_path %>

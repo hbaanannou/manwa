@@ -1,0 +1,645 @@
+<div class="m-portlet m-portlet--full-height ">
+	<div class="m-portlet__head">
+		<div class="m-portlet__head-caption">
+			<div class="m-portlet__head-title">
+				<span class="m-portlet__head-icon">
+        <i class="flaticon-settings m--font-brand"></i>
+      	</span>
+				<h3 class="m-portlet__head-text">
+					Repair Orders
+				</h3>
+				<span class="m-portlet__head-icon pl-2">
+        	<%= link_to home_pages_path(p_name: 'repair'), remote: true do %>
+	        	<i class="flaticon-refresh m--font-danger"></i>
+	        <% end %>
+      	</span>
+			</div>
+		</div>
+		<div class="m-portlet__head-tools">
+			<ul class="nav nav-pills nav-pills--brand m-nav-pills--align-right m-nav-pills--btn-pill m-nav-pills--btn-sm" role="tablist">
+
+				<% if current_user.role?(:workshops_manager) %>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link active" data-toggle="tab" href="#repair_tab1_content" role="tab">
+						Requested &nbsp;
+						<% if @repair_orders.requested.count > 0 %>
+						<span class="m-badge m-badge--danger"><%= @repair_orders.requested.count %></span>
+						<% end %>
+					</a>
+				</li>
+				<% end %>
+				<% if current_user.role?(:assets_province) %>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link active" data-toggle="tab" href="#repair_tab2_content" role="tab">
+						Requested &nbsp;
+						<% if @repair_orders.by_province_user_0(current_user.id).count > 0 %>
+						<span class="m-badge m-badge--danger"><%= @repair_orders.by_province_user_0(current_user.id).count %></span>
+						<% end %>
+					</a>
+				</li>
+				<% end %>
+				<% if current_user.role?(:assets_site) %>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link active" data-toggle="tab" href="#repair_tab3_content" role="tab">
+						Requested &nbsp;
+						<% if @repair_orders.by_site_user_0(current_user.id).count > 0 %>
+						<span class="m-badge m-badge--danger"><%= @repair_orders.by_site_user_0(current_user.id).count %></span>
+						<% end %>
+					</a>
+				</li>
+				<% end %>
+				<% if current_user.role?(:workshops_site) %>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link active" data-toggle="tab" href="#repair_tab4_content" role="tab">
+						Requested &nbsp;
+						<% if @repair_orders.by_workshop_site_user_0(current_user.id).count > 0 %>
+						<span class="m-badge m-badge--danger"><%= @repair_orders.by_workshop_site_user_0(current_user.id).count %></span>
+						<% end %>
+					</a>
+				</li>
+				<% end %>
+
+
+
+				<% if current_user.role?(:workshops_manager) %>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link" data-toggle="tab" href="#repair_tab5_content" role="tab">
+						Received &nbsp;
+						<% if @repair_orders.received.count > 0 %>
+						<span class="m-badge m-badge--danger"><%= @repair_orders.received.count %></span>
+						<% end %>
+					</a>
+				</li>
+				<% end %>
+				<% if current_user.role?(:assets_province) %>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link" data-toggle="tab" href="#repair_tab6_content" role="tab">
+						Received &nbsp;
+						<% if @repair_orders.by_province_user_1(current_user.id).count > 0 %>
+						<span class="m-badge m-badge--danger"><%= @repair_orders.by_province_user_1(current_user.id).count %></span>
+						<% end %>
+					</a>
+				</li>
+				<% end %>
+				<% if current_user.role?(:assets_site) %>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link" data-toggle="tab" href="#repair_tab7_content" role="tab">
+						Received &nbsp;
+						<% if @repair_orders.by_site_user_1(current_user.id).count > 0 %>
+						<span class="m-badge m-badge--danger"><%= @repair_orders.by_site_user_1(current_user.id).count %></span>
+						<% end %>
+					</a>
+				</li>
+				<% end %>
+				<% if current_user.role?(:workshops_site) %>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link" data-toggle="tab" href="#repair_tab8_content" role="tab">
+						Received &nbsp;
+						<% if @repair_orders.by_workshop_site_user_1(current_user.id).count > 0 %>
+						<span class="m-badge m-badge--danger"><%= @repair_orders.by_workshop_site_user_1(current_user.id).count %></span>
+						<% end %>
+					</a>
+				</li>
+				<% end %>
+
+
+
+				<% if current_user.role?(:workshops_manager) %>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link" data-toggle="tab" href="#repair_tab9_content" role="tab">
+						Opened &nbsp;
+						<% if @repair_orders.opened.count > 0 %>
+						<span class="m-badge m-badge--danger"><%= @repair_orders.opened.count %></span>
+						<% end %>
+					</a>
+				</li>
+				<% end %>
+				<% if current_user.role?(:assets_province) %>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link" data-toggle="tab" href="#repair_tab10_content" role="tab">
+						Opened &nbsp;
+						<% if @repair_orders.by_province_user_4(current_user.id).count > 0 %>
+						<span class="m-badge m-badge--danger"><%= @repair_orders.by_province_user_4(current_user.id).count %></span>
+						<% end %>
+					</a>
+				</li>
+				<% end %>
+				<% if current_user.role?(:assets_site) %>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link" data-toggle="tab" href="#repair_tab11_content" role="tab">
+						Opened &nbsp;
+						<% if @repair_orders.by_site_user_4(current_user.id).count > 0 %>
+						<span class="m-badge m-badge--danger"><%= @repair_orders.by_site_user_4(current_user.id).count %></span>
+						<% end %>
+					</a>
+				</li>
+				<% end %>
+				<% if current_user.role?(:workshops_site) %>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link" data-toggle="tab" href="#repair_tab12_content" role="tab">
+						Opened &nbsp;
+						<% if @repair_orders.by_workshop_site_user_4(current_user.id).count > 0 %>
+						<span class="m-badge m-badge--danger"><%= @repair_orders.by_workshop_site_user_4(current_user.id).count %></span>
+						<% end %>
+					</a>
+				</li>
+				<% end %>
+
+
+
+
+				<% if current_user.role?(:workshops_manager) %>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link" data-toggle="tab" href="#repair_tab13_content" role="tab">
+						Hold &nbsp;
+						<% if @repair_orders.hold.count > 0 %>
+						<span class="m-badge m-badge--danger"><%= @repair_orders.hold.count %></span>
+						<% end %>
+					</a>
+				</li>
+				<% end %>
+				<% if current_user.role?(:assets_province) %>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link" data-toggle="tab" href="#repair_tab14_content" role="tab">
+						Hold &nbsp;
+						<% if @repair_orders.by_province_user_5(current_user.id).count > 0 %>
+						<span class="m-badge m-badge--danger"><%= @repair_orders.by_province_user_5(current_user.id).count %></span>
+						<% end %>
+					</a>
+				</li>
+				<% end %>
+				<% if current_user.role?(:assets_site) %>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link" data-toggle="tab" href="#repair_tab15_content" role="tab">
+						Hold &nbsp;
+						<% if @repair_orders.by_site_user_5(current_user.id).count > 0 %>
+						<span class="m-badge m-badge--danger"><%= @repair_orders.by_site_user_5(current_user.id).count %></span>
+						<% end %>
+					</a>
+				</li>
+				<% end %>
+				<% if current_user.role?(:workshops_site) %>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link" data-toggle="tab" href="#repair_tab16_content" role="tab">
+						Hold &nbsp;
+						<% if @repair_orders.by_workshop_site_user_5(current_user.id).count > 0 %>
+						<span class="m-badge m-badge--danger"><%= @repair_orders.by_workshop_site_user_5(current_user.id).count %></span>
+						<% end %>
+					</a>
+				</li>
+				<% end %>
+
+
+
+
+
+				<% if current_user.role?(:workshops_manager) %>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link" data-toggle="tab" href="#repair_tab17_content" role="tab">
+						Repaired &nbsp;
+						<% if @repair_orders.repaired.count > 0 %>
+						<span class="m-badge m-badge--danger"><%= @repair_orders.repaired.count %></span>
+						<% end %>
+					</a>
+				</li>
+				<% end %>
+				<% if current_user.role?(:assets_province) %>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link" data-toggle="tab" href="#repair_tab18_content" role="tab">
+						Repaired &nbsp;
+						<% if @repair_orders.by_province_user_2(current_user.id).count > 0 %>
+						<span class="m-badge m-badge--danger"><%= @repair_orders.by_province_user_2(current_user.id).count %></span>
+						<% end %>
+					</a>
+				</li>
+				<% end %>
+				<% if current_user.role?(:assets_site) %>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link" data-toggle="tab" href="#repair_tab19_content" role="tab">
+						Repaired &nbsp;
+						<% if @repair_orders.by_site_user_2(current_user.id).count > 0 %>
+						<span class="m-badge m-badge--danger"><%= @repair_orders.by_site_user_2(current_user.id).count %></span>
+						<% end %>
+					</a>
+				</li>
+				<% end %>
+				<% if current_user.role?(:workshops_site) %>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link" data-toggle="tab" href="#repair_tab20_content" role="tab">
+						Repaired &nbsp;
+						<% if @repair_orders.by_workshop_site_user_2(current_user.id).count > 0 %>
+						<span class="m-badge m-badge--danger"><%= @repair_orders.by_workshop_site_user_2(current_user.id).count %></span>
+						<% end %>
+					</a>
+				</li>
+				<% end %>
+
+
+
+
+
+			<% if current_user.role?(:workshops_manager) %>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link" data-toggle="tab" href="#repair_tab21_content" role="tab">
+						Returned &nbsp;
+						<% if @repair_orders.returned.count > 0 %>
+						<span class="m-badge m-badge--danger"><%= @repair_orders.returned.count %></span>
+						<% end %>
+					</a>
+				</li>
+				<% end %>
+				<% if current_user.role?(:assets_province) %>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link" data-toggle="tab" href="#repair_tab22_content" role="tab">
+						Returned &nbsp;
+						<% if @repair_orders.by_province_user_3(current_user.id).count > 0 %>
+						<span class="m-badge m-badge--danger"><%= @repair_orders.by_province_user_3(current_user.id).count %></span>
+						<% end %>
+					</a>
+				</li>
+				<% end %>
+				<% if current_user.role?(:assets_site) %>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link" data-toggle="tab" href="#repair_tab23_content" role="tab">
+						Returned &nbsp;
+						<% if @repair_orders.by_site_user_3(current_user.id).count > 0 %>
+						<span class="m-badge m-badge--danger"><%= @repair_orders.by_site_user_3(current_user.id).count %></span>
+						<% end %>
+					</a>
+				</li>
+				<% end %>
+				<% if current_user.role?(:workshops_site) %>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link" data-toggle="tab" href="#repair_tab24_content" role="tab">
+						Returned &nbsp;
+						<% if @repair_orders.by_workshop_site_user_3(current_user.id).count > 0 %>
+						<span class="m-badge m-badge--danger"><%= @repair_orders.by_workshop_site_user_3(current_user.id).count %></span>
+						<% end %>
+					</a>
+				</li>
+				<% end %>
+
+			</ul>
+		</div>
+	</div>
+	<div class="m-portlet__body">
+		<!--begin::Content-->
+		<div class="tab-content">
+
+			<% if current_user.role?(:workshops_manager) %>
+			<div class="tab-pane active" id="repair_tab1_content" aria-expanded="true">
+				<div class="m-widget5">
+				
+					<% if @repair_orders.requested.count > 0 %>
+						<% @repair_orders.requested.each do |repair_order| %>
+							<%= render 'item_repair', repair_order: repair_order, repair_status: repair_order.repair_status, can_edit: false  %>
+						<% end %>
+					<% else %>
+					<p class="text-center"> - No Requested Requestes now - </p>
+				<% end %>
+
+				</div>
+			</div>
+			<% end %>
+			<% if current_user.role?(:assets_province) %>
+			<div class="tab-pane active" id="repair_tab2_content" aria-expanded="true">
+				<div class="m-widget5">
+				
+				<% if @repair_orders.by_province_user_0(current_user.id).count > 0 %>
+					<% @repair_orders.by_province_user_0(current_user.id).each do |repair_order| %>
+						<%= render 'item_repair', repair_order: repair_order, repair_status: repair_order.repair_status, can_edit: false  %>
+					<% end %>
+				<% else %>
+					<p class="text-center"> - No Requested Requestes now - </p>
+				<% end %>
+
+				</div>
+			</div>
+			<% end %>
+			<% if current_user.role?(:assets_site) %>
+			<div class="tab-pane active" id="repair_tab3_content" aria-expanded="true">
+				<div class="m-widget5">
+				
+				<% if @repair_orders.by_site_user_0(current_user.id).count > 0 %>
+					<% @repair_orders.by_site_user_0(current_user.id).each do |repair_order| %>
+						<%= render 'item_repair', repair_order: repair_order, repair_status: repair_order.repair_status, can_edit: false  %>
+					<% end %>
+				<% else %>
+					<p class="text-center"> - No Requested Requestes now - </p>
+				<% end %>
+
+				</div>
+			</div>
+			<% end %>
+			<% if current_user.role?(:workshops_site) %>
+			<div class="tab-pane active" id="repair_tab4_content" aria-expanded="true">
+				<div class="m-widget5">
+				
+				<% if @repair_orders.by_workshop_site_user_0(current_user.id).count > 0 %>
+					<% @repair_orders.by_workshop_site_user_0(current_user.id).each do |repair_order| %>
+						<%= render 'item_repair', repair_order: repair_order, repair_status: repair_order.repair_status, can_edit: true  %>
+					<% end %>
+				<% else %>
+					<p class="text-center"> - No Requested Requestes now - </p>
+				<% end %>
+
+				</div>
+			</div>
+			<% end %>
+
+			
+
+		<% if current_user.role?(:workshops_manager) %>
+			<div class="tab-pane" id="repair_tab5_content" aria-expanded="false">
+				<div class="m-widget5">
+					<% if @repair_orders.received.count > 0 %>
+						<% @repair_orders.received.each do |repair_order| %>
+							<%= render 'item_repair', repair_order: repair_order, repair_status: repair_order.repair_status, can_edit: false  %>
+						<% end %>
+					<% else %>
+						<p class="text-center"> - No Received Requestes now - </p>
+					<% end %>
+				</div>
+			</div>
+		<% end %>
+		<% if current_user.role?(:assets_province) %>
+			<div class="tab-pane" id="repair_tab6_content" aria-expanded="false">
+				<div class="m-widget5">
+					<% if @repair_orders.by_province_user_1(current_user.id).count > 0 %>
+						<% @repair_orders.by_province_user_1(current_user.id).each do |repair_order| %>
+						<%= render 'item_repair', repair_order: repair_order, repair_status: repair_order.repair_status, can_edit: false  %>
+						<% end %>
+					<% else %>
+						<p class="text-center"> - No Received Requestes now - </p>
+					<% end %>
+				</div>
+			</div>
+		<% end %>
+		<% if current_user.role?(:assets_site) %>
+			<div class="tab-pane" id="repair_tab7_content" aria-expanded="false">
+				<div class="m-widget5">
+					<% if @repair_orders.by_site_user_1(current_user.id).count > 0 %>
+						<% @repair_orders.by_site_user_1(current_user.id).each do |repair_order| %>
+						<%= render 'item_repair', repair_order: repair_order, repair_status: repair_order.repair_status, can_edit: false  %>
+						<% end %>
+					<% else %>
+						<p class="text-center"> - No Received Requestes now - </p>
+					<% end %>
+				</div>
+			</div>
+		<% end %>
+		<% if current_user.role?(:workshops_site) %>
+			<div class="tab-pane" id="repair_tab8_content" aria-expanded="true">
+				<div class="m-widget5">
+				<% if @repair_orders.by_workshop_site_user_1(current_user.id).count > 0 %>
+					<% @repair_orders.by_workshop_site_user_1(current_user.id).each do |repair_order| %>
+						<%= render 'item_repair', repair_order: repair_order, repair_status: repair_order.repair_status, can_edit: true  %>
+					<% end %>
+				<% else %>
+					<p class="text-center"> - No Received Requestes now - </p>
+				<% end %>
+				</div>
+			</div>
+		<% end %>
+
+
+
+
+
+		<% if current_user.role?(:workshops_manager) %>
+			<div class="tab-pane" id="repair_tab9_content" aria-expanded="false">
+				<div class="m-widget5">
+					<% if @repair_orders.opened.count > 0 %>
+						<% @repair_orders.opened.each do |repair_order| %>
+							<%= render 'item_repair', repair_order: repair_order, repair_status: repair_order.repair_status, can_edit: false  %>
+						<% end %>
+					<% else %>
+						<p class="text-center"> - No Opened Requestes now - </p>
+					<% end %>
+				</div>
+			</div>
+		<% end %>
+		<% if current_user.role?(:assets_province) %>
+			<div class="tab-pane" id="repair_tab10_content" aria-expanded="false">
+				<div class="m-widget5">
+					<% if @repair_orders.by_province_user_4(current_user.id).count > 0 %>
+						<% @repair_orders.by_province_user_4(current_user.id).each do |repair_order| %>
+						<%= render 'item_repair', repair_order: repair_order, repair_status: repair_order.repair_status, can_edit: false  %>
+						<% end %>
+					<% else %>
+						<p class="text-center"> - No Opened Requestes now - </p>
+					<% end %>
+				</div>
+			</div>
+		<% end %>
+		<% if current_user.role?(:assets_site) %>
+			<div class="tab-pane" id="repair_tab11_content" aria-expanded="false">
+				<div class="m-widget5">
+					<% if @repair_orders.by_site_user_4(current_user.id).count > 0 %>
+						<% @repair_orders.by_site_user_4(current_user.id).each do |repair_order| %>
+						<%= render 'item_repair', repair_order: repair_order, repair_status: repair_order.repair_status, can_edit: false  %>
+						<% end %>
+					<% else %>
+						<p class="text-center"> - No Opened Requestes now - </p>
+					<% end %>
+				</div>
+			</div>
+		<% end %>
+		<% if current_user.role?(:workshops_site) %>
+			<div class="tab-pane" id="repair_tab12_content" aria-expanded="true">
+				<div class="m-widget5">
+				<% if @repair_orders.by_workshop_site_user_4(current_user.id).count > 0 %>
+					<% @repair_orders.by_workshop_site_user_4(current_user.id).each do |repair_order| %>
+						<%= render 'item_repair', repair_order: repair_order, repair_status: repair_order.repair_status, can_edit: true  %>
+					<% end %>
+				<% else %>
+					<p class="text-center"> - No Opened Requestes now - </p>
+				<% end %>
+				</div>
+			</div>
+		<% end %>
+
+
+
+		<% if current_user.role?(:workshops_manager) %>
+			<div class="tab-pane" id="repair_tab13_content" aria-expanded="false">
+				<div class="m-widget5">
+					<% if @repair_orders.hold.count > 0 %>
+						<% @repair_orders.hold.each do |repair_order| %>
+							<%= render 'item_repair', repair_order: repair_order, repair_status: repair_order.repair_status, can_edit: false  %>
+						<% end %>
+					<% else %>
+						<p class="text-center"> - No Hold Requestes now - </p>
+					<% end %>
+				</div>
+			</div>
+		<% end %>
+		<% if current_user.role?(:assets_province) %>
+			<div class="tab-pane" id="repair_tab14_content" aria-expanded="false">
+				<div class="m-widget5">
+					<% if @repair_orders.by_province_user_5(current_user.id).count > 0 %>
+						<% @repair_orders.by_province_user_5(current_user.id).each do |repair_order| %>
+						<%= render 'item_repair', repair_order: repair_order, repair_status: repair_order.repair_status, can_edit: false  %>
+						<% end %>
+					<% else %>
+						<p class="text-center"> - No Hold Requestes now - </p>
+					<% end %>
+				</div>
+			</div>
+		<% end %>
+		<% if current_user.role?(:assets_site) %>
+			<div class="tab-pane" id="repair_tab15_content" aria-expanded="false">
+				<div class="m-widget5">
+					<% if @repair_orders.by_site_user_5(current_user.id).count > 0 %>
+						<% @repair_orders.by_site_user_5(current_user.id).each do |repair_order| %>
+						<%= render 'item_repair', repair_order: repair_order, repair_status: repair_order.repair_status, can_edit: false  %>
+						<% end %>
+					<% else %>
+						<p class="text-center"> - No Hold Requestes now - </p>
+					<% end %>
+				</div>
+			</div>
+		<% end %>
+		<% if current_user.role?(:workshops_site) %>
+			<div class="tab-pane" id="repair_tab16_content" aria-expanded="true">
+				<div class="m-widget5">
+				<% if @repair_orders.by_workshop_site_user_5(current_user.id).count > 0 %>
+					<% @repair_orders.by_workshop_site_user_5(current_user.id).each do |repair_order| %>
+						<%= render 'item_repair', repair_order: repair_order, repair_status: repair_order.repair_status, can_edit: true  %>
+					<% end %>
+				<% else %>
+					<p class="text-center"> - No Hold Requestes now - </p>
+				<% end %>
+				</div>
+			</div>
+		<% end %>
+
+
+
+
+
+		<% if current_user.role?(:workshops_manager) %>
+			<div class="tab-pane" id="repair_tab17_content" aria-expanded="false">
+				<div class="m-widget5">
+					<% if @repair_orders.repaired.count > 0 %>
+						<% @repair_orders.repaired.each do |repair_order| %>
+							<%= render 'item_repair', repair_order: repair_order, repair_status: repair_order.repair_status, can_edit: false  %>
+						<% end %>
+					<% else %>
+						<p class="text-center"> - No Repaired assets now - </p>
+					<% end %>
+					
+				</div>
+			</div>
+		<% end %>
+		<% if current_user.role?(:assets_province) %>
+			<div class="tab-pane" id="repair_tab18_content" aria-expanded="false">
+				<div class="m-widget5">
+					<% if @repair_orders.by_province_user_2(current_user.id).count > 0 %>
+						<% @repair_orders.by_province_user_2(current_user.id).each do |repair_order| %>
+						<%= render 'item_repair', repair_order: repair_order, repair_status: repair_order.repair_status, can_edit: false  %>
+						<% end %>
+					<% else %>
+						<p class="text-center"> - No Repaired assets now - </p>
+					<% end %>
+					
+				</div>
+			</div>
+		<% end %>
+		<% if current_user.role?(:assets_site) %>
+			<div class="tab-pane" id="repair_tab19_content" aria-expanded="false">
+				<div class="m-widget5">
+					<% if @repair_orders.by_site_user_2(current_user.id).count > 0 %>
+						<% @repair_orders.by_site_user_2(current_user.id).each do |repair_order| %>
+						<%= render 'item_repair', repair_order: repair_order, repair_status: repair_order.repair_status, can_edit: true  %>
+						<% end %>
+					<% else %>
+						<p class="text-center"> - No Repaired assets now - </p>
+					<% end %>
+					
+				</div>
+			</div>
+		<% end %>
+		<% if current_user.role?(:workshops_site) %>
+			<div class="tab-pane" id="repair_tab20_content" aria-expanded="true">
+				<div class="m-widget5">
+				
+				<% if @repair_orders.by_workshop_site_user_2(current_user.id).count > 0 %>
+					<% @repair_orders.by_workshop_site_user_2(current_user.id).each do |repair_order| %>
+						<%= render 'item_repair', repair_order: repair_order, repair_status: repair_order.repair_status, can_edit: false  %>
+					<% end %>
+				<% else %>
+					<p class="text-center"> - No Repaired assets now - </p>
+				<% end %>
+
+				</div>
+			</div>
+			<% end %>
+
+
+
+
+
+
+		<% if current_user.role?(:workshops_manager) %>
+			<div class="tab-pane" id="repair_tab21_content" aria-expanded="false">
+				<div class="m-widget5">
+					<% if @repair_orders.returned.count > 0 %>
+						<% @repair_orders.returned.each do |repair_order| %>
+							<%= render 'item_repair', repair_order: repair_order, repair_status: repair_order.repair_status, can_edit: false  %>
+						<% end %>
+					<% else %>
+						<p class="text-center"> - No Returned assets now - </p>
+					<% end %>
+					
+				</div>
+			</div>
+		<% end %>
+		<% if current_user.role?(:assets_province) %>
+			<div class="tab-pane" id="repair_tab22_content" aria-expanded="false">
+				<div class="m-widget5">
+					<% if @repair_orders.by_province_user_3(current_user.id).count > 0 %>
+						<% @repair_orders.by_province_user_3(current_user.id).each do |repair_order| %>
+						<%= render 'item_repair', repair_order: repair_order, repair_status: repair_order.repair_status, can_edit: false  %>
+						<% end %>
+					<% else %>
+						<p class="text-center"> - No Returned assets now - </p>
+					<% end %>
+					
+				</div>
+			</div>
+		<% end %>
+		<% if current_user.role?(:assets_site) %>
+			<div class="tab-pane" id="repair_tab23_content" aria-expanded="false">
+				<div class="m-widget5">
+					<% if @repair_orders.by_site_user_3(current_user.id).count > 0 %>
+						<% @repair_orders.by_site_user_3(current_user.id).each do |repair_order| %>
+						<%= render 'item_repair', repair_order: repair_order, repair_status: repair_order.repair_status, can_edit: false  %>
+						<% end %>
+					<% else %>
+						<p class="text-center"> - No Returned assets now - </p>
+					<% end %>
+					
+				</div>
+			</div>
+		<% end %>
+		<% if current_user.role?(:workshops_site) %>
+			<div class="tab-pane" id="repair_tab24_content" aria-expanded="true">
+				<div class="m-widget5">
+				
+				<% if @repair_orders.by_workshop_site_user_3(current_user.id).count > 0 %>
+					<% @repair_orders.by_workshop_site_user_3(current_user.id).each do |repair_order| %>
+						<%= render 'item_repair', repair_order: repair_order, repair_status: repair_order.repair_status, can_edit: false  %>
+					<% end %>
+				<% else %>
+					<p class="text-center"> - No Returned assets now - </p>
+				<% end %>
+
+				</div>
+			</div>
+			<% end %>
+
+		</div>
+		<!--end::Content-->
+	</div>
+</div>

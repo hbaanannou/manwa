@@ -1,0 +1,358 @@
+<!--begin::Form-->
+<%= form_with(model: withdraw_asset, local: true, class: "m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed") do |form| %>
+
+  <%= render 'layouts/myform/error_myform', object: withdraw_asset %>
+
+  <div class="form-group m-form__group row">
+
+    <%= form.label :data_asset_id, "Asset Number", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+
+      <% if current_user.role?(:assets_manager) && action?('new', 'create') %>
+
+      <%= form.select :data_asset_id, [[@data_asset.data_asset_serial, @data_asset.id]], {}, {class: "form-control m-input"} %>
+      <span class="m-form__help">Asset Number</span>
+
+      <% elsif (current_user.role?(:assets_site) || current_user.role?(:assets_province) || current_user.role?(:assets_manager)) && action?('edit', 'update') %>
+        <span class="form-control"><%= @data_asset.data_asset_serial %></span>
+      <% end %>
+
+    </div>
+
+
+    <%= form.label :site_asset_from_id, "From Site", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <% if current_user.role?(:assets_manager) && action?('new', 'create') %>
+      <%= form.select :site_asset_from_id, [[@data_asset.site_asset.site_asset_name, @data_asset.site_asset.id]], {}, {class: "form-control m-input"} %>
+      <span class="m-form__help">From Site</span>
+
+      <%= hidden_field_tag 'province_asset_from_id', @data_asset.province_asset.id %>
+
+      <% elsif (current_user.role?(:assets_site) || current_user.role?(:assets_province) || current_user.role?(:assets_manager)) && action?('edit', 'update') %>
+        <span class="form-control"><%= withdraw_asset.site_asset_from.site_asset_name %></span>
+      <% end %>
+    </div>
+  </div>
+
+
+  <div class="form-group m-form__group row">
+    <%= form.label :province_asset_to_id, "To Province", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <% if current_user.role?(:assets_manager) && action?('new', 'create') %>
+      <span class="required">
+      <%= form.grouped_collection_select :province_asset_to_id, AreaAsset.order(:area_asset_name), :province_assets, :area_asset_name, :id, :province_asset_name, {include_blank: 'Select To Province'}, class: "form-control m-input m-select2", required: true %>
+      </span>
+      <span class="m-form__help">Please enter To Province</span>
+      <% elsif (current_user.role?(:assets_site) || current_user.role?(:assets_province) || current_user.role?(:assets_manager)) && action?('edit', 'update') %>
+      <span class="form-control"><%= withdraw_asset.province_asset_to.province_asset_name %></span>
+      <% end %>
+    </div>
+    <%= form.label :site_asset_to_id, "To Site", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <% if current_user.role?(:assets_manager) && action?('new', 'create') %>
+      <span class="required">
+      <%= form.grouped_collection_select :site_asset_to_id, ProvinceAsset.order(:province_asset_name), :site_assets, :province_asset_name, :id, :site_asset_name, {include_blank: 'Select To Site'}, class: "form-control m-input m-select2", required: true %>
+      </span>
+      <span class="m-form__help">Please enter To Site</span>
+      <% elsif (current_user.role?(:assets_site) || current_user.role?(:assets_province) || current_user.role?(:assets_manager)) && action?('edit', 'update') %>
+        <span class="form-control"><%= withdraw_asset.site_asset_to.site_asset_name %></span>
+      <% end %>
+    </div>
+  </div>
+
+
+  <div class="form-group m-form__group row">
+    <%= form.label :withdraw_reason, "Withdraw Reason", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <% if current_user.role?(:assets_manager) && action?('new', 'create') %>
+      <%= form.text_area :withdraw_reason, class: "form-control m-input required", placeholder: "Withdraw Reason", required: true %>
+      <span class="m-form__help">Please enter Withdraw Reason</span>
+      <% elsif (current_user.role?(:assets_site) || current_user.role?(:assets_province) || current_user.role?(:assets_manager)) && action?('edit', 'update') %>
+        <span class="form-control"><%= withdraw_asset.withdraw_reason %></span>
+      <% end %>
+    </div>
+
+    <%= form.label :withdraw_procedure, "Transfer Procedure", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <% if current_user.role?(:assets_manager) && action?('new', 'create') %>
+      <%= form.text_area :withdraw_procedure, class: "form-control m-input required", placeholder: "Transfer Procedure", required: true %>
+      <span class="m-form__help">Please enter Transfer Procedure</span>
+      <% elsif (current_user.role?(:assets_site) || current_user.role?(:assets_province) || current_user.role?(:assets_manager)) && action?('edit', 'update') %>
+        <span class="form-control"><%= withdraw_asset.withdraw_procedure %></span>
+      <% end %>
+    </div>
+  </div>
+
+
+  <div class="form-group m-form__group row">
+    <%= form.label :transfer_date, "Transfer Date", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <% if current_user.role?(:assets_manager) && action?('new', 'create') %>
+      <%= form.date_field :transfer_date, class: "form-control m-input required", placeholder: "Transfer Date", required: true %>
+      <span class="m-form__help">Please enter Transfer Date</span>
+      <% elsif (current_user.role?(:assets_site) || current_user.role?(:assets_province) || current_user.role?(:assets_manager)) && action?('edit', 'update') %>
+      <span class="form-control"><%= withdraw_asset.transfer_date %></span>
+      <% end %>
+    </div>
+
+    <%= form.label :data_asset_lowbed_id, "Lowbed No.", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <% if current_user.role?(:assets_manager) && action?('new', 'create') %>
+      <%= form.collection_select :data_asset_lowbed_id, DataAsset.where(type_asset_id: [56, 57]), :id, :data_asset_serial, {include_blank: 'Select Lowbed'}, class: "form-control m-input m-select2" %>
+      <span class="m-form__help">Please Select Lowbed</span>
+      <% elsif (current_user.role?(:assets_site) || current_user.role?(:assets_province) || current_user.role?(:assets_manager)) && action?('edit', 'update') %>
+      <span class="form-control"><%= withdraw_asset.data_asset_lowbed ? withdraw_asset.data_asset_lowbed.data_asset_serial : "N/A" %></span>
+      <% end %>
+    </div>
+  </div>
+
+
+<% if action?('edit', 'update') %>
+
+  <% if current_user.role?(:assets_site) && (WithdrawAsset.find(params[:id]).opened? || WithdrawAsset.find(params[:id]).posted?) && withdraw_asset.data_asset_lowbed.present? %>
+
+    <div class="form-group m-form__group row">
+      <label class="col-form-label col-lg-2">Driver Name</label>
+      <div class="col-lg-3">
+        <span class="form-control"><%= withdraw_asset.data_asset_lowbed.employee.employee_name %></span>
+      </div>
+
+      <label class="col-form-label col-lg-2">Driver Mobile</label>
+      <div class="col-lg-3">
+        <span class="form-control"><%= withdraw_asset.data_asset_lowbed.employee.employee_mobile %></span>
+      </div>
+    </div>
+
+  <% end %>
+
+  <% if current_user.role?(:assets_site) && WithdrawAsset.find(params[:id]).opened? && current_user.id == withdraw_asset.delivery_site_user_id %>
+
+    <div class="form-group m-form__group row">
+      <label class="col-form-label col-lg-2">Delivery Details</label>
+      <div class="col-9">
+        <div class="m-checkbox-inline">
+
+          <label class="m-checkbox">
+          <%= form.check_box :delivery_transfer_driver_form %> Transfer Driver Form
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :delivery_repair_order %> Repair Order
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :delivery_accident_report %> Accident Report
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :delivery_maintenance_card %> Maintenance Card
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :delivery_car_license %> Car License
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :delivery_operation_card %> Operation Card
+          <span></span>
+          </label>
+
+        </div>
+        <span class="m-form__help">Please Check attached documents with delivery</span>
+      </div>
+    </div>
+
+    <div class="form-group m-form__group row">
+      <label class="col-form-label col-lg-2">Delivery Confirmation</label>
+      <div class="col-9">
+        <div class="m-checkbox-inline">
+
+          <label class="m-checkbox m-checkbox--bold m-checkbox--state-brand">
+          <%= form.check_box :delivery_done %> As a site manager I confirm the delivery of this asset.
+          <span></span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+  <% end %>
+
+
+  <% if current_user.role?(:assets_site) && WithdrawAsset.find(params[:id]).posted? %>
+
+    <div class="form-group m-form__group row">
+      <label class="col-form-label col-lg-2">Delivery Details</label>
+      <div class="col-9">
+        <div class="m-checkbox-inline">
+
+          <label class="m-checkbox">
+          <%= form.check_box :delivery_transfer_driver_form, {disabled: "disabled"} %> Transfer Driver Form
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :delivery_repair_order, {disabled: "disabled"} %> Repair Order
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :delivery_accident_report, {disabled: "disabled"} %> Accident Report
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :delivery_maintenance_card, {disabled: "disabled"} %> Maintenance Card
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :delivery_car_license, {disabled: "disabled"} %> Car License
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :delivery_operation_card, {disabled: "disabled"} %> Operation Card
+          <span></span>
+          </label>
+
+        </div>
+      </div>
+    </div>
+
+  <% end %>
+
+
+
+
+ <% if current_user.role?(:assets_site) && WithdrawAsset.find(params[:id]).posted? && (current_user.id == withdraw_asset.receive_site_user_id) %>
+
+    <div class="form-group m-form__group row">
+      <label class="col-form-label col-lg-2">Receiving Details</label>
+      <div class="col-9">
+        <div class="m-checkbox-inline">
+
+          <label class="m-checkbox">
+          <%= form.check_box :receive_transfer_driver_form %> Transfer Driver Form
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :receive_repair_order %> Repair Order
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :receive_accident_report %> Accident Report
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :receive_maintenance_card %> Maintenance Card
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :receive_car_license %> Car License
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :receive_operation_card %> Operation Card
+          <span></span>
+          </label>
+
+        </div>
+        <span class="m-form__help">Please Check attached documents with receiving</span>
+      </div>
+    </div>
+
+    <div class="form-group m-form__group row">
+      <label class="col-form-label col-lg-2">Receiving Confirmation</label>
+      <div class="col-9">
+        <div class="m-checkbox-inline">
+
+          <label class="m-checkbox m-checkbox--bold m-checkbox--state-brand">
+          <%= form.check_box :receive_done %> As a site manager I confirm the receive of this asset.
+          <span></span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+  <% end %>
+
+
+  <% if current_user.role?(:assets_site) && WithdrawAsset.find(params[:id]).received? %>
+
+    <div class="form-group m-form__group row">
+      <label class="col-form-label col-lg-2">Receiving Details</label>
+      <div class="col-9">
+        <div class="m-checkbox-inline">
+
+          <label class="m-checkbox">
+          <%= form.check_box :receive_transfer_driver_form, {disabled: "disabled"} %> Transfer Driver Form
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :receive_repair_order, {disabled: "disabled"} %> Repair Order
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :receive_accident_report, {disabled: "disabled"} %> Accident Report
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :receive_maintenance_card, {disabled: "disabled"} %> Maintenance Card
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :receive_car_license, {disabled: "disabled"} %> Car License
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :receive_operation_card, {disabled: "disabled"} %> Operation Card
+          <span></span>
+          </label>
+
+        </div>
+        <span class="m-form__help">Please Check attached documents with receiving</span>
+      </div>
+    </div>
+
+    <div class="form-group m-form__group row">
+      <label class="col-form-label col-lg-2">Receiving Confirmation</label>
+      <div class="col-9">
+        <div class="m-checkbox-inline">
+
+          <label class="m-checkbox m-checkbox--bold m-checkbox--state-brand">
+          <%= form.check_box :receive_done, {disabled: "disabled"} %> As a site manager I confirm the receive of this asset.
+          <span></span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+  <% end %>
+
+
+
+<% end %>
+
+  <%= hidden_field_tag 'asset_id', params[:asset_id] %>
+
+
+  <%= render 'layouts/myform/submit_myform', form: form, cancelpath: root_path %>
+
+<% end %>
+<!--end::Form-->
+

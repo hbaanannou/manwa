@@ -1,0 +1,167 @@
+<style>
+.breakdown_spares {
+    counter-reset: Serial;           /* Set the Serial counter to 0 */
+}
+
+label.serial-label:first-child:after {
+  counter-increment: Serial;      /* Increment the Serial counter */
+  content: " # " counter(Serial) " "; /* Display the counter */
+}
+</style>
+
+<!--begin::Form-->
+<%= form_with(model: repair_breakdown, local: true, class: "m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed") do |form| %>
+
+  <%= render 'layouts/myform/error_myform', object: repair_breakdown %>
+
+<h5 class="offset-lg-1 mt-2"> <span class="m--font-danger"> Repair order:</span> #RO<%= repair_breakdown.repair_order.id %> &nbsp; <span class="m--font-danger"> Asset Number: </span> <%= repair_breakdown.repair_order.data_asset.data_asset_serial %> &nbsp; <span class="m--font-danger"> Breakdown: </span> <%= repair_breakdown.repair_breakdown_name %> </h5>
+  
+  <br>
+  <br>
+  <h5 class="offset-lg-1 left__div__border--brand m--font-brand"> &nbsp; BREAKDOWN STATUS:</h5>
+  
+  <div class="form-group m-form__group row">
+    <%= form.label :breakdown_status, "Breakdown Status", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-8">
+      <div class="m-radio-inline">
+        <%= form.collection_radio_buttons(:breakdown_status, { 'Not Opened': :notopened, Open: :opened, Hold: :hold, Close: :close }, :second, :first) do |b| %>
+          <%= b.label(class: "m-radio m-radio--bold #{'m-radio--state-brand' if b.text == :Close} #{'m-radio--state-success' if b.text == :Open} #{'m-radio--state-danger' if b.text == :Hold}") { b.radio_button + b.text + content_tag(:span) } %> 
+        <% end %>
+      </div>
+      <span class="m-form__help">Please Select Breakdown Status</span>
+    </div>
+  </div>
+
+  <br>
+  <br>
+  <h5 class="offset-lg-1 left__div__border--brand m--font-brand"> &nbsp; BREAKDOWN DETAILS:</h5>
+
+  <div class="form-group m-form__group row">
+
+    <%= form.label :repair_breakdown_description, "Breakdown Detail", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <%= form.text_area :repair_breakdown_description, class: "form-control m-input", placeholder: "Breakdown Detail" %>
+      <span class="m-form__help">Please enter Breakdown Detail</span>
+    </div>
+
+    <%= form.label :repair_breakdown_technician_name, "Technician Name", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <%= form.text_field :repair_breakdown_technician_name, class: "form-control m-input", placeholder: "Technician Name" %>
+      <span class="m-form__help">Please enter Technician Name</span>
+    </div>
+
+  </div>
+
+
+  <div class="form-group m-form__group row">
+    <%= form.label :repair_breakdown_test_date, "Testing Date", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <%= form.date_field :repair_breakdown_test_date, class: "form-control m-input", placeholder: "Testing Date" %>
+      <span class="m-form__help">Please enter Testing Date</span>
+    </div>
+
+    <%= form.label :repair_breakdown_test_result, "Testing Result", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <%= form.text_field :repair_breakdown_test_result, class: "form-control m-input", placeholder: "Testing Result" %>
+      <span class="m-form__help">Please enter Testing Result</span>
+    </div>
+  </div>
+
+
+
+<br>
+<br>
+  <h5 class="offset-lg-1 left__div__border--brand m--font-brand"> &nbsp; BREAKDOWN SPARES:</h5>
+
+<div class="form-group m-form__group row">
+  <div class="col-lg-3 offset-lg-1">
+    Spare Part Number
+  </div>
+  <div class="col-lg-4">
+    Description
+  </div>
+  <div class="col-lg-3">
+    Quantity
+  </div>
+  <div class="col-lg-1"></div>
+</div>
+
+  <div class="breakdown_spares">
+
+    <% repair_breakdown.breakdown_spares.each do |breakdown_spare_row| %>
+      <% if breakdown_spare_row.matrial_request_id %>
+
+        <div class="form-group m-form__group row nested-fields">
+          <div class="col-lg-1"></div>
+          <div class="col-lg-3">
+          <div class="form-control m-input"><%= breakdown_spare_row.spare_part_number %></div>
+          </div>
+          <div class="col-lg-4">
+          <div class="form-control m-input"><%= breakdown_spare_row.spare_description %></div>
+          </div>
+          <div class="col-lg-3">
+          <div class="form-control m-input"><%= breakdown_spare_row.spare_quantity %></div>
+          </div>
+          <div class="col-lg-1">
+            <div class="form-control m-input">#RM <%= breakdown_spare_row.matrial_request_id %></div>
+          </div>
+        </div>
+
+      <% end %>
+
+
+      <% unless breakdown_spare_row.matrial_request_id %>
+
+        <%= form.fields_for :breakdown_spares, breakdown_spare_row do |breakdown_spare| %>
+      
+          <%= render partial: 'breakdown_spare_fields', locals: {f: breakdown_spare}  %>
+
+        <% end %>
+
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="offset-lg-1 form-group m-form__group row">
+        <%= link_to_add_association 'Add More Spare', form, :breakdown_spares, class: 'btn btn-primary', data: {association_insertion_node: '.breakdown_spares', association_insertion_method: :append } %>
+  </div>
+
+
+<br>
+<br>
+  <h5 class="offset-lg-1 left__div__border--brand m--font-brand"> &nbsp; AFTER REPAIR TEST:</h5>
+
+
+  <div class="form-group m-form__group row">
+
+    <%= form.label :repair_breakdown_after_repair_remarks, "Remarks", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <%= form.text_area :repair_breakdown_after_repair_remarks, class: "form-control m-input", placeholder: "Remarks" %>
+      <span class="m-form__help">Please enter Remarks</span>
+    </div>
+
+    <%= form.label :repair_breakdown_after_repair_test_date, "After Repair Test Date", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <%= form.date_field :repair_breakdown_after_repair_test_date, class: "form-control m-input", placeholder: "After Repair Test Date" %>
+      <span class="m-form__help">Please enter After Repair Test Date</span>
+    </div>
+
+  </div>
+
+  <div class="form-group m-form__group row">
+    <%= form.label :employee_id, "After Repair Test By", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-8">
+      <%= form.select :employee_id, Employee.all.collect {|p| [p.employee_number + " - " + p.employee_name, p.id]}, {include_blank: 'Select Employee'}, class: "form-control m-input m-select2" %>
+      <span class="m-form__help">Please enter After Repair Test By</span>
+    </div>
+  </div>
+
+
+
+
+  <%= hidden_field_tag 'ro_id', params[:ro_id] %>
+
+  <%= render 'layouts/myform/submit_myform', form: form, cancelpath: repair_breakdowns_path(ro_id: params[:ro_id]) %>
+
+<% end %>
+<!--end::Form-->

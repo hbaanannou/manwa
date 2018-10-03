@@ -1,0 +1,281 @@
+<div class="row">
+  <div class="col-xl-12">
+    <!--begin:: Widgets/Authors Profit-->
+    <div class="m-portlet m-portlet--bordered-semi m-portlet--full-height ">
+      <div class="m-portlet__head">
+        <div class="m-portlet__head-caption">
+          <div class="m-portlet__head-title">
+            <h3 class="m-portlet__head-text">
+              <strong>Hours Chart:</strong>
+            </h3>
+            
+          </div>
+        </div>
+        <div class="m-portlet__head-tools">
+
+        </div>
+      </div>
+      <div class="m-portlet__body">
+
+        <div class="form-group m-form__group row">
+          <div class="col-lg-4">
+            <%= form_tag hours_line_data_assets_path, method: :get, remote: true, class: "m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" do %>
+            <div class="row">
+              <div class="col-lg-9">
+                <%= date_field_tag :start_date, nil, {class: "form-control m-input"} %>
+              </div>
+
+              <div class="col-lg-3">
+                <%= submit_tag 'Start', class: "btn m-btn--pill m-btn--air btn-outline-info m-btn m-btn--outline-2x" %>
+              </div>
+
+                <%= hidden_field_tag 'asset_id', params[:asset_id] %>
+
+            </div>
+            <% end %>
+          </div>
+        <div class="col-lg-4 text-center">
+          <span data-toggle="m-tooltip" data-placement="top" data-original-title="Clear Dates">
+          <%= link_to hours_line_data_assets_path(asset_id: params[:asset_id]), remote: true, alt: "Clear", class: "m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" do %><i class="la la-eraser"></i><% end %>
+          </span>
+        </div>
+          <div class="col-lg-4">
+            <%= form_tag hours_line_data_assets_path, method: :get, remote: true, class: "m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" do %>
+            <div class="row">
+              <div class="col-lg-9">
+                <%= date_field_tag :end_date, nil, {class: "form-control m-input"} %>
+              </div>
+
+              <div class="col-lg-3">
+                <%= submit_tag 'End', class: "btn m-btn--pill m-btn--air btn-outline-danger m-btn m-btn--outline-2x" %>
+              </div>
+
+                <%= hidden_field_tag 'asset_id', params[:asset_id] %>
+
+            </div>
+            <% end %>
+          </div>
+        </div>
+
+
+        <div id='line_charts'></div>
+
+      </div>
+
+    </div>
+    <!--end:: Widgets/Authors Profit-->
+  </div>
+</div>
+
+
+
+<div class="row">
+  <div class="col-xl-12">
+    <!--begin:: Widgets/Authors Profit-->
+    <div class="m-portlet m-portlet--bordered-semi m-portlet--full-height ">
+      <div class="m-portlet__head">
+        <div class="m-portlet__head-caption">
+          <div class="m-portlet__head-title">
+            <h3 class="m-portlet__head-text">
+              <strong>Operation Cards Report:</strong>
+            </h3>
+            
+          </div>
+        </div>
+        <div class="m-portlet__head-tools">
+          <ul class="m-portlet__nav">
+
+            <li class="m-portlet__nav-item">
+              <%= link_to charts_data_assets_path(asset_id: params[:asset_id], q: request.parameters[:q],format: :pdf), class: "btn m-btn m-btn--icon m-btn--pill m-btn--air btn-danger", target: "_blank" do %>
+                <span>
+                  <i class="la la-file"></i>
+                  <span>
+                    Create PDF document
+                  </span>
+                </span>
+              <% end %>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+      <div class="m-portlet__body">
+
+
+        <!--Begin::Section-->
+        <div class="m-section">
+          <div class="m-section__content">
+            <div class="table-responsive">
+
+            <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover text-center">
+              <thead>
+                <tr>
+                  <th>Hours Sum</th>
+                  <th>Hours Average</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="m--font-info font-weight-bold" id="checklists_hours_sum_id"></td>
+                  <td class="m--font-brand font-weight-bold" id="checklists_hours_average_id"></td>
+                </tr>
+              </tbody>
+            </table>
+
+
+            <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover text-center">
+              <thead>
+                <tr>
+                  <th>Meters Different</th>
+                  <th>Meters Average</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="m--font-info font-weight-bold" id="checklists_meters_different_id"></td>
+                  <td class="m--font-brand font-weight-bold" id="checklists_meters_average_id"></td>
+                </tr>
+              </tbody>
+            </table>
+
+
+
+            <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover text-center">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Work Days</th>
+                  <th>Check Days</th>
+                  <th>Percentage %</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="m--font-default"><strong>Overall</strong></td>
+                  <td class="m--font-info font-weight-bold workdays_count_class"></td>
+                  <td class="m--font-brand font-weight-bold" id="checklists_count_id"></td>
+                  <td class="font-weight-bold" id="checklists_percentage_id"></td>
+                </tr>
+                <tr>
+                  <td class="m--font-default"><strong>Engine Oil</strong></td>
+                  <td class="m--font-info font-weight-bold workdays_count_class"></td>
+                  <td class="m--font-brand font-weight-bold" id="checklists_engine_oil_count_id"></td>
+                  <td class="font-weight-bold" id="checklists_engine_oil_percentage_id"></td>
+                </tr>
+                <tr>
+                  <td class="m--font-default"><strong>Hydraulic Oil</strong></td>
+                  <td class="m--font-info font-weight-bold workdays_count_class"></td>
+                  <td class="m--font-brand font-weight-bold" id="checklists_hydraulic_oil_count_id"></td>
+                  <td class="font-weight-bold" id="checklists_hydraulic_oil_percentage_id"></td>
+                </tr>
+                <tr>
+                  <td class="m--font-default"><strong>Gear Oil</strong></td>
+                  <td class="m--font-info font-weight-bold workdays_count_class"></td>
+                  <td class="m--font-brand font-weight-bold" id="checklists_gear_oil_count_id"></td>
+                  <td class="font-weight-bold" id="checklists_gear_oil_percentage_id"></td>
+                </tr>
+                <tr>
+                  <td class="m--font-default"><strong>Breake Oil</strong></td>
+                  <td class="m--font-info font-weight-bold workdays_count_class"></td>
+                  <td class="m--font-brand font-weight-bold" id="checklists_breake_oil_count_id"></td>
+                  <td class="font-weight-bold" id="checklists_breake_oil_percentage_id"></td>
+                </tr>
+                <tr>
+                  <td class="m--font-default"><strong>Battery Water</strong></td>
+                  <td class="m--font-info font-weight-bold workdays_count_class"></td>
+                  <td class="m--font-brand font-weight-bold" id="checklists_battery_water_count_id"></td>
+                  <td class="font-weight-bold" id="checklists_battery_water_percentage_id"></td>
+                </tr>
+                <tr>
+                  <td class="m--font-default"><strong>Air Filter</strong></td>
+                  <td class="m--font-info font-weight-bold workdays_count_class"></td>
+                  <td class="m--font-brand font-weight-bold" id="checklists_air_filter_count_id"></td>
+                  <td class="font-weight-bold" id="checklists_air_filter_percentage_id"></td>
+                </tr>
+                <tr>
+                  <td class="m--font-default"><strong>Fuel Water Separator</strong></td>
+                  <td class="m--font-info font-weight-bold workdays_count_class"></td>
+                  <td class="m--font-brand font-weight-bold" id="checklists_fuel_water_separator_count_id"></td>
+                  <td class="font-weight-bold" id="checklists_fuel_water_separator_percentage_id"></td>
+                </tr>
+                <tr>
+                  <td class="m--font-default"><strong>Fuel Tank</strong></td>
+                  <td class="m--font-info font-weight-bold workdays_count_class"></td>
+                  <td class="m--font-brand font-weight-bold" id="checklists_fuel_tank_count_id"></td>
+                  <td class="font-weight-bold" id="checklists_fuel_tank_percentage_id"></td>
+                </tr>
+                <tr>
+                  <td class="m--font-default"><strong>RadiatorCoolant Hoses</strong></td>
+                  <td class="m--font-info font-weight-bold workdays_count_class"></td>
+                  <td class="m--font-brand font-weight-bold" id="checklists_radiator_coolant_hoses_count_id"></td>
+                  <td class="font-weight-bold" id="checklists_radiator_coolant_hoses_percentage_id"></td>
+                </tr>
+                <tr>
+                  <td class="m--font-default"><strong>Lights Gauges</strong></td>
+                  <td class="m--font-info font-weight-bold workdays_count_class"></td>
+                  <td class="m--font-brand font-weight-bold" id="checklists_lights_gauges_count_id"></td>
+                  <td class="font-weight-bold" id="checklists_lights_gauges_percentage_id"></td>
+                </tr>
+                <tr>
+                  <td class="m--font-default"><strong>Joints Pto Shaft</strong></td>
+                  <td class="m--font-info font-weight-bold workdays_count_class"></td>
+                  <td class="m--font-brand font-weight-bold" id="checklists_joints_pto_shaft_count_id"></td>
+                  <td class="font-weight-bold" id="checklists_joints_pto_shaft_percentage_id"></td>
+                </tr>
+                <tr>
+                  <td class="m--font-default"><strong>Chain Tension</strong></td>
+                  <td class="m--font-info font-weight-bold workdays_count_class"></td>
+                  <td class="m--font-brand font-weight-bold" id="checklists_chain_tension_count_id"></td>
+                  <td class="font-weight-bold" id="checklists_chain_tension_percentage_id"></td>
+                </tr>
+                <tr>
+                  <td class="m--font-default"><strong>Tire Pressure</strong></td>
+                  <td class="m--font-info font-weight-bold workdays_count_class"></td>
+                  <td class="m--font-brand font-weight-bold" id="checklists_tire_pressure_count_id"></td>
+                  <td class="font-weight-bold" id="checklists_tire_pressure_percentage_id"></td>
+                </tr>
+                <tr>
+                  <td class="m--font-default"><strong>Tire Bolt</strong></td>
+                  <td class="m--font-info font-weight-bold workdays_count_class"></td>
+                  <td class="m--font-brand font-weight-bold" id="checklists_tire_bolt_count_id"></td>
+                  <td class="font-weight-bold" id="checklists_tire_bolt_percentage_id"></td>
+                </tr>
+                <tr>
+                  <td class="m--font-default"><strong>Fan Belt Tension</strong></td>
+                  <td class="m--font-info font-weight-bold workdays_count_class"></td>
+                  <td class="m--font-brand font-weight-bold" id="checklists_fan_belt_tension_count_id"></td>
+                  <td class="font-weight-bold" id="checklists_fan_belt_tension_percentage_id"></td>
+                </tr>
+                <tr>
+                  <td class="m--font-default"><strong>Air Tank</strong></td>
+                  <td class="m--font-info font-weight-bold workdays_count_class"></td>
+                  <td class="m--font-brand font-weight-bold" id="checklists_air_tank_count_id"></td>
+                  <td class="font-weight-bold" id="checklists_air_tank_percentage_id"></td>
+                </tr>
+
+              </tbody>
+            </table>
+
+
+            </div>
+          </div>
+        </div>
+        <!--End::Section-->
+
+
+      </div>
+
+    </div>
+    <!--end:: Widgets/Authors Profit-->
+  </div>
+</div>
+
+
+
+
+<%= javascript_tag do %>
+  asset_high_line( '#line_charts' , '/data_assets/hours_line.json?asset_id=<%= params[:asset_id] %>')
+
+  checklist_report('/data_assets/hours_line.json?asset_id=<%= params[:asset_id] %>')
+
+<% end %>

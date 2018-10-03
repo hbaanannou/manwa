@@ -1,0 +1,169 @@
+
+
+<!--Begin::Section-->
+<div class="m-section">
+  <div class="m-section__content">
+    <div class="table-responsive">
+
+    <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover text-center">
+      <thead>
+        <tr>
+          <th>Hours Sum</th>
+          <th>Hours Average</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="m--font-info font-weight-bold" id="checklists_hours_sum_id"><%= @pdf_checklists_hours_sum %></td>
+          <td class="m--font-brand font-weight-bold" id="checklists_hours_average_id"><%= @pdf_checklists_hours_average %></td>
+        </tr>
+      </tbody>
+    </table>
+
+
+    <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover text-center">
+      <thead>
+        <tr>
+          <th>Meters Different</th>
+          <th>Meters Average</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="m--font-info font-weight-bold" id="checklists_meters_different_id">
+            <% if @pdf_checklists_meters_end_date %>
+            <%= @pdf_checklists_meters_end_date - @pdf_checklists_meters_start_date %></td>
+            <% end %>
+          <td class="m--font-brand font-weight-bold" id="checklists_meters_average_id">
+            <% if @pdf_checklists_meters_end_date %>
+            <%= ((@pdf_checklists_meters_end_date - @pdf_checklists_meters_start_date) / @pdf_checklists_meters_count.to_f) %>
+            <% end %>
+            </td>
+        </tr>
+      </tbody>
+    </table>
+
+
+
+    <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover text-center">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Work Days</th>
+          <th>Check Days</th>
+          <th>Percentage %</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="m--font-default"><strong>Overall</strong></td>
+          <td class="m--font-info font-weight-bold workdays_count_class"><%= @pdf_workdays_count %></td>
+          <td class="m--font-brand font-weight-bold" id="checklists_count_id"><%= @pdf_checklists_count %></td>
+          <td class="font-weight-bold" id="checklists_percentage_id"><%= (@pdf_checklists_count / @pdf_workdays_count.to_f) * 100 %> %</td>
+        </tr>
+        <tr>
+          <td class="m--font-default"><strong>Engine Oil</strong></td>
+          <td class="m--font-info font-weight-bold workdays_count_class"><%= @pdf_workdays_count %></td>
+          <td class="m--font-brand font-weight-bold" id="checklists_engine_oil_count_id"><%= @pdf_checklists_engine_oil_count %></td>
+          <td class="font-weight-bold" id="checklists_engine_oil_percentage_id"><%= (@pdf_checklists_engine_oil_count / @pdf_workdays_count.to_f) * 100 %> %</td>
+        </tr>
+        <tr>
+          <td class="m--font-default"><strong>Hydraulic Oil</strong></td>
+          <td class="m--font-info font-weight-bold workdays_count_class"><%= @pdf_workdays_count %></td>
+          <td class="m--font-brand font-weight-bold" id="checklists_hydraulic_oil_count_id"><%= @pdf_checklists_hydraulic_oil_count %></td>
+          <td class="font-weight-bold" id="checklists_hydraulic_oil_percentage_id"><%= (@pdf_checklists_hydraulic_oil_count / @pdf_workdays_count.to_f) * 100 %> %</td>
+        </tr>
+        <tr>
+          <td class="m--font-default"><strong>Gear Oil</strong></td>
+          <td class="m--font-info font-weight-bold workdays_count_class"><%= @pdf_workdays_count %></td>
+          <td class="m--font-brand font-weight-bold" id="checklists_gear_oil_count_id"><%= @pdf_checklists_gear_oil_count %></td>
+          <td class="font-weight-bold" id="checklists_gear_oil_percentage_id"><%= (@pdf_checklists_gear_oil_count / @pdf_workdays_count.to_f) * 100 %> %</td>
+        </tr>
+        <tr>
+          <td class="m--font-default"><strong>Breake Oil</strong></td>
+          <td class="m--font-info font-weight-bold workdays_count_class"><%= @pdf_workdays_count %></td>
+          <td class="m--font-brand font-weight-bold" id="checklists_breake_oil_count_id"><%= @pdf_checklists_breake_oil_count %></td>
+          <td class="font-weight-bold" id="checklists_breake_oil_percentage_id"><%= (@pdf_checklists_breake_oil_count / @pdf_workdays_count.to_f) * 100 %> %</td>
+        </tr>
+        <tr>
+          <td class="m--font-default"><strong>Battery Water</strong></td>
+          <td class="m--font-info font-weight-bold workdays_count_class"><%= @pdf_workdays_count %></td>
+          <td class="m--font-brand font-weight-bold" id="checklists_battery_water_count_id"><%= @pdf_checklists_battery_water_count %></td>
+          <td class="font-weight-bold" id="checklists_battery_water_percentage_id"><%= (@pdf_checklists_battery_water_count / @pdf_workdays_count.to_f) * 100 %> %</td>
+        </tr>
+        <tr>
+          <td class="m--font-default"><strong>Air Filter</strong></td>
+          <td class="m--font-info font-weight-bold workdays_count_class"><%= @pdf_workdays_count %></td>
+          <td class="m--font-brand font-weight-bold" id="checklists_air_filter_count_id"><%= @pdf_checklists_air_filter_count %></td>
+          <td class="font-weight-bold" id="checklists_air_filter_percentage_id"><%= (@pdf_checklists_air_filter_count / @pdf_workdays_count.to_f) * 100 %> %</td>
+        </tr>
+        <tr>
+          <td class="m--font-default"><strong>Fuel Water Separator</strong></td>
+          <td class="m--font-info font-weight-bold workdays_count_class"><%= @pdf_workdays_count %></td>
+          <td class="m--font-brand font-weight-bold" id="checklists_fuel_water_separator_count_id"><%= @pdf_checklists_fuel_water_separator_count %></td>
+          <td class="font-weight-bold" id="checklists_fuel_water_separator_percentage_id"><%= (@pdf_checklists_fuel_water_separator_count / @pdf_workdays_count.to_f) * 100 %> %</td>
+        </tr>
+        <tr>
+          <td class="m--font-default"><strong>Fuel Tank</strong></td>
+          <td class="m--font-info font-weight-bold workdays_count_class"><%= @pdf_workdays_count %></td>
+          <td class="m--font-brand font-weight-bold" id="checklists_fuel_tank_count_id"><%= @pdf_checklists_fuel_tank_count %></td>
+          <td class="font-weight-bold" id="checklists_fuel_tank_percentage_id"><%= (@pdf_checklists_fuel_tank_count / @pdf_workdays_count.to_f) * 100 %> %</td>
+        </tr>
+        <tr>
+          <td class="m--font-default"><strong>RadiatorCoolant Hoses</strong></td>
+          <td class="m--font-info font-weight-bold workdays_count_class"><%= @pdf_workdays_count %></td>
+          <td class="m--font-brand font-weight-bold" id="checklists_radiator_coolant_hoses_count_id"><%= @pdf_checklists_radiator_coolant_hoses_count %></td>
+          <td class="font-weight-bold" id="checklists_radiator_coolant_hoses_percentage_id"><%= (@pdf_checklists_radiator_coolant_hoses_count / @pdf_workdays_count.to_f) * 100 %> %</td>
+        </tr>
+        <tr>
+          <td class="m--font-default"><strong>Lights Gauges</strong></td>
+          <td class="m--font-info font-weight-bold workdays_count_class"><%= @pdf_workdays_count %></td>
+          <td class="m--font-brand font-weight-bold" id="checklists_lights_gauges_count_id"><%= @pdf_checklists_lights_gauges_count %></td>
+          <td class="font-weight-bold" id="checklists_lights_gauges_percentage_id"><%= (@pdf_checklists_lights_gauges_count / @pdf_workdays_count.to_f) * 100 %> %</td>
+        </tr>
+        <tr>
+          <td class="m--font-default"><strong>Joints Pto Shaft</strong></td>
+          <td class="m--font-info font-weight-bold workdays_count_class"><%= @pdf_workdays_count %></td>
+          <td class="m--font-brand font-weight-bold" id="checklists_joints_pto_shaft_count_id"><%= @pdf_checklists_joints_pto_shaft_count %></td>
+          <td class="font-weight-bold" id="checklists_joints_pto_shaft_percentage_id"><%= (@pdf_checklists_joints_pto_shaft_count / @pdf_workdays_count.to_f) * 100 %> %</td>
+        </tr>
+        <tr>
+          <td class="m--font-default"><strong>Chain Tension</strong></td>
+          <td class="m--font-info font-weight-bold workdays_count_class"><%= @pdf_workdays_count %></td>
+          <td class="m--font-brand font-weight-bold" id="checklists_chain_tension_count_id"><%= @pdf_checklists_chain_tension_count %></td>
+          <td class="font-weight-bold" id="checklists_chain_tension_percentage_id"><%= (@pdf_checklists_chain_tension_count / @pdf_workdays_count.to_f) * 100 %> %</td>
+        </tr>
+        <tr>
+          <td class="m--font-default"><strong>Tire Pressure</strong></td>
+          <td class="m--font-info font-weight-bold workdays_count_class"><%= @pdf_workdays_count %></td>
+          <td class="m--font-brand font-weight-bold" id="checklists_tire_pressure_count_id"><%= @pdf_checklists_tire_pressure_count %></td>
+          <td class="font-weight-bold" id="checklists_tire_pressure_percentage_id"><%= (@pdf_checklists_tire_pressure_count / @pdf_workdays_count.to_f) * 100 %> %</td>
+        </tr>
+        <tr>
+          <td class="m--font-default"><strong>Tire Bolt</strong></td>
+          <td class="m--font-info font-weight-bold workdays_count_class"><%= @pdf_workdays_count %></td>
+          <td class="m--font-brand font-weight-bold" id="checklists_tire_bolt_count_id"><%= @pdf_checklists_tire_bolt_count %></td>
+          <td class="font-weight-bold" id="checklists_tire_bolt_percentage_id"><%= (@pdf_checklists_tire_bolt_count / @pdf_workdays_count.to_f) * 100 %> %</td>
+        </tr>
+        <tr>
+          <td class="m--font-default"><strong>Fan Belt Tension</strong></td>
+          <td class="m--font-info font-weight-bold workdays_count_class"><%= @pdf_workdays_count %></td>
+          <td class="m--font-brand font-weight-bold" id="checklists_fan_belt_tension_count_id"><%= @pdf_checklists_fan_belt_tension_count %></td>
+          <td class="font-weight-bold" id="checklists_fan_belt_tension_percentage_id"><%= (@pdf_checklists_fan_belt_tension_count / @pdf_workdays_count.to_f) * 100 %> %</td>
+        </tr>
+        <tr>
+          <td class="m--font-default"><strong>Air Tank</strong></td>
+          <td class="m--font-info font-weight-bold workdays_count_class"><%= @pdf_workdays_count %></td>
+          <td class="m--font-brand font-weight-bold" id="checklists_air_tank_count_id"><%= @pdf_checklists_air_tank_count %></td>
+          <td class="font-weight-bold" id="checklists_air_tank_percentage_id"><%= (@pdf_checklists_air_tank_count / @pdf_workdays_count.to_f) * 100 %> %</td>
+        </tr>
+
+      </tbody>
+    </table>
+
+
+    </div>
+  </div>
+</div>
+<!--End::Section-->
+

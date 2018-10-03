@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Tank fuel day:</strong>
+  <%= @asset_fuelday.tank_fuelday %>
+</p>
+
+<p>
+  <strong>Data asset:</strong>
+  <%= @asset_fuelday.data_asset %>
+</p>
+
+<p>
+  <strong>Quantity:</strong>
+  <%= @asset_fuelday.quantity %>
+</p>
+
+<%= link_to 'Edit', edit_asset_fuelday_path(@asset_fuelday) %> |
+<%= link_to 'Back', asset_fueldays_path %>

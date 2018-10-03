@@ -1,0 +1,30 @@
+<!-- BEGIN: Subheader -->
+<div class="m-subheader ">
+  <div class="d-flex align-items-center">
+    
+    <div class="mr-auto"  id="charts_navigate_left">
+      <%= render 'charts_navigate_left' %>
+    </div>
+
+
+    <div>
+      <%= form_tag charts_data_assets_path, method: :get, class: "m-form m-form--fit form-inline" do %>
+        <%= select_tag "asset_id", options_from_collection_for_select(policy_scope(DataAsset.order(data_asset_serial: :asc)), "id", "data_asset_serial"), include_blank: 'Select Asset Number', class: "form-control m-input m-input--fixed-normal m-select2" %>
+        <%= submit_tag 'Select', class: "btn btn-brand m-2" %>
+
+      <% end %>
+      </div>
+
+
+
+    <div class="m--align-right" id="charts_navigate">
+      <%= render 'charts_navigate' %>
+    </div>
+
+  </div>
+</div>
+<!-- END: Subheader -->
+
+<div class="m-content" id="charts_content">
+  <%= render 'charts_content' %>
+</div>

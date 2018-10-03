@@ -1,0 +1,65 @@
+<!--Begin::Section-->
+<div class="m-section">
+  <div class="m-section__content">
+    <strong> From: <%= @pdf_from_date %> To: <%= @pdf_to_date %> </strong>
+    <div class="table-responsive">
+
+    <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover text-center">
+      <thead>
+        <tr>
+          <th>Crusher Work Hours Sum</th>
+          <th>Crusher Amount Sum (Meters)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="m--font-info font-weight-bold" id="crusher_hours_sum_id"><%= @province_hours_sum %></td>
+          <td class="m--font-brand font-weight-bold" id="crusher_amount_sum_id"><%= @province_amount_sum %></td>
+        </tr>
+      </tbody>
+    </table>
+
+
+
+
+    <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover text-center">
+      <thead>
+        <tr>
+          <th>Type - Product</th>
+          <th>Amount (Meters)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="m--font-default"><strong>3/8 IN</strong></td>
+          <td class="font-weight-bold" id="crusher_3_8_in_id"><%= @province_3_8_in_amount_sum %></td>
+        </tr>
+        <tr>
+          <td class="m--font-default"><strong>3/4 IN</strong></td>
+          <td class="font-weight-bold" id="crusher_3_4_in_id"><%= @province_3_4_in_amount_sum %></td>
+        </tr>
+        <tr>
+          <td class="m--font-default"><strong>1 IN</strong></td>
+          <td class="font-weight-bold" id="crusher_1_in_id"><%= @province_1_in_amount_sum %></td>
+        </tr>
+        <tr>
+          <td class="m--font-default"><strong>11/2 IN</strong></td>
+          <td class="font-weight-bold" id="crusher_11_2_in_id"><%= @province_11_2_in_amount_sum %></td>
+        </tr>
+        <tr>
+          <td class="m--font-default"><strong>Oversize</strong></td>
+          <td class="font-weight-bold" id="crusher_oversize_id"><%= @province_oversize_amount_sum %></td>
+        </tr>
+        <tr>
+          <td class="m--font-default"><strong>Aggregate</strong></td>
+          <td class="font-weight-bold" id="crusher_aggregate_id"><%= @province_aggregate_amount_sum %></td>
+        </tr>
+
+      </tbody>
+    </table>
+
+
+    </div>
+  </div>
+</div>
+<!--End::Section-->

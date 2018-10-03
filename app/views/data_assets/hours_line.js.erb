@@ -1,0 +1,3 @@
+asset_high_line( '#line_charts' , '/data_assets/hours_line.json?asset_id=<%= params[:asset_id] %>&start_date=<%= session[:start_date] if session[:start_date].present? %>&end_date=<%= session[:end_date] if session[:end_date].present? %>')
+
+checklist_report('/data_assets/hours_line.json?asset_id=<%= params[:asset_id] %>&start_date=<%= session[:start_date] if session[:start_date].present? %>&end_date=<%= session[:end_date] if session[:end_date].present? %>')

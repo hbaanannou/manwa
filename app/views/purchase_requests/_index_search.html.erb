@@ -1,0 +1,20 @@
+<div class="m-subheader ">
+  <div class="d-flex align-items-center">
+    <div class="mr-auto">
+	  <!-- left side content here -->
+	</div>
+	<div>
+
+	  <%= search_form_for @q, remote: true, class: "m-form m-form--fit form-inline" do |f| %>
+
+        <%= f.search_field :matrial_request_repair_order_data_asset_data_asset_serial_cont, class: "form-control m-input--fixed-small", placeholder: "Asset No." %>
+
+        <%= f.search_field :matrial_request_id_eq, class: "form-control m-input--fixed-small", placeholder: "Material Request No." %>
+
+        <%= f.submit "Search", class: "btn btn-brand m-2" %>
+        
+      <% end %>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+<!--begin::Form-->
+<%= form_with(model: assignment, local: true, class: "m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed") do |form| %>
+
+  <%= render 'layouts/myform/error_myform', object: assignment %>
+
+  <div class="form-group m-form__group row">
+    <%= form.label :user_id, "User", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <%= form.collection_select :user_id, Admin::User.order(:email), :id, :email, {include_blank: 'Select User'}, class: "form-control m-input m-select2", required: true %>
+      <span class="m-form__help">Please enter User</span>
+    </div>
+
+
+    <%= form.label :role_id, "Role", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <%= form.collection_select :role_id, Admin::Role.order(:role_name), :id, :role_name, {include_blank: 'Select Role'}, class: "form-control m-input m-select2", required: true %>
+      <span class="m-form__help">Please enter Role</span>
+    </div>
+  </div>
+
+  <div class="form-group m-form__group row">
+    <%= form.label :employee_id, "Employee", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <%= form.collection_select :employee_id, Employee.order(:employee_name), :id, :employee_name, {include_blank: 'Select Employee'}, class: "form-control m-input m-select2", required: true %>
+      <span class="m-form__help">Please enter Employee</span>
+    </div>
+  </div>
+
+  <%= render 'layouts/myform/submit_myform', form: form, cancelpath: admin_assignments_path %>
+
+<% end %>
+<!--end::Form-->

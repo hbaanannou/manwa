@@ -1,0 +1,18 @@
+<!--begin::Form-->
+<%= form_with(model: status_asset, local: true, class: "m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed") do |form| %>
+
+  <%= render 'layouts/myform/error_myform', object: status_asset %>
+
+  <div class="form-group m-form__group row">
+    <%= form.label :status_asset_name, "Status Name", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <%= form.text_field :status_asset_name, class: "form-control m-input", placeholder: "Status Name", required: true %>
+      <span class="m-form__help">Please enter status Name</span>
+    </div>
+  </div>
+
+
+  <%= render 'layouts/myform/submit_myform', form: form, cancelpath: status_assets_path %>
+
+<% end %>
+<!--end::Form-->

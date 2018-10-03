@@ -1,0 +1,287 @@
+<style>
+.repair_breakdowns {
+    counter-reset: Serial;           /* Set the Serial counter to 0 */
+}
+
+label.serial-label:first-child:after {
+  counter-increment: Serial;      /* Increment the Serial counter */
+  content: " # " counter(Serial) " "; /* Display the counter */
+}
+</style>
+
+<!--begin::Form-->
+<%= form_with(model: repair_order, local: true, class: "m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed") do |form| %>
+
+  <%= render 'layouts/myform/error_myform', object: repair_order %>
+
+  <div class="form-group m-form__group row">
+
+    <%= form.label :data_asset_id, "Asset Number", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+
+      <% if (current_user.role?(:assets_site) || current_user.role?(:assets_province))  && action?('new', 'create') %>
+
+      <%= form.select :data_asset_id, [[@data_asset.data_asset_serial, @data_asset.id]], {}, {class: "form-control m-input"} %>
+      <span class="m-form__help">Asset Number</span>
+
+      <% elsif (current_user.role?(:workshops_site) || current_user.role?(:assets_site) || current_user.role?(:assets_province)) && action?('edit', 'update') %>
+        <span class="form-control"><%= @data_asset.data_asset_serial %></span>
+      <% end %>
+
+    </div>
+
+
+    <%= form.label :site_asset_id, "Project", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <% if (current_user.role?(:assets_site) || current_user.role?(:assets_province)) && action?('new', 'create') %>
+      <%= form.select :site_asset_id, [[@data_asset.site_asset.site_asset_name, @data_asset.site_asset.id]], {}, {class: "form-control m-input"} %>
+      <span class="m-form__help">Project</span>
+
+      <% if current_user.role?(:assets_site) %>
+        <%= hidden_field_tag 'province_asset_id', SiteAsset.find(current_user.site_assets.first.id).province_asset_id %>
+      <% elsif current_user.role?(:assets_province) %>
+        <%= hidden_field_tag 'province_asset_id', ProvinceAsset.find(current_user.province_assets.first.id).id %>
+      <% end %>
+
+      <% elsif (current_user.role?(:workshops_site) || current_user.role?(:assets_site) || current_user.role?(:assets_province)) && action?('edit', 'update') %>
+        <span class="form-control"><%= repair_order.site_asset.site_asset_name %></span>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="form-group m-form__group row">
+    <%= form.label :employee_id, "Checked By", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <% if (current_user.role?(:assets_site) || current_user.role?(:assets_province)) && action?('new', 'create') %>
+      <span class="required">
+      <%= form.select :employee_id, Employee.all.collect {|p| [p.employee_number + " - " + p.employee_name, p.id]}, {include_blank: 'Select Employee'}, class: "form-control m-input m-select2", required: true %>
+      </span>
+      <span class="m-form__help">Please select Employee who checked the equipment</span>
+      <% elsif (current_user.role?(:workshops_site) || current_user.role?(:assets_site) || current_user.role?(:assets_province)) && action?('edit', 'update') %>
+        <span class="form-control"><%= repair_order.employee.employee_name %></span>
+        <% end %>
+    </div>
+
+    <%= form.label :workshop_site_id, "Workshop", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <% if (current_user.role?(:assets_site) || current_user.role?(:assets_province)) && action?('new', 'create') %>
+      <span class="required">
+      <% if current_user.role?(:assets_site) %>
+      <%= form.select :workshop_site_id, SiteAsset.by_workshop_province(SiteAsset.by_loged_user(current_user.id).first.province_asset_id).collect {|p| [p.site_asset_name, p.id]}, {include_blank: 'Select Workshop'}, class: "form-control m-input m-select2", required: true %>
+      <% elsif current_user.role?(:assets_province) %>
+      <%= form.select :workshop_site_id, SiteAsset.by_workshop_province(ProvinceAsset.by_loged_user(current_user.id).first.id).collect {|p| [p.site_asset_name, p.id]}, {include_blank: 'Select Workshop'}, class: "form-control m-input m-select2", required: true %>
+      <% end %>
+      </span>
+      <span class="m-form__help">Please select Workshop</span>
+      <% elsif (current_user.role?(:workshops_site) || current_user.role?(:assets_site) || current_user.role?(:assets_province)) && action?('edit', 'update') %>
+        <span class="form-control"><%= repair_order.workshop_site.site_asset_name %></span>
+        <% end %>
+    </div>
+  </div>
+
+
+  <div class="form-group m-form__group row">
+    <%= form.label :transfer_date, "Send Date", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <% if (current_user.role?(:assets_site) || current_user.role?(:assets_province)) && action?('new', 'create') %>
+      <%= form.date_field :transfer_date, class: "form-control m-input required", placeholder: "Send Date", required: true %>
+      <span class="m-form__help">Please enter Send Date</span>
+      <% elsif (current_user.role?(:workshops_site) || current_user.role?(:assets_site) || current_user.role?(:assets_province)) && action?('edit', 'update') %>
+      <span class="form-control"><%= repair_order.transfer_date %></span>
+      <% end %>
+    </div>
+    <%= form.label :transfer_time, "Send Time", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <% if (current_user.role?(:assets_site) || current_user.role?(:assets_province)) && action?('new', 'create') %>
+      <%= form.time_field :transfer_time, class: "form-control m-input required", placeholder: "Send Time", required: true %>
+      <span class="m-form__help">Please enter Send Time</span>
+      <% elsif (current_user.role?(:workshops_site)  || current_user.role?(:assets_site) || current_user.role?(:assets_province)) && action?('edit', 'update') %>
+      <span class="form-control"><%= repair_order.transfer_time.strftime("%I:%M %p") %></span>
+      <% end %>
+    </div>
+  </div>
+
+
+  <% if (current_user.role?(:assets_site) || current_user.role?(:assets_province)) && action?('new', 'create') %>
+
+  <div class="repair_breakdowns">
+    <%= form.fields_for :repair_breakdowns do |repair_breakdown| %>
+      <%= render partial: 'repair_breakdown_fields', locals: {f: repair_breakdown}  %>
+    <% end %>
+  </div>
+
+  <div class="offset-lg-1 form-group m-form__group row">
+        <%= link_to_add_association 'Add More Breakdown', form, :repair_breakdowns, class: 'btn btn-primary', data: {association_insertion_node: '.repair_breakdowns', association_insertion_method: :append } %>
+  </div>
+
+  <% elsif current_user.role?(:workshops_site) && action?('edit', 'update') %>
+
+    <div class="form-group m-form__group row">
+      <label class="col-form-label col-lg-2">Breakdowns</label>
+      <div class="col-lg-8">
+        <% repair_order.repair_breakdowns.each do |breakdown| %>
+          <% if repair_order.delivery_done? && (current_user.role?(:workshops_site) || current_user.role?(:workshops_manager)) %>
+            <span class="form-control font-weight-bold"><u><%= link_to breakdown.repair_breakdown_name, edit_repair_breakdown_path(breakdown, ro_id: @repair_order.id), class: "m--font-danger" %></u></span>
+          <% else %>
+            <span class="form-control font-weight-bold"><%= breakdown.repair_breakdown_name %></span>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    
+  <% end %>
+
+
+
+<% if action?('edit', 'update') %>
+
+  <% if current_user.role?(:workshops_site) && current_user.id == repair_order.workshop_site_user_id && RepairOrder.find(params[:id]).requested?%>
+
+    <div class="form-group m-form__group row">
+      <label class="col-form-label col-lg-2">Equipment Details</label>
+      <div class="col-9">
+        <div class="m-checkbox-inline">
+
+          <label class="m-checkbox">
+          <%= form.check_box :workshop_ignition_switch %> Ignition Switch
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :workshop_equipment_card %> Equipment Card
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :workshop_driver_card %> Driver Card
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :workshop_maintenance_card %> Maintenance Card
+          <span></span>
+          </label>
+
+        </div>
+        <span class="m-form__help">Please Check attached Equipment Details</span>
+      </div>
+    </div>
+
+    <div class="form-group m-form__group row">
+      <label class="col-form-label col-lg-2">Receive Confirmation</label>
+      <div class="col-9">
+        <div class="m-checkbox-inline">
+
+          <label class="m-checkbox m-checkbox--bold m-checkbox--state-brand">
+          <%= form.check_box :delivery_done %> As a workshop manager I confirm the receive of this asset.
+          <span></span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+  <% end %>
+
+
+
+  <% if current_user.role?(:workshops_site) && current_user.id == repair_order.workshop_site_user_id && ( RepairOrder.find(params[:id]).received? || RepairOrder.find(params[:id]).opened? || RepairOrder.find(params[:id]).hold?) %>
+
+    <div class="form-group m-form__group row">
+      <%= form.label :repair_status, "REPAIR STATUS", class: "col-lg-2 col-form-label" %>
+      <div class="col-lg-8">
+        <div class="m-radio-inline">
+        <%= form.collection_radio_buttons(:repair_status, { 'Not Opened': :received, Open: :opened, Hold: :hold }, :second, :first) do |b| %>
+          <%= b.label(class: "m-radio m-radio--bold #{'m-radio--state-success' if b.text == :Open} #{'m-radio--state-danger' if b.text == :Hold}") { b.radio_button + b.text + content_tag(:span) } %> 
+        <% end %>
+        </div>
+        <span class="m-form__help">Please Select Repair Status</span>
+      </div>
+    </div>
+
+
+    <div class="form-group m-form__group row">
+      <%= form.label :workshop_site_repair_note, "Repair Note", class: "col-lg-2 col-form-label" %>
+      <div class="col-lg-8">
+        <%= form.text_area :workshop_site_repair_note, class: "form-control m-input", placeholder: "Repair Note" %>
+        <span class="m-form__help">Please enter Repair Note</span>
+      </div>
+    </div>
+
+    <div class="form-group m-form__group row">
+      <label class="col-form-label col-lg-2">Repair Confirmation</label>
+      <div class="col-9">
+        <div class="m-checkbox-inline">
+
+          <label class="m-checkbox m-checkbox--bold m-checkbox--state-brand">
+          <%= form.check_box :workshop_site_repair_done %> As a workshop manager I confirm the Repair of this asset.
+          <span></span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+  <% end %>
+
+
+
+
+  <% if current_user.role?(:assets_site) && current_user.id == repair_order.site_user_id && RepairOrder.find(params[:id]).repaired? %>
+
+    <div class="form-group m-form__group row">
+      <label class="col-form-label col-lg-2">Equipment Details</label>
+      <div class="col-9">
+        <div class="m-checkbox-inline">
+
+          <label class="m-checkbox">
+          <%= form.check_box :return_ignition_switch %> Ignition Switch
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :return_equipment_card %> Equipment Card
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :return_driver_card %> Driver Card
+          <span></span>
+          </label>
+
+          <label class="m-checkbox">
+          <%= form.check_box :return_maintenance_card %> Maintenance Card
+          <span></span>
+          </label>
+
+        </div>
+        <span class="m-form__help">Please Check attached Equipment Details</span>
+      </div>
+    </div>
+
+    <div class="form-group m-form__group row">
+      <label class="col-form-label col-lg-2">Receive Confirmation</label>
+      <div class="col-9">
+        <div class="m-checkbox-inline">
+
+          <label class="m-checkbox m-checkbox--bold m-checkbox--state-brand">
+          <%= form.check_box :return_done %> As a site manager I confirm the receive of this asset after repair.
+          <span></span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+  <% end %>
+
+
+
+
+
+<% end %>
+
+
+  <%= hidden_field_tag 'asset_id', params[:asset_id] %>
+
+  <%= render 'layouts/myform/submit_myform', form: form, cancelpath: root_path %>
+
+<% end %>
+<!--end::Form-->

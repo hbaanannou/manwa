@@ -1,0 +1,12 @@
+<%= render 'layouts/myshow/before_myshow', mytitle: "Concrete Type" %>
+
+<div class="m-widget13__item">
+    <span class="m-widget13__desc m--align-right">
+      Concrete Type Name
+    </span>
+  <span class="m-widget13__text m-widget13__text-bolder">
+      <%= @pro_concrete_type.pro_concrete_type_name %>
+    </span>
+</div>
+
+<%= render 'layouts/myshow/after_myshow', editpath: edit_pro_concrete_type_path(@pro_concrete_type), backpath: pro_concrete_types_path %>

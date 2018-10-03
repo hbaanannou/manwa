@@ -1,0 +1,25 @@
+<div class="m-subheader ">
+  <div class="d-flex align-items-center">
+    <div class="mr-auto">
+	  <!-- left side content here -->
+	</div>
+	<div>
+
+	  <%= search_form_for @q, remote: true, class: "m-form m-form--fit form-inline" do |f| %>
+
+      <% if current_user.role?(:production_admin) %>
+        <%= f.grouped_collection_select :province_pro_asset_id_eq, AreaProAsset.order(:area_pro_asset_name), :province_pro_assets, :area_pro_asset_name, :id, :province_pro_asset_name, {include_blank: "Site: Any"}, {class: "form-control m-input--fixed-normal m-select2"} %>
+      <% elsif current_user.role?(:production_province) %>
+        <%= f.select :province_pro_asset_id_eq, policy_scope(ProvinceProAsset.all).collect {|p| [p.province_pro_asset_name, p.id]}, {include_blank: 'Site: Any'}, class: "form-control m-input--fixed-normal m-select2" %>
+      <% end %>
+
+        &nbsp; From:&nbsp; <%= f.search_field :day_gteq, class: "form-control m-input--fixed", placeholder: "Date Start", type: "date" %>
+        &nbsp; To:&nbsp; <%= f.search_field :day_lteq, class: "form-control m-input--fixed", placeholder: "Date End", type: "date" %>
+
+        <%= f.submit "Search", class: "btn btn-brand m-2" %>
+        
+      <% end %>
+
+    </div>
+  </div>
+</div>

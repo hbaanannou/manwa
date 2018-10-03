@@ -1,0 +1,55 @@
+<!--begin::Form-->
+<%= form_with(model: pro_concrete, local: true, class: "m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed") do |form| %>
+
+  <%= render 'layouts/myform/error_myform', object: pro_concrete %>
+
+  <div class="form-group m-form__group row">
+
+    <%= form.label :province_pro_asset_id, "Site", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <span class="required">
+      <%= form.select :province_pro_asset_id, policy_scope(ProvinceProAsset.where(concrete: true)).collect {|p| [p.province_pro_asset_name, p.id]}, {include_blank: 'Select Site'}, class: "form-control m-input m-select2", required: true %>
+      </span>
+      <span class="m-form__help">Please select Site</span>
+    </div>
+
+    <%= form.label :day, "Day Date", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <%= form.date_field :day, class: "form-control m-input required", placeholder: "Day Date", required: true %>
+      <span class="m-form__help">Please select Day Date</span>
+    </div>
+
+  </div>
+
+  <div class="form-group m-form__group row">
+
+    <%= form.label :pro_concrete_hours, "Working Hours", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <%= form.number_field :pro_concrete_hours, class: "form-control m-input required", placeholder: "Working Hours", required: true, min: '0', step: :any %>
+      <span class="m-form__help">Please enter Daily Working Hours</span>
+    </div>
+
+    <%= form.label :pro_concrete_machines_num, "Machines Num.", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <%= form.number_field :pro_concrete_machines_num, class: "form-control m-input required", placeholder: "Machines Num.", min: '0', step: :any %>
+      <span class="m-form__help">Please enter Machines Num (0 to 100).</span>
+    </div>
+
+  </div>
+
+
+  <div class="pro_concrete_subs">
+    <%= form.fields_for :pro_concrete_subs do |pro_concrete_sub| %>
+      <%= render partial: 'pro_concrete_sub_fields', locals: {f: pro_concrete_sub}  %>
+    <% end %>
+  </div>
+
+  <div class="offset-lg-1 form-group m-form__group row">
+        <%= link_to_add_association 'Add More', form, :pro_concrete_subs, class: 'btn btn-primary', data: {association_insertion_node: '.pro_concrete_subs', association_insertion_method: :append } %>
+  </div>
+
+
+  <%= render 'layouts/myform/submit_myform', form: form, cancelpath: pro_concretes_path %>
+
+<% end %>
+<!--end::Form-->

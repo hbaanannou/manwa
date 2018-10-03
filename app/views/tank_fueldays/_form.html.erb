@@ -1,0 +1,113 @@
+<style>
+.asset_fueldays {
+    counter-reset: Serial;           /* Set the Serial counter to 0 */
+}
+
+div.col-lg-1:first-child:after {
+  counter-increment: Serial;      /* Increment the Serial counter */
+  content: " # " counter(Serial) " "; /* Display the counter */
+}
+</style>
+
+<!--begin::Form-->
+<%= form_with(model: tank_fuelday, local: true, class: "m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed") do |form| %>
+
+  <%= render 'layouts/myform/error_myform', object: tank_fuelday %>
+
+  <div class="form-group m-form__group row">
+
+    <%= form.label :data_asset_id, "Tank Number", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <% if params[:asset_id] %>
+      <span class="required">
+      <%= form.select :data_asset_id, DataAsset.where(type_asset_id: [27, 28, 29]).collect {|p| [p.data_asset_serial, p.id]}, {selected: params[:asset_id], include_blank: 'Select Tank Number'}, class: "form-control m-input m-select2", required: true %>
+      </span>
+      <span class="m-form__help">Previous Tank Number</span>
+      <% else %>
+      <span class="required">
+      <%= form.select :data_asset_id, DataAsset.where(type_asset_id: [27, 28, 29]).collect {|p| [p.data_asset_serial, p.id]}, {include_blank: 'Select Tank Number'}, class: "form-control m-input m-select2", required: true %>
+      </span>
+      <span class="m-form__help">Tank Number</span>
+      <% end %>
+    </div>
+
+
+    <%= form.label :day, "Day Date", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <% if params[:previous_tank_fuelday] %>
+        <% if TankFuelday.find(params[:previous_tank_fuelday]).day.thursday? %>
+          <%= form.date_field :day, class: "form-control m-input required", placeholder: "Day Date", required: true, value: TankFuelday.find(params[:previous_tank_fuelday]).day + 2 %>
+        <% else %>
+          <%= form.date_field :day, class: "form-control m-input required", placeholder: "Day Date", required: true, value: TankFuelday.find(params[:previous_tank_fuelday]).day + 1 %>
+        <% end %>
+        <span class="m-form__help">Day Date (Next working day)</span>
+      <% else %>
+        <%= form.date_field :day, class: "form-control m-input required", placeholder: "Day Date", required: true %>
+      <span class="m-form__help">Please enter Day Date</span>
+      <% end %>
+    </div>
+  </div>
+
+
+  <div class="form-group m-form__group row">
+    <%= form.label :employee_id, "Employee", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <span class="required">
+        <% if params[:previous_tank_fuelday] %>
+          <%= form.select :employee_id, Employee.all.collect {|p| [p.employee_number + " - " + p.employee_name, p.id]}, {selected: TankFuelday.find(params[:previous_tank_fuelday]).employee_id, include_blank: 'Select Employee'}, class: "form-control m-input m-select2", required: true %>
+        <% else %>
+          <%= form.select :employee_id, Employee.all.collect {|p| [p.employee_number + " - " + p.employee_name, p.id]}, {include_blank: 'Select Employee'}, class: "form-control m-input m-select2", required: true %>
+        <% end %>
+      </span>
+      <span class="m-form__help">Please select The Employee</span>
+    </div>
+
+    <%= form.label :site_asset_id, "Project", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <span class="required">
+        <% if current_user.role?(:rfuel) %>
+
+          <% if params[:previous_tank_fuelday] %>
+            <%= form.select :site_asset_id, SiteAsset.by_riyadh.collect {|p| [p.site_asset_name, p.id]}, {selected: TankFuelday.find(params[:previous_tank_fuelday]).site_asset_id, include_blank: 'Select Project'}, class: "form-control m-input m-select2", required: true %>
+          <% else %>
+            <%= form.select :site_asset_id, SiteAsset.by_riyadh.collect {|p| [p.site_asset_name, p.id]}, {include_blank: 'Select Project'}, class: "form-control m-input m-select2", required: true %>
+          <% end %>
+
+        <% elsif current_user.role?(:tfuel) %>
+
+          <% if params[:previous_tank_fuelday] %>
+            <%= form.select :site_asset_id, SiteAsset.by_tabuk.collect {|p| [p.site_asset_name, p.id]}, {selected: TankFuelday.find(params[:previous_tank_fuelday]).site_asset_id, include_blank: 'Select Project'}, class: "form-control m-input m-select2", required: true %>
+          <% else %>
+            <%= form.select :site_asset_id, SiteAsset.by_tabuk.collect {|p| [p.site_asset_name, p.id]}, {include_blank: 'Select Project'}, class: "form-control m-input m-select2", required: true %>
+          <% end %>
+
+        <% else %>
+
+          <% if params[:previous_tank_fuelday] %>
+            <%= form.select :site_asset_id, SiteAsset.all.collect {|p| [p.site_asset_name, p.id]}, {selected: TankFuelday.find(params[:previous_tank_fuelday]).site_asset_id, include_blank: 'Select Project'}, class: "form-control m-input m-select2", required: true %>
+          <% else %>
+            <%= form.select :site_asset_id, SiteAsset.all.collect {|p| [p.site_asset_name, p.id]}, {include_blank: 'Select Project'}, class: "form-control m-input m-select2", required: true %>
+          <% end %>
+          
+        <% end %>
+      </span>
+      <span class="m-form__help">Please select The Project</span>
+    </div>
+  </div>
+
+
+  <div class="asset_fueldays">
+    <%= form.fields_for :asset_fueldays do |asset_fuelday| %>
+      <%= render partial: 'asset_fuelday_fields', locals: {f: asset_fuelday}  %>
+    <% end %>
+  </div>
+
+  <div class="form-group m-form__group row">
+        <%= link_to_add_association 'Add More Asset', form, :asset_fueldays, class: 'btn btn-primary', data: {association_insertion_node: '.asset_fueldays', association_insertion_method: :append } %>
+  </div>
+
+
+  <%= render 'layouts/myform/submit_myform', form: form, cancelpath: area_assets_path %>
+
+<% end %>
+<!--end::Form-->

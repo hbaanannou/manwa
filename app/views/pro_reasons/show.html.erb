@@ -1,0 +1,12 @@
+<%= render 'layouts/myshow/before_myshow', mytitle: "reason" %>
+
+<div class="m-widget13__item">
+    <span class="m-widget13__desc m--align-right">
+      reason Name
+    </span>
+  <span class="m-widget13__text m-widget13__text-bolder">
+      <%= @pro_reason.pro_reason_name %>
+    </span>
+</div>
+
+<%= render 'layouts/myshow/after_myshow', editpath: edit_pro_reason_path(@pro_reason), backpath: pro_reasons_path %>

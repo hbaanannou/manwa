@@ -1,0 +1,58 @@
+<div class="m-grid__item m-grid__item--fluid m-wrapper">
+	<div class="m-subheader ">
+		<div class="d-flex align-items-center">
+			<div class="mr-auto">
+
+				<h3 class="m-subheader__title ">
+					Dashboard
+						<span class="m-portlet__head-icon">
+							<%= link_to con_province_pro_details_province_pro_assets_path(province_id: params[:province_id], p_name: 'all'), class: "all-refresh", remote: true do %>
+			        <i class="flaticon-list-3"></i>
+			        <% end %>
+		      	</span>
+
+		    <%= javascript_tag do %>
+
+	      	$(function() {
+					  setTimeout(updateTransfers, 5 * 60 * 1000);
+					});
+
+					function updateTransfers () {
+						$(".all-refresh")[0].click();
+					  setTimeout(updateTransfers, 5 * 60 * 1000);
+					}
+				    
+				<% end %>
+
+
+				</h3>
+			</div>
+		</div>
+	</div>
+	<div class="m-content">
+
+<% if current_user.role?(:production_admin) %>
+<div class="row">
+  <div class="col-xl-12" id="concrete">
+    <%= render 'concrete_details' %>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xl-12" id="concrete_data">
+    <%= render 'concrete_details_data' %>
+  </div>
+</div>
+
+<% end %>
+
+
+	</div>
+</div>
+
+
+<%= javascript_tag do %>
+  concrete_high_line( '#line_concrete' , '/province_pro_assets/con_province_pro_details_lines.json?province_id=<%= params[:province_id] %>', 'province')
+
+  concrete_details('/province_pro_assets/con_province_pro_details_lines.json?province_id=<%= params[:province_id] %>')
+<% end %>

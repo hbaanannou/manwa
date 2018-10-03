@@ -1,0 +1,12 @@
+<%= render 'layouts/myshow/before_myshow', mytitle: "Asphalt Type" %>
+
+<div class="m-widget13__item">
+    <span class="m-widget13__desc m--align-right">
+      Asphalt type Name
+    </span>
+  <span class="m-widget13__text m-widget13__text-bolder">
+      <%= @pro_asphalt_type.pro_asphalt_type_name %>
+    </span>
+</div>
+
+<%= render 'layouts/myshow/after_myshow', editpath: edit_pro_asphalt_type_path(@pro_asphalt_type), backpath: pro_asphalt_types_path %>

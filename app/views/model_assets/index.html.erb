@@ -1,0 +1,40 @@
+<%= render 'layouts/myindex/before_myindex', mytitle: "models", pages_collection: @model_assets, pages_model: "model", newlink: true, newtitle: "model", newpath: new_model_asset_path %>
+
+<thead>
+<tr>
+  <th>Model name</th>
+  <th>Asset Types</th>
+  <th>Actions</th>
+</tr>
+</thead>
+<tbody>
+<% if @model_assets.any? %>
+  <% @model_assets.each do |model_asset| %>
+    <tr>
+
+      <td><%= model_asset.model_asset_name %></td>
+
+      <td>
+        <% model_asset.type_asset_ids.map do |r| %>
+        <%= "#{TypeAsset.find(r).type_asset_name}, " %>
+        <% end %>
+      </td>
+
+      <td><%= link_to model_asset, alt: "Show", class: "m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill", data: { toggle: "m-tooltip", placement: "bottom", original_title: "Show"} do %><i class="la la-ellipsis-h"></i><% end %>
+
+        <%= link_to edit_model_asset_path(model_asset), alt: "Edit", class: "m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill", data: { toggle: "m-tooltip", placement: "bottom", original_title: "Edit" } do %><i class="la la-edit"></i><% end %>
+
+        <% if current_user.role?(:assets_admin) %>
+          <%= link_to model_asset, alt: "Delete", class: "m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill", method: :delete, data: { toggle: "m-tooltip", placement: "bottom", original_title: "Delete", confirm: 'Are you sure?' } do %><i class="la la-trash"></i><% end %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+<% else %>
+  <tr>
+    <th scope="row" class="text-center" colspan="12">No Assets</th>
+  </tr>
+<% end %>
+</tbody>
+
+<%= render 'layouts/myindex/after_myindex', pages_collection: @model_assets, pages_model: "model" %>

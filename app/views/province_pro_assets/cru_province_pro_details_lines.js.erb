@@ -1,0 +1,2 @@
+crusher_high_line( '#line_crusher' , '/province_pro_assets/cru_province_pro_lines.json?province_id=<%= params[:province_id] %>&start_date=<%= session[:start_date] if session[:start_date].present? %>&end_date=<%= session[:end_date] if session[:end_date].present? %>', 'province')
+crusher_details('/province_pro_assets/cru_province_pro_details_lines.json?province_id=<%= params[:province_id] %>&start_date=<%= session[:start_date] if session[:start_date].present? %>&end_date=<%= session[:end_date] if session[:end_date].present? %>')

@@ -1,0 +1,17 @@
+<div class="form-group m-form__group row nested-fields">
+	<div class="col-lg-1"></div>
+	<div class="col-lg-3">
+	<%= f.text_field :spare_part_number, class: "form-control m-input", placeholder: "Spare Part Number" %>
+	</div>
+	<div class="col-lg-4">
+	<%= f.text_field :spare_description, class: "form-control m-input", placeholder: "Description" %>
+	</div>
+	<div class="col-lg-3">
+	<%= f.number_field :spare_quantity, class: "form-control m-input", placeholder: "Quantity", required: true, min: '0', step: :any %>
+	</div>
+	<div class="col-lg-1">
+		<%= link_to_remove_association f, class: "m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" do %>
+		<i class="la la-trash"></i>
+		<% end %>
+	</div>
+</div>

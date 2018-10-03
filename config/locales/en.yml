@@ -1,0 +1,76 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# The following keys must be escaped otherwise they will not be retrieved by
+# the default I18n backend:
+#
+# true, false, on, off, yes, no
+#
+# Instead, surround them with single quotes.
+#
+# en:
+#   'true': 'foo'
+#
+# To learn more, please read the Rails Internationalization guide
+# available at http://guides.rubyonrails.org/i18n.html.
+
+en:
+  activerecord:
+    models:
+      employee: Employee
+      color_asset: Color
+      status_asset: Status
+      type_asset: Type
+      model_asset: Model
+      area_asset: Area
+      site_asset: Site
+      province_pro_asset: Site
+      pro_contrete: Concrete
+      pro_asphalt: Asphalt
+      pro_crusher: Crusher
+
+    attributes:
+      color_asset:
+        color_asset_name: 'Color Name'
+      transfer_asset:
+        data_asset_lowbed_id: 'Lowbed No.'
+        data_asset_id: 'Asset No.'
+        delivery_done: 'Delivery Confirmation'
+        receive_done: 'Receiving Confirmation'
+      withdraw_asset:
+        data_asset_lowbed_id: 'Lowbed No.'
+        data_asset_id: 'Asset No.'
+        delivery_done: 'Delivery Confirmation'
+        receive_done: 'Receiving Confirmation'
+      request_asset:
+        data_asset_lowbed_id: 'Lowbed No.'
+        data_asset_id: 'Asset No.'
+        receive_done: 'Receiving Confirmation'
+      repair_order:
+        delivery_done: 'Receiving Confirmation'
+      pro_asphalt:
+        province_pro_asset: 'Site'
+        pro_asphalt_subs: 'Asphalt Details'
+      pro_asphalt/pro_asphalt_subs:
+        pro_asphalt_amount: 'Amount'
+      pro_crusher:
+        pro_crusher_subs: 'Crusher Details'
+      pro_crusher/pro_crusher_subs:
+        pro_reason: 'Reason'
+      matrial_request/breakdown_spares:
+        approved_spare_quantity: 'Approved Quantity'

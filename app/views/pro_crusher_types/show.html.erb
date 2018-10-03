@@ -1,0 +1,12 @@
+<%= render 'layouts/myshow/before_myshow', mytitle: "Crusher Type" %>
+
+<div class="m-widget13__item">
+    <span class="m-widget13__desc m--align-right">
+      Crusher type Name
+    </span>
+  <span class="m-widget13__text m-widget13__text-bolder">
+      <%= @pro_crusher_type.pro_crusher_type_name %>
+    </span>
+</div>
+
+<%= render 'layouts/myshow/after_myshow', editpath: edit_pro_crusher_type_path(@pro_crusher_type), backpath: pro_crusher_types_path %>

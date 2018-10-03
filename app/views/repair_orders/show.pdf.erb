@@ -1,0 +1,173 @@
+  <!-- BEGIN: Subheader -->
+  <div class="m-subheader ">
+    <div class="d-flex align-items-center">
+      <div class="mr-auto">
+        <h3 class="m-subheader__title">
+          No. RO<%= @repair_order.id %>
+        </h3>
+      </div>
+    </div>
+  </div>
+  <!-- END: Subheader -->
+  <div class="m-content">
+    <!--Begin::Section-->
+    <div class="row">
+      <div class="col-xl-12">
+
+<form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed">
+
+
+<% if (@repair_order.requested? || @repair_order.received? || @repair_order.opened? || @repair_order.hold? || @repair_order.repaired? || @repair_order.returned?) && (current_user.id == @repair_order.site_user_id || current_user.id == @repair_order.province_user_id || current_user.id == @repair_order.workshop_site_user_id || current_user.role?(:workshops_manager)) %>
+<br>
+  <h4 class="text-center pt-3">Repair Order:</h4>
+
+  <table style="width: 100%; margin-top: 20px; font-weight: bold;">
+
+  <tr class="m-form__group" style="font-weight: bold;">
+    <td style="width: 15%;">
+    <label class="col-form-label col-lg-2">Asset Number</label>
+    </td>
+    <td style="width: 35%;">
+    <div class="col-lg-3">
+      <span class="form-control"><%= @repair_order.data_asset.data_asset_serial %></span>
+    </div>
+    </td>
+<td style="width: 15%;">
+    <label class="col-form-label col-lg-2">From Site</label>
+    </td>
+    <td style="width: 35%;">
+    <div class="col-lg-3">
+      <span class="form-control"><%= @repair_order.site_asset.site_asset_name %></span>
+    </div>
+     </td>
+  </tr>
+
+  <tr class="m-form__group" style="font-weight: bold;">
+    <td style="width: 15%;">
+    <label class="col-form-label col-lg-2">Emp. Name</label>
+    </td>
+    <td style="width: 35%;">
+    <div class="col-lg-3">
+      <span class="form-control"><%= @repair_order.data_asset.employee.employee_name %></span>
+    </div>
+    </td>
+<td style="width: 15%;">
+    <label class="col-form-label col-lg-2">Emp. No.</label>
+    </td>
+    <td style="width: 35%;">
+    <div class="col-lg-3">
+      <span class="form-control"><%= @repair_order.data_asset.employee.employee_number %></span>
+    </div>
+    </td>
+  </tr>
+
+  <tr class="m-form__group" style="font-weight: bold;">
+    <td style="width: 15%;">
+    <label class="col-form-label col-lg-2">Transfer date</label>
+    </td>
+    <td style="width: 35%;">
+    <div class="col-lg-3">
+      <span class="form-control"><%= @repair_order.transfer_date %></span>
+    </div>
+    </td>
+<td style="width: 15%;">
+    <label class="col-form-label col-lg-2">Transfer time</label>
+    </td>
+    <td style="width: 35%;">
+    <div class="col-lg-3">
+      <span class="form-control"><%= @repair_order.transfer_time.strftime("%I:%M %p") %></span>
+    </div>
+    </td>
+  </tr>
+
+
+  <tr class="m-form__group" style="font-weight: bold;">
+    <td style="width: 15%;">
+    <label class="col-form-label col-lg-2">The Request by</label>
+    </td>
+    <td style="width: 35%;">
+    <div class="col-lg-3">
+        <span class="form-control"><%= @repair_order.site_asset.user.assignments.first.employee.employee_name %></span>
+    </div>
+    </td>
+<td style="width: 15%;">
+    <label class="col-form-label col-lg-2">Request Date</label>
+    </td>
+    <td style="width: 35%;">
+    <div class="col-lg-3">
+      <span class="form-control"><%= @repair_order.created_at.to_date %></span>
+    </div>
+    </td>
+  </tr>
+
+  </table>
+
+<% end %>
+
+
+
+<% if (@repair_order.received? || @repair_order.opened? || @repair_order.hold? || @repair_order.repaired? || @repair_order.returned?) && (current_user.id == @repair_order.site_user_id || current_user.id == @repair_order.province_user_id || current_user.id == @repair_order.workshop_site_user_id || current_user.role?(:workshops_manager)) %>
+
+<br>
+  <h4 class="text-center pt-3">Workshop Receiving Details:</h4>
+
+  <table style="width: 100%; margin-top: 20px; font-weight: bold;">
+
+  <tr class="m-form__group" style="font-weight: bold;">
+    <td style="width: 25%;">
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @repair_order.workshop_ignition_switch %>">
+      Workshop ignition switch
+      <span></span>
+    </label>
+    </td>
+    <td style="width: 25%;">
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @repair_order.workshop_equipment_card %>">
+      Workshop equipment card
+      <span></span>
+    </label>
+    </td>
+    <td style="width: 25%;">
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @repair_order.workshop_driver_card %>">
+      Workshop driver card
+      <span></span>
+    </label>
+    </td>
+    <td style="width: 25%;">
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @repair_order.workshop_maintenance_card %>">
+      Workshop maintenance card
+      <span></span>
+    </label>
+    </td>
+  </tr>
+</table>
+
+<table style="width: 100%; margin-top: 20px; font-weight: bold;">
+  <tr class="m-form__group" style="font-weight: bold;">
+    <td style="width: 15%;">
+    <label class="col-form-label col-lg-2">Workshop Received by</label>
+    </td>
+    <td style="width: 35%;">
+    <div class="col-lg-3">
+      <span class="form-control"><%= @repair_order.workshop_site_user.assignments.first.employee.employee_name %></span>
+    </div>
+    </td>
+    <td style="width: 15%;">
+    <label class="col-form-label col-lg-2">Workshop Receive Date</label>
+    </td>
+    <td style="width: 35%;">
+    <div class="col-lg-3">
+      <span class="form-control"><%= @repair_order.workshop_site_action_date.to_date %></span>
+    </div>
+    </td>
+  </tr>
+
+  </table>
+
+<% end %>
+
+
+</form>
+    
+    </div>
+  </div>
+</div>

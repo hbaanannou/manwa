@@ -1,0 +1,30 @@
+<%= render 'layouts/myshow/before_myshow', mytitle: "Site" %>
+
+<div class="m-widget13__item">
+    <span class="m-widget13__desc m--align-right">
+      Site Name
+    </span>
+  <span class="m-widget13__text m-widget13__text-bolder">
+      <%= @site_asset.site_asset_name %>
+    </span>
+</div>
+
+<div class="m-widget13__item">
+    <span class="m-widget13__desc m--align-right">
+      Province Name
+    </span>
+  <span class="m-widget13__text m-widget13__text-bolder">
+      <%= @site_asset.province_asset.province_asset_name %>
+    </span>
+</div>
+
+<div class="m-widget13__item">
+    <span class="m-widget13__desc m--align-right">
+      Site Manager
+    </span>
+  <span class="m-widget13__text m-widget13__text-bolder">
+      <%= @site_asset.user.email %>
+    </span>
+</div>
+
+<%= render 'layouts/myshow/after_myshow', editpath: edit_site_asset_path(@site_asset), backpath: site_assets_path %>

@@ -1,0 +1,400 @@
+<%= render 'layouts/myindex/before_myindex_tabs', mytitle: "Spares", pages_collection: @breakdown_spares, pages_model: "spare" %>
+
+<ul class="nav nav-pills m-2" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" data-toggle="tab" href="#m_tabs_10_1">
+      <i class="la la-database"></i>
+      Requested &nbsp;
+      <% if @breakdown_spares_by_spare_status_1.count > 0 %>
+      <span class="m-badge m-badge--danger"><%= @breakdown_spares_by_spare_status_1.count %></span>
+      <% end %>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#m_tabs_10_2">
+      <i class="la la-gear"></i>
+      In Store &nbsp;
+      <% if @breakdown_spares_by_spare_status_2_or_8.count > 0 %>
+      <span class="m-badge m-badge--danger"><%= @breakdown_spares_by_spare_status_2_or_8.count %></span>
+      <% end %>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#m_tabs_10_3">
+      <i class="la la-gear"></i>
+      Not In Store &nbsp;
+      <% if @breakdown_spares_by_spare_status_3.count > 0 %>
+      <span class="m-badge m-badge--danger"><%= @breakdown_spares_by_spare_status_3.count %></span>
+      <% end %>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#m_tabs_10_4">
+      <i class="la la-money"></i>
+      Well Purchase &nbsp;
+      <% if @breakdown_spares_by_spare_status_4.count > 0 %>
+      <span class="m-badge m-badge--danger"><%= @breakdown_spares_by_spare_status_4.count %></span>
+      <% end %>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#m_tabs_10_5">
+      <i class="la la-money"></i>
+      Purchased &nbsp;
+      <% if @breakdown_spares_by_spare_status_5.count > 0 %>
+      <span class="m-badge m-badge--danger"><%= @breakdown_spares_by_spare_status_5.count %></span>
+      <% end %>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#m_tabs_10_6">
+      <i class="la la-wrench"></i>
+      Received &nbsp;
+      <% if @breakdown_spares_by_spare_status_6.count > 0 %>
+      <span class="m-badge m-badge--danger"><%= @breakdown_spares_by_spare_status_6.count %></span>
+      <% end %>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#m_tabs_10_7">
+      <i class="la la-ban"></i>
+      Refused &nbsp;
+      <% if @breakdown_spares_by_spare_status_7.count > 0 %>
+      <span class="m-badge m-badge--danger"><%= @breakdown_spares_by_spare_status_7.count %></span>
+      <% end %>
+    </a>
+  </li>
+</ul>
+
+<hr>
+
+<div class="tab-content">
+  <div class="tab-pane active" id="m_tabs_10_1" role="tabpanel">
+    <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover">
+    <thead>
+    <tr>
+      <th>Repair order</th>
+      <th>Material Request</th>
+      <th>Spare num.</th>
+      <th>Description</th>
+      <th>Requested Qu.</th>
+      <th>Spare status</th>
+      <% if current_user.role?(:assets_admin) || current_user.role?(:workshops_manager) %>
+      <th>Actions</th>
+      <% end %>
+    </tr>
+    </thead>
+    <tbody>
+    <% if @breakdown_spares_by_spare_status_1.any? %>
+      <% @breakdown_spares_by_spare_status_1.each do |breakdown_spare| %>
+        <tr>
+
+          <td>#RO <%= breakdown_spare.repair_breakdown.repair_order.id %></td>
+
+          <td>#MR <%= breakdown_spare.matrial_request_id %></td>
+
+          <td><%= breakdown_spare.spare_part_number %></td>
+
+          <td><%= breakdown_spare.spare_description %></td>
+
+          <td><%= breakdown_spare.spare_quantity %></td>
+
+          <td><%= breakdown_spare.spare_status %></td>
+
+          <% if current_user.role?(:assets_admin) || current_user.role?(:workshops_manager) %>
+            <td>
+              <%= link_to breakdown_spare, alt: "Delete", class: "m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill", method: :delete, data: { toggle: "m-tooltip", placement: "bottom", original_title: "Delete", confirm: 'Are you sure?' } do %><i class="la la-trash"></i><% end %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <th scope="row" class="text-center" colspan="12">No Spares Data</th>
+      </tr>
+    <% end %>
+    </tbody>
+    </table>
+  </div>
+  <div class="tab-pane" id="m_tabs_10_2" role="tabpanel">
+    <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover">
+    <thead>
+    <tr>
+      <th>Repair order</th>
+      <th>Spare num.</th>
+      <th>Description</th>
+      <th>Requested Qu.</th>
+      <th>Available Qu.</th>
+      <th>Approved Qu.</th>
+      <th>Spare status</th>
+      <% if current_user.role?(:assets_admin) || current_user.role?(:workshops_manager) %>
+      <th>Actions</th>
+      <% end %>
+    </tr>
+    </thead>
+    <tbody>
+    <% if @breakdown_spares_by_spare_status_2_or_8.any? %>
+      <% @breakdown_spares_by_spare_status_2_or_8.each do |breakdown_spare| %>
+        <tr>
+
+          <td>#RO <%= breakdown_spare.repair_breakdown.repair_order.id %></td>
+
+          <td><%= breakdown_spare.spare_part_number %></td>
+
+          <td><%= breakdown_spare.spare_description %></td>
+
+          <td><%= breakdown_spare.spare_quantity %></td>
+
+          <td><%= breakdown_spare.available_spare_quantity %></td>
+
+          <td><%= breakdown_spare.approved_spare_quantity %></td>
+
+          <td><%= breakdown_spare.spare_status %></td>
+
+          <% if current_user.role?(:assets_admin) || current_user.role?(:workshops_manager) %>
+            <td>
+              <%= link_to breakdown_spare, alt: "Delete", class: "m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill", method: :delete, data: { toggle: "m-tooltip", placement: "bottom", original_title: "Delete", confirm: 'Are you sure?' } do %><i class="la la-trash"></i><% end %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <th scope="row" class="text-center" colspan="12">No Spares Data</th>
+      </tr>
+    <% end %>
+    </tbody>
+    </table>
+  </div>
+  <div class="tab-pane" id="m_tabs_10_3" role="tabpanel">
+    <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover">
+    <thead>
+    <tr>
+      <th>Repair order</th>
+      <th>Spare num.</th>
+      <th>Description</th>
+      <th>Requested Qu.</th>
+      <th>Spare status</th>
+      <% if current_user.role?(:assets_admin) || current_user.role?(:workshops_manager) %>
+      <th>Actions</th>
+      <% end %>
+    </tr>
+    </thead>
+    <tbody>
+    <% if @breakdown_spares_by_spare_status_3.any? %>
+      <% @breakdown_spares_by_spare_status_3.each do |breakdown_spare| %>
+        <tr>
+
+          <td>#RO <%= breakdown_spare.repair_breakdown.repair_order.id %></td>
+
+          <td><%= breakdown_spare.spare_part_number %></td>
+
+          <td><%= breakdown_spare.spare_description %></td>
+
+          <td><%= breakdown_spare.spare_quantity %></td>
+
+          <td><%= breakdown_spare.spare_status %></td>
+          
+          <% if current_user.role?(:assets_admin) || current_user.role?(:workshops_manager) %>
+            <td>
+              <%= link_to breakdown_spare, alt: "Delete", class: "m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill", method: :delete, data: { toggle: "m-tooltip", placement: "bottom", original_title: "Delete", confirm: 'Are you sure?' } do %><i class="la la-trash"></i><% end %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <th scope="row" class="text-center" colspan="12">No Spares Data</th>
+      </tr>
+    <% end %>
+    </tbody>
+    </table>
+  </div>
+  <div class="tab-pane" id="m_tabs_10_4" role="tabpanel">
+    <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover">
+    <thead>
+    <tr>
+      <th>Repair order</th>
+      <th>Spare num.</th>
+      <th>Description</th>
+      <th>Requested Qu.</th>
+      <th>Available Qu.</th>
+      <th>Will Purchase Qu.</th>
+      <th>Approved Qu.</th>
+      <th>Spare status</th>
+      <% if current_user.role?(:assets_admin) || current_user.role?(:workshops_manager) %>
+      <th>Actions</th>
+      <% end %>
+    </tr>
+    </thead>
+    <tbody>
+    <% if @breakdown_spares_by_spare_status_4.any? %>
+      <% @breakdown_spares_by_spare_status_4.each do |breakdown_spare| %>
+        <tr>
+
+          <td>#RO <%= breakdown_spare.repair_breakdown.repair_order.id %></td>
+
+          <td><%= breakdown_spare.spare_part_number %></td>
+
+          <td><%= breakdown_spare.spare_description %></td>
+
+          <td><%= breakdown_spare.spare_quantity %></td>
+
+          <td><%= breakdown_spare.available_spare_quantity ? breakdown_spare.available_spare_quantity : 0 %></td>
+
+          <td><%= breakdown_spare.willpurchase_spare_quantity %></td>
+
+          <td><%= breakdown_spare.approved_spare_quantity %></td>
+
+          <td><%= breakdown_spare.spare_status %></td>
+          
+          <% if current_user.role?(:assets_admin) || current_user.role?(:workshops_manager) %>
+            <td>
+              <%= link_to breakdown_spare, alt: "Delete", class: "m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill", method: :delete, data: { toggle: "m-tooltip", placement: "bottom", original_title: "Delete", confirm: 'Are you sure?' } do %><i class="la la-trash"></i><% end %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <th scope="row" class="text-center" colspan="12">No Spares Data</th>
+      </tr>
+    <% end %>
+    </tbody>
+    </table>
+  </div>
+  <div class="tab-pane" id="m_tabs_10_5" role="tabpanel">
+    <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover">
+    <thead>
+    <tr>
+      <th>Repair order</th>
+      <th>Spare num.</th>
+      <th>Description</th>
+      <th>Requested Qu.</th>
+      <th>Spare status</th>
+      <% if current_user.role?(:assets_admin) || current_user.role?(:workshops_manager) %>
+      <th>Actions</th>
+      <% end %>
+    </tr>
+    </thead>
+    <tbody>
+    <% if @breakdown_spares_by_spare_status_5.any? %>
+      <% @breakdown_spares_by_spare_status_5.each do |breakdown_spare| %>
+        <tr>
+
+          <td>#RO <%= breakdown_spare.repair_breakdown.repair_order.id %></td>
+
+          <td><%= breakdown_spare.spare_part_number %></td>
+
+          <td><%= breakdown_spare.spare_description %></td>
+
+          <td><%= breakdown_spare.spare_quantity %></td>
+
+          <td><%= breakdown_spare.spare_status %></td>
+          
+          <% if current_user.role?(:assets_admin) || current_user.role?(:workshops_manager) %>
+            <td>
+              <%= link_to breakdown_spare, alt: "Delete", class: "m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill", method: :delete, data: { toggle: "m-tooltip", placement: "bottom", original_title: "Delete", confirm: 'Are you sure?' } do %><i class="la la-trash"></i><% end %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <th scope="row" class="text-center" colspan="12">No Spares Data</th>
+      </tr>
+    <% end %>
+    </tbody>
+    </table>
+  </div>
+  <div class="tab-pane" id="m_tabs_10_6" role="tabpanel">
+    <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover">
+    <thead>
+    <tr>
+      <th>Repair order</th>
+      <th>Spare num.</th>
+      <th>Description</th>
+      <th>Requested Qu.</th>
+      <th>Spare status</th>
+      <% if current_user.role?(:assets_admin) || current_user.role?(:workshops_manager) %>
+      <th>Actions</th>
+      <% end %>
+    </tr>
+    </thead>
+    <tbody>
+    <% if @breakdown_spares_by_spare_status_6.any? %>
+      <% @breakdown_spares_by_spare_status_6.each do |breakdown_spare| %>
+        <tr>
+
+          <td>#RO <%= breakdown_spare.repair_breakdown.repair_order.id %></td>
+
+          <td><%= breakdown_spare.spare_part_number %></td>
+
+          <td><%= breakdown_spare.spare_description %></td>
+
+          <td><%= breakdown_spare.spare_quantity %></td>
+
+          <td><%= breakdown_spare.spare_status %></td>
+          
+          <% if current_user.role?(:assets_admin) || current_user.role?(:workshops_manager) %>
+            <td>
+              <%= link_to breakdown_spare, alt: "Delete", class: "m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill", method: :delete, data: { toggle: "m-tooltip", placement: "bottom", original_title: "Delete", confirm: 'Are you sure?' } do %><i class="la la-trash"></i><% end %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <th scope="row" class="text-center" colspan="12">No Spares Data</th>
+      </tr>
+    <% end %>
+    </tbody>
+    </table>
+  </div>
+  <div class="tab-pane" id="m_tabs_10_7" role="tabpanel">
+    <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover">
+    <thead>
+    <tr>
+      <th>Repair order</th>
+      <th>Spare num.</th>
+      <th>Description</th>
+      <th>Requested Qu.</th>
+      <th>Spare status</th>
+      <% if current_user.role?(:assets_admin) || current_user.role?(:workshops_manager) %>
+      <th>Actions</th>
+      <% end %>
+    </tr>
+    </thead>
+    <tbody>
+    <% if @breakdown_spares_by_spare_status_7.any? %>
+      <% @breakdown_spares_by_spare_status_7.each do |breakdown_spare| %>
+        <tr>
+
+          <td>#RO <%= breakdown_spare.repair_breakdown.repair_order.id %></td>
+
+          <td><%= breakdown_spare.spare_part_number %></td>
+
+          <td><%= breakdown_spare.spare_description %></td>
+
+          <td><%= breakdown_spare.spare_quantity %></td>
+
+          <td><%= breakdown_spare.spare_status %></td>
+          
+          <% if current_user.role?(:assets_admin) || current_user.role?(:workshops_manager) %>
+            <td>
+              <%= link_to breakdown_spare, alt: "Delete", class: "m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill", method: :delete, data: { toggle: "m-tooltip", placement: "bottom", original_title: "Delete", confirm: 'Are you sure?' } do %><i class="la la-trash"></i><% end %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <th scope="row" class="text-center" colspan="12">No Spares Data</th>
+      </tr>
+    <% end %>
+    </tbody>
+    </table>
+  </div>
+</div>
+
+<%= render 'layouts/myindex/after_myindex_tabs', pages_collection: @breakdown_spares, pages_model: "spare" %>

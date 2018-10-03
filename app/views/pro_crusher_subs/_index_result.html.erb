@@ -1,0 +1,100 @@
+<div class="m-portlet__head">
+  <div class="m-portlet__head-caption">
+    <div class="m-portlet__head-title">
+      <span class="m-portlet__head-icon">
+        <i class="flaticon-truck m--font-brand"></i>
+      </span>
+      <h3 class="m-portlet__head-text">
+        Crusher Details
+        <% if @pro_crusher_subs.any? %>
+          (<%= @pro_crusher_subs.first.pro_crusher.province_pro_asset.province_pro_asset_name %> - <%= @pro_crusher_subs.first.pro_crusher.day %>)
+        <% end %>
+      </h3>
+    </div>
+  </div>
+  <div class="m-portlet__head-tools">
+    <ul class="m-portlet__nav">
+
+
+      <li class="m-portlet__nav-item" id="clear_filters">
+        <% if params[:q] %>
+          <%= link_to request.path, class: "btn m-btn m-btn--pill m-btn--air btn-info mr-4" do %>
+            <span>
+              <i class="la la-filter"></i>
+              <span>
+                Clear Filters
+              </span>
+            </span>
+          <% end %>
+        <% end %>
+      </li>
+
+    </ul>
+  </div>
+</div>
+
+<!--Begin::m-portlet__body-->
+<div class="m-portlet__body">
+<div class="mb-5 pb-2">
+  <div class="digg_pagination m--pull-left">
+    <span class="page_info">
+      <%= page_entries_info @pro_crusher_subs, model: 'concrete_type' %>
+    </span>
+  </div>
+  <div class="digg_pagination m--pull-right">
+    <%= will_paginate @pro_crusher_subs, :container => false %>
+  </div>
+</div>
+
+<!--Begin::Section-->
+<div class="m-section">
+  <div class="m-section__content">
+    <div class="table-responsive">
+    <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover text-center">
+      <thead>
+      <tr>
+        <th>Type</th>
+        <th>Amount</th>
+        <th>Reason</th>
+        <th>Note</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% if @pro_crusher_subs.any? %>
+        <% @pro_crusher_subs.each do |pro_crusher_sub| %>
+          <tr>
+
+            <td><%= pro_crusher_sub.pro_crusher_type.pro_crusher_type_name %></td>
+
+            <td><%= pro_crusher_sub.pro_crusher_amount %></td>
+
+            <td><%= pro_crusher_sub.pro_reason.pro_reason_name if pro_crusher_sub.pro_reason %></td>
+
+            <td><%= pro_crusher_sub.pro_crusher_note %></td>
+
+          </tr>
+        <% end %>
+      <% else %>
+        <tr>
+          <th scope="row" class="text-center" colspan="12">No Assets</th>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div>
+<!--End::Section-->
+
+<div class="mb-3 pb-3">
+  <div class="digg_pagination m--pull-left">
+    <span class="page_info">
+      <%= page_entries_info @pro_crusher_subs, model: 'concrete_type' %>
+    </span>
+  </div>
+  <div class="digg_pagination m--pull-right">
+    <%= will_paginate @pro_crusher_subs, :container => false %>
+  </div>
+</div>
+</div>
+<!--End::m-portlet__body-->

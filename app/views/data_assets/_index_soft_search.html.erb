@@ -1,0 +1,39 @@
+<div class="m-subheader ">
+  <div class="d-flex align-items-center">
+    <div class="mr-auto">
+	  <!-- left side content here -->
+	</div>
+	<div>
+
+	  <%= search_form_for @q, url: index_soft_data_assets_path, remote: true, class: "m-form m-form--fit form-inline" do |f| %>
+
+        <%= f.search_field :data_asset_serial_cont, class: "form-control m-input--fixed-small", placeholder: "Asset No." %>
+
+        <%= f.collection_select :status_asset_id_eq, StatusAsset.order(:status_asset_name), :id, :status_asset_name, {include_blank: "Status: Any"}, {class: "form-control m-input--fixed-normal m-select2"} %>
+        
+        <%= f.collection_select :type_asset_id_eq, TypeAsset.order(:type_asset_name), :id, :type_asset_name, {include_blank: "Type: Any"}, {class: "form-control m-input--fixed-normal m-select2"} %>
+
+        <%= f.grouped_collection_select :model_asset_id_eq, TypeAsset.order(:type_asset_name), :model_assets, :type_asset_name, :id, :model_asset_name, {include_blank: "Model: Any"}, {class: "form-control m-input--fixed-normal m-select2"} %>
+
+        <%= f.collection_select :province_asset_area_asset_id_eq, AreaAsset.order(:area_asset_name), :id, :area_asset_name, {include_blank: "Area: Any"}, {class: "form-control m-input--fixed m-select2"} %>
+
+        <%= f.grouped_collection_select :province_asset_id_eq, AreaAsset.order(:area_asset_name), :province_assets, :area_asset_name, :id, :province_asset_name, {include_blank: "Province: Any"}, {class: "form-control m-input--fixed-normal m-select2"} %>
+
+        <%= f.grouped_collection_select :site_asset_id_eq, ProvinceAsset.order(:province_asset_name), :site_assets, :province_asset_name, :id, :site_asset_name, {include_blank: "Site: Any"}, {class: "form-control m-input--fixed-normal m-select2"} %>
+
+        <%= f.collection_select :color_asset_id_eq, ColorAsset.order(:color_asset_name), :id, :color_asset_name, {include_blank: "Color: Any"}, {class: "form-control m-input--fixed m-select2"} %>
+
+        <%= f.select :data_asset_in_use_eq, [["Yes", true], ["No", false]], {include_blank: "In Use?"}, {class: "form-control m-input--fixed m-select2"} %>
+
+        <%= f.search_field :data_asset_plate_no_cont, class: "form-control m-input--fixed-micro", placeholder: "Plate No." %>
+
+        <%= f.search_field :data_asset_manufacture_year_cont, class: "form-control m-input--fixed-micro", placeholder: "M. Year" %>
+
+
+        <%= f.submit "Search", class: "btn btn-brand m-2" %>
+        
+      <% end %>
+
+    </div>
+  </div>
+</div>

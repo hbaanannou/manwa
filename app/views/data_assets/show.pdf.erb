@@ -1,0 +1,171 @@
+<div class="text-center">
+  <% if @data_asset.images.attached? %>
+    <%= wicked_pdf_image_tag request.base_url + url_for(@data_asset.images.find(params[:image_id]).variant(resize: "600x450")), alt: "", class: "img-fluid img-thumbnail" %>
+  <% else %>
+    <%= wicked_pdf_image_tag "no-image.jpg", alt: "", class: "img-fluid img-thumbnail" %>
+  <% end %>
+</div>
+
+
+<center>
+
+<table style="width: 100%; margin-top: 20px;">
+  <tr>
+          <td style="width: 15%;">
+              <h5>Number:</h5>
+          </td>
+          <td style="width: 35%;">
+              <h5 class="m--font-brand font-weight-bold"><%= @data_asset.data_asset_serial %></h5>
+          </td>
+          <td style="width: 15%;">
+            <h5>
+              Type:
+            </h5>
+
+          </td>
+          <td style="width: 35%;">
+              <h5 class="m--font-danger"><%= @data_asset.type_asset.type_asset_name %></h5>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <h5>
+              Model:
+            </h5>
+          </td>
+          <td>
+              <h5 class="m--font-danger"><%= @data_asset.model_asset.model_asset_name %></h5>
+          </td>
+          <td>
+            <h5>
+              <h5>In Use?:</h5>
+            </h5>
+          </td>
+          <td>
+            <% if @data_asset.data_asset_in_use %>
+              <h5 class="m--font-success">In Use</h5>
+            <% else %>
+              <h5 class="m--font-danger">Out of Use</h5>
+            <% end %>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <h5>
+              Status:
+            </h5>
+          </td>
+          <td>
+              <h5 class="m--font-success"><%= @data_asset.status_asset.status_asset_name %></h5>
+          </td>
+          <td>
+            <h5>
+              Area:
+            </h5> 
+          </td>
+          <td>
+              <h5 class="m--font-primary"><%= @data_asset.province_asset.area_asset.area_asset_name %></h5>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <h5>
+              Province:
+            </h5>
+          </td>
+          <td>
+              <h5 class="m--font-primary"><%= @data_asset.province_asset.province_asset_name %></h5>
+          </td>
+          <td>
+            <h5>
+              Site:
+            </h5>
+          </td>
+          <td>
+              <h5 class="m--font-primary"><%= @data_asset.site_asset.site_asset_name %></h5>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <h5>
+              Color:
+            </h5>
+            
+            
+          </td>
+          <td>
+              <h5 class="m--font-warning"><%= @data_asset.color_asset.color_asset_name %></h5>
+          </td>
+
+          <td>
+            <h5>
+              Emp. Num:
+            </h5>
+          </td>
+          <td>
+              <h5 class="m--font-warning"><%= @data_asset.employee.employee_number %></h5>
+            
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <h5>
+              Emp. Name:
+            </h5>
+          </td>
+          <td>
+              <h5 class="m--font-warning"><%= @data_asset.employee.employee_name %></h5>
+          </td>
+
+          <td>
+            <h5>
+              Serial:
+            </h5>
+          </td>
+          <td>
+              <h5 class="m--font-dark"><%= @data_asset.data_asset_serial ? @data_asset.data_asset_serial : "---" %></h5>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <h5>
+              <h5>Plate Num:</h5>
+            </h5>
+          </td>
+          <td>
+              <h5 class="m--font-success"><%= @data_asset.data_asset_plate_no ? @data_asset.data_asset_plate_no : "---" %></h5>
+          </td>
+          <td>
+            <h5>
+              Manuf. Year:
+            </h5>
+          </td>
+          <td>
+              <h5 class="m--font-success"><%= @data_asset.data_asset_manufacture_year ? @data_asset.data_asset_manufacture_year : "---" %></h5>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <h5>
+              Condition:
+            </h5>
+          </td>
+          <td colspan="3">
+              <h5 span class="m--font-primary"><%= @data_asset.data_asset_current_condition ? @data_asset.data_asset_current_condition : "---" %></h5>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <h5>
+              Remarks:
+            </h5>
+          </td>
+          <td colspan="3">
+              <h5 span class="m--font-primary"><%= @data_asset.data_asset_remarks ? @data_asset.data_asset_remarks : "---" %></h5>
+          </td>
+        </tr>
+</table>        
+
+</center>

@@ -1,0 +1,28 @@
+<%= javascript_tag do %>
+  $(function() {
+    $('.digg_pagination a').attr('data-remote', 'true');
+  });
+<% end %>
+<!-- BEGIN::Subheader -->
+<%= render 'monthly_search' %>
+<!-- END::Subheader -->
+
+<!--Begin::m-content-->
+<div class="m-content">
+  <!--Begin::Row-->
+  <div class="row">
+    <!--Begin::col-xl-12-->
+    <div class="col-xl-12">
+      <!--begin::Portlet-->
+      <div class="m-portlet " id="index_result">
+        
+          <%= render 'monthly_result' %>
+        
+      </div>
+      <!--End::Portlet-->
+    </div>
+    <!--End::col-xl-12-->
+  </div>
+  <!--End::Row-->
+</div>
+<!--End::m-content-->

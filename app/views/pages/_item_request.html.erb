@@ -1,0 +1,121 @@
+<div class="m-widget5__item">
+	<div class="m-widget5__content">
+		<h4 class="m-widget5__title">
+
+			<strong><span class="m--font-brand"><%= request_asset.type_asset.type_asset_name %> </span></strong>
+
+		</h4>
+		<div class="m-widget5__info">
+			<span class="m-widget5__author">
+				Request By:
+			</span>
+			<span class="m-widget5__info-date">
+				<% if request_asset.sitemanager? %>
+					<span class="m--font-default"> Site Manager: </span><span class="m--font-danger"> <%= request_asset.user.assignments.first.employee.employee_name %></span>
+				<% elsif request_asset.provincemanager? %>
+					<span class="m--font-default"> Province Manager: </span><span class="m--font-danger"><%= request_asset.user.assignments.first.employee.employee_name %></span>
+				<% end %>
+			</span>
+			<br>
+			<% if request_asset.sitemanager? && request_asset.pass? %>
+			<span class="m-widget5__author">
+				Approved By:
+			</span>
+			<span class="m-widget5__info-date">
+				<span class="m--font-default"> Province Manager: </span><span class="m--font-danger"> <%= request_asset.province_user.assignments.first.employee.employee_name %></span>
+			</span>
+			<br>
+			<% end %>
+
+			<span class="m-widget5__info-label">
+				To Site:
+			</span>
+			<span class="m-widget5__info-date m--font-info">
+				<%= request_asset.site_asset_to.site_asset_name %>
+			</span>
+			<br>
+			<span class="m-widget5__info-label">
+				Request Reason:
+			</span>
+			<span class="m-widget5__info-date m--font-danger">
+				<%= request_asset.request_reason if present? %>
+			</span>
+			<br>
+			<span class="m-widget5__info-label">
+				Work Type:
+			</span>
+			<span class="m-widget5__info-date m--font-danger">
+				<%= request_asset.work_type if present? %>
+			</span>
+
+			<% if local_assigns[:request_status] == 'accepted' %>
+				<br>
+				<span class="m-widget5__info-label">
+					Accept choice:
+				</span>
+				<% if request_asset.accept_status == 'rent_by_you' %>
+          <span class="m-widget5__info-date m--font-info">Rent By You</span>
+				<% elsif request_asset.accept_status == 'rent_by_us' %>
+          <span class="m-widget5__info-date m--font-primary">Rent By Us</span>
+          <% if request_asset.available_after_days.present? %>
+          	(after <span class="m-widget5__info-date m--font-danger"><%= request_asset.available_after_days%></span> Days)
+          <% end %>
+        <% elsif request_asset.accept_status == 'we_have' %>
+          <span class="m-widget5__info-date m--font-brand">We Have It</span>
+          <% if request_asset.available_after_days.present? %>
+          	(after <span class="m-widget5__info-date m--font-danger"><%= request_asset.available_after_days%></span> Days)
+          <% end %>
+        <% end %>
+			<% end %>
+
+			<% if local_assigns[:request_status] == 'refused' %>
+				<br>
+				<span class="m-widget5__info-label">
+					Refuse Reason:
+				</span>
+				<span class="m-widget5__info-date m--font-danger">
+					<%= request_asset.refuse_reason if present? %>
+				</span>
+			<% end %>
+
+		</div>
+	</div>
+
+	<div class="m-widget5__stats1">
+		<span class="m-widget5__sales m--font-brand">
+			<span class="m--font-primary"><strong><%= local_assigns[:request_status].capitalize %></strong></span> from
+		</span>
+		<br>
+		<span class="m-widget5__sales">
+			<% if local_assigns[:request_status] == 'opened' %>
+				<%= time_ago_in_words(request_asset.created_at) %>
+			<% elsif local_assigns[:request_status] == 'pass' || 'notpass' %>
+				<%= time_ago_in_words(request_asset.province_user_action_date) %>
+			<% elsif local_assigns[:request_status] == 'refused' || 'accepted' %>
+				<%= time_ago_in_words(request_asset.transfer_dep_action_date) %>
+			<% end %>
+		</span>
+		<br>
+		<span class="m-widget5__desc">
+			<span class="m-widget5__sales m--font-brand">on: </span>
+			<% if local_assigns[:request_status] == 'opened' %>
+				<%= request_asset.created_at.to_date %>
+			<% elsif local_assigns[:request_status] == 'pass' || 'notpass' %>
+				<%= request_asset.province_user_action_date.to_date %>
+			<% elsif local_assigns[:request_status] == 'refused' || 'accepted' %>
+				<%= request_asset.transfer_dep_action_date.to_date %>
+			<% end %>
+		</span>
+	</div>
+
+	<div class="m-widget5__stats1">
+		<%= link_to request_asset_path(request_asset), alt: "Show", class: "m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill", data: { toggle: "m-tooltip", placement: "bottom", original_title: "Show"} do %><i class="la la-ellipsis-h"></i><% end %>
+
+		<%= link_to request_asset_path(request_asset, format: :pdf), alt: "PDF", class: "m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill", target: "_blank", data: { toggle: "m-tooltip", placement: "bottom", original_title: "PDF"} do %><i class="la la-file-pdf-o"></i><% end %>
+
+		<% if local_assigns[:can_edit] %>
+			<%= link_to edit_request_asset_path(request_asset), alt: "Edit", class: "m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill", data: { toggle: "m-tooltip", placement: "bottom", original_title: "Edit"} do %><i class="la la-edit"></i><% end %>
+		<% end %>
+
+	</div>
+</div>

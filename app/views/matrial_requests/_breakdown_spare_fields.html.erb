@@ -1,0 +1,86 @@
+<div class="form-group m-form__group row nested-fields">
+
+	<div class="col-lg-2">
+	<div class="form-control m-input"><%= breakdown_spare_row.spare_part_number %></div>
+	</div>
+	<div class="col-lg-2">
+	<div class="form-control m-input"><%= breakdown_spare_row.spare_description %></div>
+	</div>
+	<div class="col-lg-1">
+	<div class="form-control m-input"><%= breakdown_spare_row.spare_quantity %></div>
+	</div>
+
+	<div class="col-lg-2">
+		<% if current_user.role?(:rstore) || current_user.role?(:tstore) %>
+		<div class="m-radio-inline">
+	    <%= f.collection_radio_buttons(:spare_status, { Yes: :instore, No: :notinstore }, :second, :first) do |b| %>
+	      <%= b.label(class: "m-radio m-radio--bold #{'m-radio--state-success' if b.text == :Yes} #{'m-radio--state-danger' if b.text == :No}") { b.radio_button + b.text + content_tag(:span) } %> 
+	    <% end %>
+	  </div>
+
+		<% elsif current_user.role?(:workshops_manager) || current_user.role?(:workshops_site) %>
+			<% if breakdown_spare_row.instore? || breakdown_spare_row.receivedbystore? %>
+			<span class="m--font-success">In Store</span>
+			<% elsif breakdown_spare_row.notinstore? %>
+			<span class="m--font-danger">Not In Store</span>
+			<% end %>
+		<% end %>
+	</div>
+
+	<div class="col-lg-1">
+	<% if current_user.role?(:rstore) || current_user.role?(:tstore) %>
+	<%= f.number_field :available_spare_quantity, class: "form-control m-input", placeholder: "Num.", min: '0', step: :any %>
+	<% elsif current_user.role?(:workshops_manager) || current_user.role?(:workshops_site) %>
+	<div class="form-control m-input"><%= breakdown_spare_row.available_spare_quantity %></div>
+	<% end %>
+	</div>
+
+	<div class="col-lg-2">
+		<% if current_user.role?(:rstore) || current_user.role?(:tstore) %>
+	<%= f.text_field :replacement_code, class: "form-control m-input", placeholder: "Replacement Code" %>
+	<% elsif current_user.role?(:workshops_manager) || current_user.role?(:workshops_site) %>
+	<div class="form-control m-input"><%= breakdown_spare_row.replacement_code %></div>
+	<% end %>
+	</div>
+	
+
+	<% if current_user.role?(:workshops_manager) %>
+	<div class="col-lg-2">
+
+		<% if (breakdown_spare_row.instore? && (breakdown_spare_row.available_spare_quantity < breakdown_spare_row.spare_quantity)) %>
+
+	  <%= f.number_field :approved_spare_quantity, class: "form-control m-input", placeholder: "Approved Num. include Purchase", min: '0', step: :any %>
+
+		<% elsif breakdown_spare_row.instore? %>
+
+		<%= f.number_field :approved_spare_quantity, class: "form-control m-input", placeholder: "Approved Num.", min: '0', step: :any %>
+
+		<% elsif breakdown_spare_row.notinstore? %>
+
+	  <%= f.number_field :approved_spare_quantity, class: "form-control m-input", placeholder: "Approved Num. To Purchase", min: '0', step: :any %>
+		
+		<% end %>
+	</div>
+	<% end %>
+
+	<% if current_user.role?(:workshops_site) && breakdown_spare_row.instore? && breakdown_spare_row.matrial_request.manager_done %>
+	<div class="col-lg-2">
+		<div class="m-radio-inline">
+	    <%= f.collection_radio_buttons(:spare_status, { 'In Store': :instore, Received: :received }, :second, :first) do |b| %>
+	      <%= b.label(class: "m-radio m-radio--bold #{'m-radio--state-primary' if b.text == :'In Store'} #{'m-radio--state-success' if b.text == :Received}") { b.radio_button + b.text + content_tag(:span) } %> 
+	    <% end %>
+	  </div>
+	</div>
+	<% end %>
+
+	<% if current_user.role?(:workshops_site) && breakdown_spare_row.receivedbystore? && breakdown_spare_row.matrial_request.manager_done %>
+	<div class="col-lg-2">
+		<div class="m-radio-inline">
+	    <%= f.collection_radio_buttons(:spare_status, { 'In Store': :receivedbystore, Received: :received }, :second, :first) do |b| %>
+	      <%= b.label(class: "m-radio m-radio--bold #{'m-radio--state-primary' if b.text == :'In Store'} #{'m-radio--state-success' if b.text == :Received}") { b.radio_button + b.text + content_tag(:span) } %> 
+	    <% end %>
+	  </div>
+	</div>
+	<% end %>
+
+</div>

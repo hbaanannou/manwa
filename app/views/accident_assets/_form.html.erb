@@ -1,0 +1,35 @@
+<!--begin::Form-->
+<%= form_with(model: accident_asset, local: true, class: "m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed") do |form| %>
+
+  <%= render 'layouts/myform/error_myform', object: accident_asset %>
+
+  <div class="form-group m-form__group row">
+
+    <%= form.label :data_asset_id, "Asset Number", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <span class="required">
+      <%= form.select :data_asset_id, DataAsset.all.order(data_asset_serial: :asc).collect {|p| [p.data_asset_serial, p.id]}, {include_blank: 'Select Asset Number'}, class: "form-control m-input m-select2", required: true %>
+      </span>
+      <span class="m-form__help">Asset Number</span>
+    </div>
+
+    <%= form.label :accident_asset_date, "Accident Date", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <%= form.date_field :accident_asset_date, class: "form-control m-input required", placeholder: "Accident Date", required: true %>
+      <span class="m-form__help">Please enter Accident Date</span>
+    </div>
+  </div>
+
+
+  <div class="form-group m-form__group row">
+    <%= form.label :accident_asset_remarks, "Notes", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-8">
+      <%= form.text_area :accident_asset_remarks, class: "form-control m-input", placeholder: "Notes" %>
+      <span class="m-form__help">Please enter Notes</span>
+    </div>
+  </div>
+
+  <%= render 'layouts/myform/submit_myform', form: form, cancelpath: accident_assets_path %>
+
+<% end %>
+<!--end::Form-->

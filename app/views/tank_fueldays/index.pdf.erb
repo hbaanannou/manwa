@@ -1,0 +1,52 @@
+<!--Begin::Section-->
+<div class="m-section">
+  <div class="m-section__content">
+    <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover text-center">
+      <thead>
+        <tr style="font-size: 1.4rem;">
+          <th>*</th>
+          <th>#Serial</th>
+          <th>Day</th>
+          <th>Tank Number</th>
+          <th>Project</th>
+          <th>Employee</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @tank_fueldays_pdf.any? %>
+        <% @tank_fueldays_pdf.each_with_index do |tank_fuelday, index| %>
+          <tr>
+            <td><%= index + 1 %></td>
+            <td class="m--font-brand"><strong>#F<%= tank_fuelday.id %></strong></td>
+            <td><%= tank_fuelday.day %></td>
+
+            <td><%= tank_fuelday.data_asset.data_asset_serial %></td>
+
+            <td><%= tank_fuelday.site_asset.site_asset_name %></td>
+
+            <td><%= tank_fuelday.employee.employee_name %></td>
+
+            <td class="text-center"><%= tank_fuelday.asset_fueldays.sum(:quantity) %></td>
+          </tr>
+        <% end %>
+        <tr>
+          <td>Total: </td>
+          <td colspan="6">
+            <% total = 0 %>
+            <% @tank_fueldays_pdf.each do |tank_fuelday| %>
+            <% total += tank_fuelday.asset_fueldays.sum(:quantity) %>
+            <% end %>
+            Total: <b>( <%= total %> )</b>
+          </td>
+        </tr>
+        <% else %>
+        <tr>
+          <td colspan="12">No Tank Fuel Requests</td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<!--End::Section-->

@@ -1,0 +1,10 @@
+<% if params[:asph_chart_display] == 'asph_details' %>
+asphalt_high_line( '#line_asphalt' , '/area_pro_assets/asph_area_pro_lines.json?area_id=<%= params[:area_id] %>&start_date=<%= session[:start_date] if session[:start_date].present? %>&end_date=<%= session[:end_date] if session[:end_date].present? %>', 'area')
+$("#asph_header").html("<%=j render 'asph_header' %>")
+<% elsif params[:asph_chart_display] == 'asph_summary' %>
+asphalt_high_line_one( '#line_asphalt' , '/area_pro_assets/asph_area_pro_lines.json?area_id=<%= params[:area_id] %>&start_date=<%= session[:start_date] if session[:start_date].present? %>&end_date=<%= session[:end_date] if session[:end_date].present? %>', 'one_line')
+$("#asph_header").html("<%=j render 'asph_header' %>")
+<% else %>
+asphalt_high_line_one( '#line_asphalt' , '/area_pro_assets/asph_area_pro_lines.json?area_id=<%= params[:area_id] %>&start_date=<%= session[:start_date] if session[:start_date].present? %>&end_date=<%= session[:end_date] if session[:end_date].present? %>', 'one_line')
+$("#asph_header").html("<%=j render 'asph_header' %>")
+<% end %>

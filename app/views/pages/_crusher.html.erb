@@ -1,0 +1,77 @@
+<div class="form-group m-form__group row">
+  <div class="col-lg-4">
+    <%= form_tag cru_pro_lines_pages_path, method: :get, remote: true, class: "m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" do %>
+    <div class="row">
+      <div class="col-lg-9">
+        <%= date_field_tag :start_date, nil, {class: "form-control m-input"} %>
+      </div>
+
+      <div class="col-lg-3">
+        <%= submit_tag 'Start', class: "btn m-btn--pill m-btn--air btn-outline-info m-btn m-btn--outline-2x" %>
+      </div>
+
+    </div>
+    <% end %>
+  </div>
+<div class="col-lg-4 text-center">
+  <span data-toggle="m-tooltip" data-placement="top" data-original-title="Clear Dates">
+  <%= link_to cru_pro_lines_pages_path, remote: true, alt: "Clear", class: "m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" do %><i class="la la-eraser"></i><% end %>
+  </span>
+</div>
+  <div class="col-lg-4">
+    <%= form_tag cru_pro_lines_pages_path, method: :get, remote: true, class: "m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" do %>
+    <div class="row">
+      <div class="col-lg-9">
+        <%= date_field_tag :end_date, nil, {class: "form-control m-input"} %>
+      </div>
+
+      <div class="col-lg-3">
+        <%= submit_tag 'End', class: "btn m-btn--pill m-btn--air btn-outline-danger m-btn m-btn--outline-2x" %>
+      </div>
+
+    </div>
+    <% end %>
+  </div>
+</div>
+
+
+<div id='line_crusher'></div>
+
+
+<br>
+
+
+<div class="row">
+  <div class="col-xl-3">
+		<%= link_to area_pro_area_pro_assets_path(area_id: 1), class: "btn btn-brand btn-block m-btn m-btn--icon m-btn--wide" do %>
+			<span>
+				<i class="fa flaticon-pin"></i>
+				<span>Riyadh Area</span>
+			</span>
+		<% end %>
+  </div>
+  <div class="col-xl-3">
+		<%= link_to area_pro_area_pro_assets_path(area_id: 2), class: "btn btn-success btn-block m-btn m-btn--icon m-btn--wide" do %>
+			<span>
+				<i class="fa flaticon-pin"></i>
+				<span>Tabuk Area</span>
+			</span>
+		<% end %>
+  </div>
+  <div class="col-xl-3">
+		<%= link_to area_pro_area_pro_assets_path(area_id: 3), class: "btn btn-info btn-block m-btn m-btn--icon m-btn--wide" do %>
+			<span>
+				<i class="fa flaticon-pin"></i>
+				<span>Al-Jauf Area</span>
+			</span>
+		<% end %>
+  </div>
+  <div class="col-xl-3">
+		<%= link_to area_pro_area_pro_assets_path(area_id: 4), class: "btn btn-primary btn-block m-btn m-btn--icon m-btn--wide" do %>
+			<span>
+				<i class="fa flaticon-pin"></i>
+				<span>South Area</span>
+			</span>
+		<% end %>
+  </div>
+</div>

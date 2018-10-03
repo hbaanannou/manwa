@@ -1,0 +1,25 @@
+<!-- display local time -->
+<%= 1.hour.from_now.localtime %>
+<br>
+<!-- week days 0-6 sunday - saterday -->
+<%= Date.today.wday %>
+<br>
+
+<!-- friday -> 5 -->
+<%= Date.new(2018,4,27).wday %>
+
+<br>
+
+<!-- a list of all the files and folders in the current directory -->
+<% Dir.glob('*').each do |file| %>
+<br> <%= file %>
+<% end %>
+
+
+<br> <br> <br>
+
+
+
+<% from_60 = Checklist.pluck(:day).max - 60 %>
+<% first_date = Checklist.where(" day > ? ", from_60).any? ? Checklist.where(" day > ? ", from_60).pluck(:day).min : Checklist.pluck(:day).min %>
+<%= first_date %>

@@ -1,0 +1,227 @@
+<%= render 'layouts/myindex/before_myindex_tabs', mytitle: "Request Assets" %>
+
+<% if current_user.role?(:assets_manager) %>
+<ul class="nav nav-pills m-2" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#request_assets_index_tab_1">
+      <i class="la la-database"></i>
+      Rent By Us &nbsp;
+      <% if @rent_by_us_request_assets.count > 0 %>
+      <span class="m-badge m-badge--danger"><%= @rent_by_us_request_assets.count %></span>
+      <% end %>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#request_assets_index_tab_2">
+      <i class="la la-gear"></i>
+      We HAve It &nbsp;
+      <% if @we_have_request_assets.count > 0 %>
+      <span class="m-badge m-badge--danger"><%= @we_have_request_assets.count %></span>
+      <% end %>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" data-toggle="tab" href="#request_assets_index_tab_3">
+      <i class="la la-gear"></i>
+      ALL &nbsp;
+      <% if @request_assets.count > 0 %>
+      <span class="m-badge m-badge--danger"><%= @request_assets.count %></span>
+      <% end %>
+    </a>
+  </li>
+</ul>
+
+<hr>
+
+<div class="tab-content">
+  <div class="tab-pane" id="request_assets_index_tab_1" role="tabpanel">
+    <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover">
+    <thead>
+    <tr>
+      <th>serial</th>
+      <th>available_date</th>
+      <th>Province</th>
+      <th>Site</th>
+      <th>By</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% if @rent_by_us_request_assets.any? %>
+      <% @rent_by_us_request_assets.each do |rent_by_us_request_asset| %>
+        <tr>
+
+          <td>#RA <%= rent_by_us_request_asset.id %></td>
+
+          <td><%= rent_by_us_request_asset.available_date %></td>
+
+          <td><%= rent_by_us_request_asset.province_asset_to.province_asset_name %></td>
+
+          <td><%= rent_by_us_request_asset.site_asset_to.site_asset_name %></td>
+
+          <td><%= rent_by_us_request_asset.user.assignments.first.employee.employee_name %></td>
+
+          <td>
+            
+            <%= link_to rent_by_us_request_asset, alt: "Show", class: "m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill", data: {toggle: "m-tooltip", placement: "bottom", original_title: "Show"} do %><i class="la la-ellipsis-h"></i><% end %>
+
+            <%= link_to edit_request_asset_path(rent_by_us_request_asset), alt: "Edit", class: "m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill", data: {toggle: "m-tooltip", placement: "bottom", original_title: "Edit"} do %><i class="la la-edit"></i><% end %>
+
+          </td>
+
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <th scope="row" class="text-center" colspan="12">No rent_by_us_request_asset</th>
+      </tr>
+    <% end %>
+    </tbody>
+    </table>
+
+    <div class="mb-3 pb-3">
+      <div class="digg_pagination m--pull-left">
+        <span class="page_info">
+          <%= page_entries_info @rent_by_us_request_assets, model: "Request Asset" %>
+        </span>
+      </div>
+      <div class="digg_pagination m--pull-right">
+        <%= will_paginate @rent_by_us_request_assets, :container => false %>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="tab-pane" id="request_assets_index_tab_2" role="tabpanel">
+    <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover">
+    <thead>
+    <tr>
+      <th>serial</th>
+      <th>available_date</th>
+      <th>Province</th>
+      <th>Site</th>
+      <th>By</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% if @we_have_request_assets.any? %>
+      <% @we_have_request_assets.each do |we_have_request_asset| %>
+        <tr>
+
+          <td>#RA <%= we_have_request_asset.id %></td>
+
+          <td><%= we_have_request_asset.available_date %></td>
+
+          <td><%= we_have_request_asset.province_asset_to.province_asset_name %></td>
+
+          <td><%= we_have_request_asset.site_asset_to.site_asset_name %></td>
+
+          <td><%= we_have_request_asset.user.assignments.first.employee.employee_name %></td>
+
+          <td>
+
+            <%= link_to we_have_request_asset, alt: "Show", class: "m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill", data: {toggle: "m-tooltip", placement: "bottom", original_title: "Show"} do %><i class="la la-ellipsis-h"></i><% end %>
+
+            <%= link_to edit_request_asset_path(we_have_request_asset), alt: "Edit", class: "m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill", data: {toggle: "m-tooltip", placement: "bottom", original_title: "Edit"} do %><i class="la la-edit"></i><% end %>
+
+          </td>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <th scope="row" class="text-center" colspan="12">No we_have_request_asset</th>
+      </tr>
+    <% end %>
+    </tbody>
+    </table>
+
+    <div class="mb-3 pb-3">
+      <div class="digg_pagination m--pull-left">
+        <span class="page_info">
+          <%= page_entries_info @we_have_request_assets, model: "Request Asset" %>
+        </span>
+      </div>
+      <div class="digg_pagination m--pull-right">
+        <%= will_paginate @we_have_request_assets, :container => false %>
+      </div>
+    </div>
+
+  </div>
+
+
+
+  <div class="tab-pane active" id="request_assets_index_tab_3" role="tabpanel">
+    <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover">
+    <thead>
+    <tr>
+      <th>serial</th>
+      <th>available_date</th>
+      <th>Province</th>
+      <th>Site</th>
+      <th>By</th>
+      <th>Accept Status</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% if @request_assets.any? %>
+      <% @request_assets.each do |request_asset| %>
+        <tr>
+
+          <td>#RA <%= request_asset.id %></td>
+
+          <td><%= request_asset.available_date %></td>
+
+          <td><%= request_asset.province_asset_to.province_asset_name %></td>
+
+          <td><%= request_asset.site_asset_to.site_asset_name %></td>
+
+          <td><%= request_asset.user.assignments.first.employee.employee_name %></td>
+
+            <td>
+              <% if request_asset.accept_status == 'rent_by_us' %>
+              <span class="m--font-info">Rent By Us</span>
+              <% elsif request_asset.accept_status == 'we_have' %>
+              <span class="m--font-brand">We Have</span>
+              <% end %>
+            </td>
+
+          <td>
+            
+            <%= link_to request_asset, alt: "Show", class: "m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill", data: {toggle: "m-tooltip", placement: "bottom", original_title: "Show"} do %><i class="la la-ellipsis-h"></i><% end %>
+
+            <%= link_to edit_request_asset_path(request_asset), alt: "Edit", class: "m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill", data: {toggle: "m-tooltip", placement: "bottom", original_title: "Edit"} do %><i class="la la-edit"></i><% end %>
+
+          </td>
+
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <th scope="row" class="text-center" colspan="12">No request_asset</th>
+      </tr>
+    <% end %>
+    </tbody>
+    </table>
+
+    <div class="mb-3 pb-3">
+      <div class="digg_pagination m--pull-left">
+        <span class="page_info">
+          <%= page_entries_info @request_assets, model: "Request Asset" %>
+        </span>
+      </div>
+      <div class="digg_pagination m--pull-right">
+        <%= will_paginate @request_assets, :container => false %>
+      </div>
+    </div>
+
+  </div>
+
+
+</div>
+
+
+<% end %>
+
+<%= render 'layouts/myindex/after_myindex_tabs' %>

@@ -1,0 +1,285 @@
+<header class="m-grid__item    m-header "  data-minimize-offset="200" data-minimize-mobile-offset="200" >
+	<div class="m-container m-container--fluid m-container--full-height">
+		<div class="m-stack m-stack--ver m-stack--desktop">
+			<!-- BEGIN: Brand -->
+			<div class="m-stack__item m-brand  m-brand--skin-dark ">
+				<div class="m-stack m-stack--ver m-stack--general">
+					<div class="m-stack__item m-stack__item--middle m-brand__logo">
+
+						<%= link_to root_path, class: "m-brand__logo-wrapper" do %>
+							<%= image_tag "logo.png", alt: "" %>
+						<% end %>
+
+					</div>
+					<div class="m-stack__item m-stack__item--middle m-brand__tools">
+						<!-- BEGIN: Left Aside Minimize Toggle -->
+						<a href="javascript:;" id="m_aside_left_minimize_toggle" class="m-brand__icon m-brand__toggler m-brand__toggler--left m--visible-desktop-inline-block 
+		 ">
+							<span></span>
+						</a>
+						<!-- END -->
+				<!-- BEGIN: Responsive Aside Left Menu Toggler -->
+						<a href="javascript:;" id="m_aside_left_offcanvas_toggle" class="m-brand__icon m-brand__toggler m-brand__toggler--left m--visible-tablet-and-mobile-inline-block">
+							<span></span>
+						</a>
+						<!-- END -->
+
+
+<!-- BEGIN: Topbar Toggler -->
+						<a id="m_aside_header_topbar_mobile_toggle" href="javascript:;" class="m-brand__icon m--visible-tablet-and-mobile-inline-block">
+							<i class="flaticon-more"></i>
+						</a>
+						<!-- BEGIN: Topbar Toggler -->
+					</div>
+				</div>
+			</div>
+			<!-- END: Brand -->
+			<div class="m-stack__item m-stack__item--fluid m-header-head" id="m_header_nav">
+				<!-- BEGIN: Horizontal Menu -->
+				<button class="m-aside-header-menu-mobile-close  m-aside-header-menu-mobile-close--skin-dark " id="m_aside_header_menu_mobile_close_btn">
+					<i class="la la-close"></i>
+				</button>
+				<div id="m_header_menu" class="m-header-menu m-aside-header-menu-mobile m-aside-header-menu-mobile--offcanvas  m-header-menu--skin-light m-header-menu--submenu-skin-light m-aside-header-menu-mobile--skin-dark m-aside-header-menu-mobile--submenu-skin-dark "  >
+
+      <% if controller?('data_assets') && action?('show') && current_user.role?(:assets_manager) %>
+      <%= link_to 'Withdraw This Asset', new_withdraw_asset_path(asset_id: @data_asset.id), class: "btn m-btn--pill m-btn--air btn-outline-danger m-btn m-btn--outline-2x mr-2 mt-3" %>
+      <% end %>
+
+      <% if controller?('data_assets') && action?('show') && (current_user.role?(:assets_site) || current_user.role?(:assets_province)) %>
+      <%= link_to 'Transfer This Asset', new_transfer_asset_path(asset_id: @data_asset.id), class: "btn m-btn--pill m-btn--air btn-outline-success m-btn m-btn--outline-2x mr-2 mt-3" %>
+      <%= link_to 'Repair This Asset', new_repair_order_path(asset_id: @data_asset.id), class: "btn m-btn--pill m-btn--air btn-outline-danger m-btn m-btn--outline-2x mr-2 mt-3" %>
+      <% end %>
+
+      <% if controller?('data_assets') && action?('show') && current_user.role?(:workshops_manager) %>
+      <%= link_to 'Add Operation Card for This Asset', new_checklist_path(asset_id: @data_asset.id), class: "btn m-btn--pill m-btn--air btn-outline-success m-btn m-btn--outline-2x mr-2 mt-3" %>
+      <% end %>
+
+				</div>
+				<!-- END: Horizontal Menu -->								<!-- BEGIN: Topbar -->
+				<div id="m_header_topbar" class="m-topbar  m-stack m-stack--ver m-stack--general">
+					<div class="m-stack__item m-topbar__nav-wrapper">
+						<ul class="m-topbar__nav m-nav m-nav--inline">
+
+
+<% if current_user.role?(:production_admin) %>
+<% @zero_cons = ProvinceProAsset.joins(pro_concretes: :pro_concrete_subs).select("province_pro_assets.province_pro_asset_name , pro_concretes.id, pro_concretes.day, sum(pro_concrete_subs.pro_concrete_amount) as day_amount").group("province_pro_assets.province_pro_asset_name", "pro_concretes.id", "pro_concretes.day").having("sum(pro_concrete_subs.pro_concrete_amount) = 0").having('pro_concretes.day > ?', 30.days.ago).order("pro_concretes.day DESC") %>
+<% @zero_asphs = ProvinceProAsset.joins(pro_asphalts: :pro_asphalt_subs).select("province_pro_assets.province_pro_asset_name, pro_asphalts.id, pro_asphalts.day, sum(pro_asphalt_subs.pro_asphalt_amount) as day_amount").group("province_pro_assets.province_pro_asset_name", "pro_asphalts.id","pro_asphalts.day").having("sum(pro_asphalt_subs.pro_asphalt_amount) = 0").having('pro_asphalts.day > ?', 30.days.ago).order("pro_asphalts.day DESC") %>
+<% @zero_crus = ProvinceProAsset.joins(pro_crushers: :pro_crusher_subs).select("province_pro_assets.province_pro_asset_name, pro_crushers.id, pro_crushers.day, sum(pro_crusher_subs.pro_crusher_amount) as day_amount").group("province_pro_assets.province_pro_asset_name", "pro_crushers.id","pro_crushers.day").having("sum(pro_crusher_subs.pro_crusher_amount) = 0").having('pro_crushers.day > ?', 30.days.ago).order("pro_crushers.day DESC") %>
+<% end %>
+
+
+<% if current_user.role?(:production_admin) %>
+<li class="m-nav__item m-topbar__notifications m-topbar__notifications--img m-dropdown m-dropdown--large m-dropdown--header-bg-fill m-dropdown--arrow m-dropdown--align-center 	m-dropdown--mobile-full-width  pr-5 mr-5" data-dropdown-toggle="click" data-dropdown-persistent="true">
+	<a href="#" class="m-nav__link m-dropdown__toggle" id="m_topbar_notification_icon">
+		<span class="m-nav__link-badge m-badge m-badge--dot m-badge--dot-small m-badge--danger"></span>
+		<span class="m-nav__link-icon">
+			<i class="flaticon-music-2"></i>
+		</span>
+		<span class="m-menu__link-badge"><span class="m-badge m-badge--danger"><%= @zero_cons.to_a.size + @zero_asphs.to_a.size + @zero_crus.to_a.size %></span></span>
+	</a>
+	<div class="m-dropdown__wrapper">
+		<span class="m-dropdown__arrow m-dropdown__arrow--center"></span>
+		<div class="m-dropdown__inner">
+			<div class="m-dropdown__header m--align-center" style="background: url(<%= image_path('quick_actions_bg.jpg') %>); background-size: cover;">
+				<span class="m-dropdown__header-title">
+					Last 30 Days Alerts
+				</span>
+				<span class="m-dropdown__header-subtitle">
+					User Notifications
+				</span>
+			</div>
+			<div class="m-dropdown__body">
+				<div class="m-dropdown__content">
+					<ul class="nav nav-tabs m-tabs m-tabs-line m-tabs-line--brand" role="tablist">
+						<li class="nav-item m-tabs__item">
+							<a class="nav-link m-tabs__link active" data-toggle="tab" href="#topbar_notifications_notifications" role="tab">
+								Concrete
+								<span class="m-menu__link-badge"><span class="m-badge <%= @zero_cons.to_a.size > 0 ? 'm-badge--danger' : 'm-badge--success' %> "><%= @zero_cons.to_a.size %></span></span>
+							</a>
+						</li>
+						<li class="nav-item m-tabs__item">
+							<a class="nav-link m-tabs__link" data-toggle="tab" href="#topbar_notifications_events" role="tab">
+								Asphalt
+								<span class="m-menu__link-badge"><span class="m-badge <%= @zero_asphs.to_a.size > 0 ? 'm-badge--danger' : 'm-badge--success' %> "><%= @zero_asphs.to_a.size %></span></span>
+							</a>
+						</li>
+						<li class="nav-item m-tabs__item">
+							<a class="nav-link m-tabs__link" data-toggle="tab" href="#topbar_notifications_logs" role="tab">
+								Crucher
+								<span class="m-menu__link-badge"><span class="m-badge <%= @zero_crus.to_a.size > 0 ? 'm-badge--danger' : 'm-badge--success' %> "><%= @zero_crus.to_a.size %></span></span>
+							</a>
+						</li>
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane active" id="topbar_notifications_notifications" role="tabpanel">
+							<div class="m-scrollable" data-scrollable="true" data-max-height="250" data-mobile-max-height="200">
+								<div class="m-list-timeline m-list-timeline--skin-light">
+									<div class="m-list-timeline__items">
+										
+										<% if @zero_cons.any? %>
+										<% @zero_cons.each do |zero_con| %>
+										<div class="m-list-timeline__item">
+											<span class="m-list-timeline__badge"></span>
+											<span href="" class="m-list-timeline__text">
+												<%= link_to pro_concrete_subs_path(pro_concrete_id: zero_con.id), class: "m-link" do %>
+													<%= zero_con.province_pro_asset_name %> - ZERO:
+												<% end %>
+												<span class="m-badge m-badge--danger m-badge--wide">
+													<%= zero_con.day_amount %> M
+												</span>
+											</span>
+											<span class="m-list-timeline__time">
+												<%= zero_con.day %>
+											</span>
+										</div>
+										<% end %>
+										<% else %>
+										<div class="m-list-timeline__item">
+										<span class="m-list-timeline__badge"></span>
+										<span href="" class="m-list-timeline__text">
+											No Alerts Now.
+										</span>
+										</div>
+										<% end %>
+
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="tab-pane" id="topbar_notifications_events" role="tabpanel">
+							<div class="m-scrollable" data-scrollable="true" data-max-height="250" data-mobile-max-height="200">
+								<div class="m-list-timeline m-list-timeline--skin-light">
+									<div class="m-list-timeline__items">
+
+										<% if @zero_asphs.any? %>
+										<% @zero_asphs.each do |zero_asph| %>
+										<div class="m-list-timeline__item">
+											<span class="m-list-timeline__badge"></span>
+											<span href="" class="m-list-timeline__text">
+												<%= link_to pro_asphalt_subs_path(pro_asphalt_id: zero_asph.id), class: "m-link" do %>
+													<%= zero_asph.province_pro_asset_name %> - ZERO:
+												<% end %>
+												<span class="m-badge m-badge--danger m-badge--wide">
+													<%= zero_asph.day_amount %> TON
+												</span>
+											</span>
+											<span class="m-list-timeline__time">
+												<%= zero_asph.day %>
+											</span>
+										</div>
+										<% end %>
+										<% else %>
+										<div class="m-list-timeline__item">
+										<span class="m-list-timeline__badge"></span>
+										<span href="" class="m-list-timeline__text">
+											No Alerts Now.
+										</span>
+										</div>
+										<% end %>
+
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="tab-pane" id="topbar_notifications_logs" role="tabpanel">
+							<div class="m-scrollable" data-scrollable="true" data-max-height="250" data-mobile-max-height="200">
+								<div class="m-list-timeline m-list-timeline--skin-light">
+									<div class="m-list-timeline__items">
+
+										<% if @zero_crus.any? %>
+										<% @zero_crus.each do |zero_cru| %>
+										<div class="m-list-timeline__item">
+											<span class="m-list-timeline__badge"></span>
+											<span href="" class="m-list-timeline__text">
+												<%= link_to pro_crusher_subs_path(pro_crusher_id: zero_cru.id), class: "m-link" do %>
+													<%= zero_cru.province_pro_asset_name %> - ZERO:
+												<% end %>
+												<span class="m-badge m-badge--danger m-badge--wide">
+													<%= zero_cru.day_amount %> M
+												</span>
+											</span>
+											<span class="m-list-timeline__time">
+												<%= zero_cru.day %>
+											</span>
+										</div>
+										<% end %>
+										<% else %>
+										<div class="m-list-timeline__item">
+										<span class="m-list-timeline__badge"></span>
+										<span href="" class="m-list-timeline__text">
+											No Alerts Now.
+										</span>
+										</div>
+										<% end %>
+
+									</div>
+								</div>
+							</div>
+						</div>
+
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</li>
+<% end %>
+
+							
+<li class="m-nav__item m-topbar__user-profile m-topbar__user-profile--img  m-dropdown m-dropdown--medium m-dropdown--arrow m-dropdown--header-bg-fill m-dropdown--align-right m-dropdown--mobile-full-width m-dropdown--skin-light ml-5" data-dropdown-toggle="click">
+	<a href="#" class="m-nav__link m-dropdown__toggle">
+		<span class="m-topbar__userpic" data-toggle="m-tooltip" data-placement="bottom" data-original-title="User Menu">
+			<%= image_tag "user.jpg", alt: "", class: "m--img-rounded m--marginless m--img-centered" %>
+		</span>
+	</a>
+	<div class="m-dropdown__wrapper">
+		<span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>
+		<div class="m-dropdown__inner">
+			<div class="m-dropdown__header m--align-center" style="background: url(<%= image_path('user_profile_bg.jpg') %>); background-size: cover;">
+				<div class="m-card-user m-card-user--skin-dark">
+					<div class="m-card-user__pic">
+						<%= image_tag "user.jpg", alt: "", class: "m--img-rounded m--marginless" %>
+					</div>
+					<div class="m-card-user__details">
+						<span class="m-card-user__name m--font-weight-500">
+							<% if current_user.assignments.any? %>
+							<%= current_user.assignments.first.employee.employee_name if present? %>
+							<% end %>
+						</span>
+						<a href="" class="m-card-user__email m--font-weight-300 m-link">
+							<%= current_user.email %>
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="m-dropdown__body">
+				<div class="m-dropdown__content">
+					<ul class="m-nav m-nav--skin-light">
+						<li class="m-nav__section m--hide">
+							<span class="m-nav__section-text">
+								Section
+							</span>
+						</li>
+
+						<li class="m-nav__separator m-nav__separator--fit"></li>
+						<li class="m-nav__item">
+							<%= link_to destroy_user_session_path, method: :delete, class: "btn m-btn--pill btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder" do %>
+								Logout
+							<% end %>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</li>
+
+						</ul>
+					</div>
+				</div>
+				<!-- END: Topbar -->
+			</div>
+		</div>
+	</div>
+</header>

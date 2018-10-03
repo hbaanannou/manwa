@@ -1,0 +1,58 @@
+<!-- BEGIN: Subheader -->
+<div class="m-subheader ">
+  <div class="d-flex align-items-center">
+    <div class="mr-auto">
+      <h3 class="m-subheader__title m-subheader__title--separator">
+        Index
+      </h3>
+    </div>
+  </div>
+</div>
+<!-- END: Subheader -->
+
+<!--Begin::m-content-->
+<div class="m-content">
+  <!--Begin::Row-->
+  <div class="row">
+    <!--Begin::col-xl-12-->
+    <div class="col-xl-12">
+      <!--begin::Portlet-->
+      <div class="m-portlet " id="m_portlet">
+        <div class="m-portlet__head">
+          <div class="m-portlet__head-caption">
+            <div class="m-portlet__head-title">
+              <span class="m-portlet__head-icon">
+                <i class="flaticon-user m--font-brand"></i>
+              </span>
+              <h3 class="m-portlet__head-text">
+                <%= local_assigns[:mytitle] %>
+              </h3>
+            </div>
+          </div>
+          <div class="m-portlet__head-tools">
+            <ul class="m-portlet__nav">
+
+              <% if local_assigns[:newlink] %>
+              <li class="m-portlet__nav-item">
+                <%= link_to newpath, class: "btn m-btn m-btn--icon m-btn--pill m-btn--air btn-success" do %>
+                  <span>
+                    <i class="la la-plus"></i>
+                    <span>
+                      Add <%= newtitle %>
+                    </span>
+                  </span>
+                <% end %>
+              </li>
+              <% end %>
+
+            </ul>
+          </div>
+        </div>
+
+        <!--Begin::m-portlet__body-->
+        <div class="m-portlet__body">
+
+          <!--Begin::Section-->
+          <div class="m-section">
+            <div class="m-section__content">
+              

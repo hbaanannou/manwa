@@ -1,0 +1,661 @@
+<!-- BEGIN: Subheader -->
+<div class="m-subheader ">
+  <div class="d-flex align-items-center">
+    <div class="mr-auto">
+      <h3 class="m-subheader__title m-subheader__title--separator">
+        Index
+      </h3>
+    </div>
+
+      <% if current_user.role?(:workshops_manager) %>
+        <div>
+        <%= form_tag repair_orders_path, method: :get, class: "m-form m-form--fit form-inline" do %>
+
+          <%= select_tag "workshop_id", options_from_collection_for_select(SiteAsset.by_workshop.order(site_asset_name: :asc), "id", "site_asset_name"), include_blank: 'Select Workshop Name', class: "form-control m-input m-input--fixed-normal m-select2" %>
+
+          <%= submit_tag 'Select', class: "btn btn-brand m-2" %>
+
+        <% end %>
+        </div>
+      <% end %>
+
+  </div>
+</div>
+<!-- END: Subheader -->
+
+<!--Begin::m-content-->
+<div class="m-content">
+  <!--Begin::Row-->
+  <div class="row">
+    <!--Begin::col-xl-12-->
+    <div class="col-xl-12">
+      <!--begin::Portlet-->
+      <div class="m-portlet " id="m_portlet">
+        <div class="m-portlet__head">
+          <div class="m-portlet__head-caption">
+            <div class="m-portlet__head-title">
+              <span class="m-portlet__head-icon">
+                <i class="flaticon-user m--font-brand"></i>
+              </span>
+              <h3 class="m-portlet__head-text">
+                Repair Orders <% if current_user.role?(:workshops_manager) && !params[:workshop_id].blank? %> ( <%= SiteAsset.find(params[:workshop_id]).site_asset_name %> ) <% end %>
+              </h3>
+            </div>
+          </div>
+        </div>
+
+        <!--Begin::m-portlet__body-->
+        <div class="m-portlet__body">
+
+          <!--Begin::Section-->
+          <div class="m-section">
+            <div class="m-section__content">
+
+
+<% if current_user.role?(:workshops_site) || current_user.role?(:workshops_manager) %>
+<ul class="nav nav-pills m-2" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#repair_orders_index_tab_1">
+      <i class="la la-database"></i>
+      Requested &nbsp;
+      <% if @requested_repair_orders.count > 0 %>
+      <span class="m-badge m-badge--danger"><%= @requested_repair_orders.count %></span>
+      <% end %>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#repair_orders_index_tab_2">
+      <i class="la la-database"></i>
+      Received &nbsp;
+      <% if @received_repair_orders.count > 0 %>
+      <span class="m-badge m-badge--danger"><%= @received_repair_orders.count %></span>
+      <% end %>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#repair_orders_index_tab_3">
+      <i class="la la-database"></i>
+      Opened &nbsp;
+      <% if @opened_repair_orders.count > 0 %>
+      <span class="m-badge m-badge--danger"><%= @opened_repair_orders.count %></span>
+      <% end %>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#repair_orders_index_tab_4">
+      <i class="la la-database"></i>
+      Hold &nbsp;
+      <% if @hold_repair_orders.count > 0 %>
+      <span class="m-badge m-badge--danger"><%= @hold_repair_orders.count %></span>
+      <% end %>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#repair_orders_index_tab_5">
+      <i class="la la-gear"></i>
+      repaired &nbsp;
+      <% if @repaired_repair_orders.count > 0 %>
+      <span class="m-badge m-badge--danger"><%= @repaired_repair_orders.count %></span>
+      <% end %>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#repair_orders_index_tab_6">
+      <i class="la la-database"></i>
+      Returned &nbsp;
+      <% if @returned_repair_orders.count > 0 %>
+      <span class="m-badge m-badge--danger"><%= @returned_repair_orders.count %></span>
+      <% end %>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" data-toggle="tab" href="#repair_orders_index_tab_7">
+      <i class="la la-gear"></i>
+      ALL &nbsp;
+      <% if @repair_orders.count > 0 %>
+      <span class="m-badge m-badge--danger"><%= @repair_orders.count %></span>
+      <% end %>
+    </a>
+  </li>
+</ul>
+
+<hr>
+
+<div class="tab-content">
+
+  <div class="tab-pane" id="repair_orders_index_tab_1" role="tabpanel">
+    <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>#Serial</th>
+        <th>Asset Number</th>
+        <th>Site</th>
+        <th>Emp.</th>
+        <th>RO Date</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% if @requested_repair_orders.any? %>
+        <% @requested_repair_orders.each do |requested_repair_order| %>
+          <tr>
+
+            <td>#RO <%= requested_repair_order.id %></td>
+
+            <td><%= requested_repair_order.data_asset.data_asset_serial %></td>
+
+            <td><%= requested_repair_order.site_asset.site_asset_name %></td>
+
+            <td><%= requested_repair_order.user.assignments.first.employee.employee_name %></td>
+
+            <td><%= requested_repair_order.created_at.to_date %></td>
+
+            <td>
+              <%= link_to repair_order_path(requested_repair_order), alt: "Show", class: "m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill", data: {toggle: "m-tooltip", placement: "bottom", original_title: "Show"} do %><i class="la la-ellipsis-h"></i><% end %>
+
+              <%= link_to repair_breakdowns_path(ro_id: requested_repair_order.id), alt: "Breakdowns", class: "m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill", data: {toggle: "m-tooltip", placement: "bottom", original_title: "Breakdowns"} do %><i class="la la-angle-double-right"></i><% end %>
+
+              <% if current_user.role?(:workshops_site) %>
+              <%= link_to edit_repair_order_path(requested_repair_order, asset_id: DataAsset.find(requested_repair_order.data_asset_id).id), alt: "Edit", class: "m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill", data: {toggle: "m-tooltip", placement: "bottom", original_title: "Edit to Receive"} do %><i class="la la-edit"></i><% end %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      <% else %>
+        <tr>
+          <th scope="row" class="text-center" colspan="12">No Repair Orders</th>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+
+    <div class="mb-3 pb-3">
+      <div class="digg_pagination m--pull-left">
+        <span class="page_info">
+          <%= page_entries_info @requested_repair_orders, model: "Repair Order" %>
+        </span>
+      </div>
+      <div class="digg_pagination m--pull-right">
+        <%= will_paginate @requested_repair_orders, :container => false %>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="tab-pane" id="repair_orders_index_tab_2" role="tabpanel">
+    <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>#Serial</th>
+        <th>Asset Number</th>
+        <th>Site</th>
+        <th>Emp.</th>
+        <th>RO Date</th>
+        <th>Breakdowns</th>
+        <th>Add MR</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% if @received_repair_orders.any? %>
+        <% @received_repair_orders.each do |received_repair_order| %>
+          <tr>
+
+            <td>#RO <%= received_repair_order.id %></td>
+
+            <td><%= received_repair_order.data_asset.data_asset_serial %></td>
+
+            <td><%= received_repair_order.site_asset.site_asset_name %></td>
+
+            <td><%= received_repair_order.user.assignments.first.employee.employee_name %></td>
+
+            <td><%= received_repair_order.created_at.to_date %></td>
+
+            <td>
+              <%= link_to repair_breakdowns_path(ro_id: received_repair_order.id), alt: "Breakdowns", class: "m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill", data: {toggle: "m-tooltip", placement: "bottom", original_title: "Breakdowns"} do %><i class="la la-angle-double-right"></i><% end %>
+
+                <% if received_repair_order.repair_breakdowns.count > 0 %>
+                <span class="m-badge m-badge--default" data-toggle="m-tooltip" data-placement="bottom" data-original-title="Breakdowns Num."><%= received_repair_order.repair_breakdowns.count %></span>
+                <% else %>
+                <span class="m-badge m-badge--danger" data-toggle="m-tooltip" data-placement="bottom" data-original-title="Breakdowns Num."><%= received_repair_order.repair_breakdowns.count %></span>
+                <% end %>
+            </td>
+            <td>
+              <% @current_newspar = 0 %>
+              <% received_repair_order.repair_breakdowns.each do |breakdown| %>
+                  <% @current_new = breakdown.breakdown_spares.where(spare_status: :newspare).count %>
+                  <% @current_newspar = @current_newspar + @current_new %>
+              <% end %>
+
+                <% if @current_newspar %>
+                  <% if @current_newspar > 0 %>
+                  <%= link_to create_matrial_request_with_old_spares_repair_orders_path(ro_id: received_repair_order.id), alt: "Create Material Request", class: "m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill", data: {toggle: "m-tooltip", placement: "bottom", original_title: "* after adding spares for breakes -> Create Material Request"} do %><i class="la la-arrow-circle-right"></i><% end %>
+                  <span class="m-badge m-badge--success" data-toggle="m-tooltip" data-placement="bottom" data-original-title="New Spares Num."><%= @current_newspar %></span>
+                  <% end %>
+                <% end %>
+            </td>
+            <td>
+              <%= link_to repair_order_path(received_repair_order), alt: "Show", class: "m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill", data: {toggle: "m-tooltip", placement: "bottom", original_title: "Show"} do %><i class="la la-ellipsis-h"></i><% end %>
+
+              <%= link_to repair_breakdowns_path(ro_id: received_repair_order.id), alt: "Breakdowns", class: "m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill", data: {toggle: "m-tooltip", placement: "bottom", original_title: "Breakdowns"} do %><i class="la la-angle-double-right"></i><% end %>
+
+              <% if current_user.role?(:workshops_site) %>
+              <%= link_to edit_repair_order_path(received_repair_order, asset_id: DataAsset.find(received_repair_order.data_asset_id).id), alt: "Edit", class: "m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill", data: {toggle: "m-tooltip", placement: "bottom", original_title: "Edit"} do %><i class="la la-edit"></i><% end %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      <% else %>
+        <tr>
+          <th scope="row" class="text-center" colspan="12">No Repair Orders</th>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+
+    <div class="mb-3 pb-3">
+      <div class="digg_pagination m--pull-left">
+        <span class="page_info">
+          <%= page_entries_info @received_repair_orders, model: "Repair Order" %>
+        </span>
+      </div>
+      <div class="digg_pagination m--pull-right">
+        <%= will_paginate @received_repair_orders, :container => false %>
+      </div>
+    </div>
+
+  </div>
+
+
+
+  <div class="tab-pane" id="repair_orders_index_tab_3" role="tabpanel">
+    <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>#Serial</th>
+        <th>Asset Number</th>
+        <th>Site</th>
+        <th>Emp.</th>
+        <th>RO Date</th>
+        <th>Breakdowns</th>
+        <th>Add MR</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% if @opened_repair_orders.any? %>
+        <% @opened_repair_orders.each do |opened_repair_order| %>
+          <tr>
+
+            <td>#RO <%= opened_repair_order.id %></td>
+
+            <td><%= opened_repair_order.data_asset.data_asset_serial %></td>
+
+            <td><%= opened_repair_order.site_asset.site_asset_name %></td>
+
+            <td><%= opened_repair_order.user.assignments.first.employee.employee_name %></td>
+
+            <td><%= opened_repair_order.created_at.to_date %></td>
+
+            <td>
+              <%= link_to repair_breakdowns_path(ro_id: opened_repair_order.id), alt: "Breakdowns", class: "m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill", data: {toggle: "m-tooltip", placement: "bottom", original_title: "Breakdowns"} do %><i class="la la-angle-double-right"></i><% end %>
+
+                <% if opened_repair_order.repair_breakdowns.count > 0 %>
+                <span class="m-badge m-badge--default" data-toggle="m-tooltip" data-placement="bottom" data-original-title="Breakdowns Num."><%= opened_repair_order.repair_breakdowns.count %></span>
+                <% else %>
+                <span class="m-badge m-badge--danger" data-toggle="m-tooltip" data-placement="bottom" data-original-title="Breakdowns Num."><%= opened_repair_order.repair_breakdowns.count %></span>
+                <% end %>
+            </td>
+            <td>
+              <% @current_newspar = 0 %>
+              <% opened_repair_order.repair_breakdowns.each do |breakdown| %>
+                  <% @current_new = breakdown.breakdown_spares.where(spare_status: :newspare).count %>
+                  <% @current_newspar = @current_newspar + @current_new %>
+              <% end %>
+
+                <% if @current_newspar %>
+                  <% if @current_newspar > 0 %>
+                  <%= link_to create_matrial_request_with_old_spares_repair_orders_path(ro_id: opened_repair_order.id), alt: "Create Material Request", class: "m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill", data: {toggle: "m-tooltip", placement: "bottom", original_title: "* after adding spares for breakes -> Create Material Request"} do %><i class="la la-arrow-circle-right"></i><% end %>
+                  <span class="m-badge m-badge--success" data-toggle="m-tooltip" data-placement="bottom" data-original-title="New Spares Num."><%= @current_newspar %></span>
+                  <% end %>
+                <% end %>
+            </td>
+            <td>
+              <%= link_to repair_order_path(opened_repair_order), alt: "Show", class: "m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill", data: {toggle: "m-tooltip", placement: "bottom", original_title: "Show"} do %><i class="la la-ellipsis-h"></i><% end %>
+
+              <%= link_to repair_breakdowns_path(ro_id: opened_repair_order.id), alt: "Breakdowns", class: "m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill", data: {toggle: "m-tooltip", placement: "bottom", original_title: "Breakdowns"} do %><i class="la la-angle-double-right"></i><% end %>
+
+              <% if current_user.role?(:workshops_site) %>
+              <%= link_to edit_repair_order_path(opened_repair_order, asset_id: DataAsset.find(opened_repair_order.data_asset_id).id), alt: "Edit", class: "m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill", data: {toggle: "m-tooltip", placement: "bottom", original_title: "Edit"} do %><i class="la la-edit"></i><% end %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      <% else %>
+        <tr>
+          <th scope="row" class="text-center" colspan="12">No Repair Orders</th>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+
+    <div class="mb-3 pb-3">
+      <div class="digg_pagination m--pull-left">
+        <span class="page_info">
+          <%= page_entries_info @opened_repair_orders, model: "Repair Order" %>
+        </span>
+      </div>
+      <div class="digg_pagination m--pull-right">
+        <%= will_paginate @opened_repair_orders, :container => false %>
+      </div>
+    </div>
+
+  </div>
+
+
+
+
+  <div class="tab-pane" id="repair_orders_index_tab_4" role="tabpanel">
+    <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>#Serial</th>
+        <th>Asset Number</th>
+        <th>Site</th>
+        <th>Emp.</th>
+        <th>RO Date</th>
+        <th>Breakdowns</th>
+        <th>Add MR</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% if @hold_repair_orders.any? %>
+        <% @hold_repair_orders.each do |hold_repair_order| %>
+          <tr>
+
+            <td>#RO <%= hold_repair_order.id %></td>
+
+            <td><%= hold_repair_order.data_asset.data_asset_serial %></td>
+
+            <td><%= hold_repair_order.site_asset.site_asset_name %></td>
+
+            <td><%= hold_repair_order.user.assignments.first.employee.employee_name %></td>
+
+            <td><%= hold_repair_order.created_at.to_date %></td>
+
+            <td>
+              <%= link_to repair_breakdowns_path(ro_id: hold_repair_order.id), alt: "Breakdowns", class: "m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill", data: {toggle: "m-tooltip", placement: "bottom", original_title: "Breakdowns"} do %><i class="la la-angle-double-right"></i><% end %>
+
+                <% if hold_repair_order.repair_breakdowns.count > 0 %>
+                <span class="m-badge m-badge--default" data-toggle="m-tooltip" data-placement="bottom" data-original-title="Breakdowns Num."><%= hold_repair_order.repair_breakdowns.count %></span>
+                <% else %>
+                <span class="m-badge m-badge--danger" data-toggle="m-tooltip" data-placement="bottom" data-original-title="Breakdowns Num."><%= hold_repair_order.repair_breakdowns.count %></span>
+                <% end %>
+            </td>
+            <td>
+              <% @current_newspar = 0 %>
+              <% hold_repair_order.repair_breakdowns.each do |breakdown| %>
+                  <% @current_new = breakdown.breakdown_spares.where(spare_status: :newspare).count %>
+                  <% @current_newspar = @current_newspar + @current_new %>
+              <% end %>
+
+                <% if @current_newspar %>
+                  <% if @current_newspar > 0 %>
+                  <%= link_to create_matrial_request_with_old_spares_repair_orders_path(ro_id: hold_repair_order.id), alt: "Create Material Request", class: "m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill", data: {toggle: "m-tooltip", placement: "bottom", original_title: "* after adding spares for breakes -> Create Material Request"} do %><i class="la la-arrow-circle-right"></i><% end %>
+                  <span class="m-badge m-badge--success" data-toggle="m-tooltip" data-placement="bottom" data-original-title="New Spares Num."><%= @current_newspar %></span>
+                  <% end %>
+                <% end %>
+            </td>
+            <td>
+              <%= link_to repair_order_path(hold_repair_order), alt: "Show", class: "m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill", data: {toggle: "m-tooltip", placement: "bottom", original_title: "Show"} do %><i class="la la-ellipsis-h"></i><% end %>
+
+              <%= link_to repair_breakdowns_path(ro_id: hold_repair_order.id), alt: "Breakdowns", class: "m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill", data: {toggle: "m-tooltip", placement: "bottom", original_title: "Breakdowns"} do %><i class="la la-angle-double-right"></i><% end %>
+
+              <% if current_user.role?(:workshops_site) %>
+              <%= link_to edit_repair_order_path(hold_repair_order, asset_id: DataAsset.find(hold_repair_order.data_asset_id).id), alt: "Edit", class: "m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill", data: {toggle: "m-tooltip", placement: "bottom", original_title: "Edit"} do %><i class="la la-edit"></i><% end %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      <% else %>
+        <tr>
+          <th scope="row" class="text-center" colspan="12">No Repair Orders</th>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+
+    <div class="mb-3 pb-3">
+      <div class="digg_pagination m--pull-left">
+        <span class="page_info">
+          <%= page_entries_info @hold_repair_orders, model: "Repair Order" %>
+        </span>
+      </div>
+      <div class="digg_pagination m--pull-right">
+        <%= will_paginate @hold_repair_orders, :container => false %>
+      </div>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="tab-pane" id="repair_orders_index_tab_5" role="tabpanel">
+    <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>#Serial</th>
+        <th>Asset Number</th>
+        <th>Site</th>
+        <th>Emp.</th>
+        <th>RO Date</th>
+        <th>Breakdowns</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% if @repaired_repair_orders.any? %>
+        <% @repaired_repair_orders.each do |repaired_repair_order| %>
+          <tr>
+
+            <td>#RO <%= repaired_repair_order.id %></td>
+
+            <td><%= repaired_repair_order.data_asset.data_asset_serial %></td>
+
+            <td><%= repaired_repair_order.site_asset.site_asset_name %></td>
+
+            <td><%= repaired_repair_order.user.assignments.first.employee.employee_name %></td>
+
+            <td><%= repaired_repair_order.created_at.to_date %></td>
+
+            <td>
+              <%= link_to repair_order_path(repaired_repair_order), alt: "Show", class: "m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill", data: {toggle: "m-tooltip", placement: "bottom", original_title: "Show"} do %><i class="la la-ellipsis-h"></i><% end %>
+
+              <%= link_to repair_breakdowns_path(ro_id: repaired_repair_order.id), alt: "Breakdowns", class: "m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill", data: {toggle: "m-tooltip", placement: "bottom", original_title: "Breakdowns"} do %><i class="la la-angle-double-right"></i><% end %>
+
+            </td>
+          </tr>
+        <% end %>
+      <% else %>
+        <tr>
+          <th scope="row" class="text-center" colspan="12">No Repair Orders</th>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+
+    <div class="mb-3 pb-3">
+      <div class="digg_pagination m--pull-left">
+        <span class="page_info">
+          <%= page_entries_info @repaired_repair_orders, model: "Repair Order" %>
+        </span>
+      </div>
+      <div class="digg_pagination m--pull-right">
+        <%= will_paginate @repaired_repair_orders, :container => false %>
+      </div>
+    </div>
+
+  </div>
+
+
+
+  <div class="tab-pane" id="repair_orders_index_tab_6" role="tabpanel">
+    <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>#Serial</th>
+        <th>Asset Number</th>
+        <th>Site</th>
+        <th>Emp.</th>
+        <th>RO Date</th>
+        <th>Breakdowns</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% if @returned_repair_orders.any? %>
+        <% @returned_repair_orders.each do |returned_repair_order| %>
+          <tr>
+
+            <td>#RO <%= returned_repair_order.id %></td>
+
+            <td><%= returned_repair_order.data_asset.data_asset_serial %></td>
+
+            <td><%= returned_repair_order.site_asset.site_asset_name %></td>
+
+            <td><%= returned_repair_order.user.assignments.first.employee.employee_name %></td>
+
+            <td><%= returned_repair_order.created_at.to_date %></td>
+
+
+            <td>
+              <%= link_to repair_order_path(returned_repair_order), alt: "Show", class: "m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill", data: {toggle: "m-tooltip", placement: "bottom", original_title: "Show"} do %><i class="la la-ellipsis-h"></i><% end %>
+
+              <%= link_to repair_breakdowns_path(ro_id: returned_repair_order.id), alt: "Breakdowns", class: "m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill", data: {toggle: "m-tooltip", placement: "bottom", original_title: "Breakdowns"} do %><i class="la la-angle-double-right"></i><% end %>            
+
+            </td>
+          </tr>
+        <% end %>
+      <% else %>
+        <tr>
+          <th scope="row" class="text-center" colspan="12">No Repair Orders</th>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+
+    <div class="mb-3 pb-3">
+      <div class="digg_pagination m--pull-left">
+        <span class="page_info">
+          <%= page_entries_info @returned_repair_orders, model: "Repair Order" %>
+        </span>
+      </div>
+      <div class="digg_pagination m--pull-right">
+        <%= will_paginate @returned_repair_orders, :container => false %>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="tab-pane active" id="repair_orders_index_tab_7" role="tabpanel">
+    <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover">
+    <thead>
+<tr>
+  <th>#Serial</th>
+  <th>Asset Number</th>
+  <th>Site</th>
+  <th>Emp.</th>
+  <th>RO Date</th>
+  <th>RO Status</th>
+  <th>Breakdowns</th>
+  <th>Add MR</th>
+  <th>Actions</th>
+</tr>
+</thead>
+<tbody>
+<% if @repair_orders.any? %>
+  <% @repair_orders.each do |repair_order| %>
+    <tr>
+
+      <td>#RO <%= repair_order.id %></td>
+
+      <td><%= repair_order.data_asset.data_asset_serial %></td>
+
+      <td><%= repair_order.site_asset.site_asset_name %></td>
+
+      <td><%= repair_order.user.assignments.first.employee.employee_name %></td>
+
+      <td><%= repair_order.created_at.to_date %></td>
+
+      <td><%= repair_order.repair_status %></td>
+
+
+      <td>
+        <%= link_to repair_breakdowns_path(ro_id: repair_order.id), alt: "Breakdowns", class: "m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill", data: {toggle: "m-tooltip", placement: "bottom", original_title: "Breakdowns"} do %><i class="la la-angle-double-right"></i><% end %>
+
+          <% if repair_order.repair_breakdowns.count > 0 %>
+          <span class="m-badge m-badge--default" data-toggle="m-tooltip" data-placement="bottom" data-original-title="Breakdowns Num."><%= repair_order.repair_breakdowns.count %></span>
+          <% else %>
+          <span class="m-badge m-badge--danger" data-toggle="m-tooltip" data-placement="bottom" data-original-title="Breakdowns Num."><%= repair_order.repair_breakdowns.count %></span>
+          <% end %>
+      </td>
+      
+      <td>
+        <% @current_newspar = 0 %>
+        <% repair_order.repair_breakdowns.each do |breakdown| %>
+            <% @current_new = breakdown.breakdown_spares.where(spare_status: :newspare).count %>
+            <% @current_newspar = @current_newspar + @current_new %>
+        <% end %>
+
+          <% if @current_newspar %>
+            <% if @current_newspar > 0 %>
+            <%= link_to create_matrial_request_with_old_spares_repair_orders_path(ro_id: repair_order.id), alt: "Create Material Request", class: "m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill", data: {toggle: "m-tooltip", placement: "bottom", original_title: "* after adding spares for breakes -> Create Material Request"} do %><i class="la la-arrow-circle-right"></i><% end %>
+            <span class="m-badge m-badge--success" data-toggle="m-tooltip" data-placement="bottom" data-original-title="New Spares Num."><%= @current_newspar %></span>
+            <% end %>
+          <% end %>
+      </td>
+
+      <td>
+        <%= link_to repair_order_path(repair_order), alt: "Show", class: "m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill", data: { toggle: "m-tooltip", placement: "bottom", original_title: "Show"} do %><i class="la la-ellipsis-h"></i><% end %>
+
+        <% if (repair_order.requested? || repair_order.received? || repair_order.opened? || repair_order.hold?) && current_user.role?(:workshops_site) %>
+        <%= link_to edit_repair_order_path(repair_order, asset_id: DataAsset.find(repair_order.data_asset_id).id), alt: "Edit", class: "m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill", data: { toggle: "m-tooltip", placement: "bottom", original_title: "Edit"} do %><i class="la la-edit"></i><% end %>
+        <% end %>
+
+        <% if current_user.role?(:assets_admin) || current_user.role?(:workshops_manager) %>
+          <%= link_to repair_order_path(repair_order), alt: "Delete", class: "m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill", method: :delete, data: { toggle: "m-tooltip", placement: "bottom", original_title: "Delete", confirm: 'Are you sure?' } do %><i class="la la-trash"></i><% end %>
+        <% end %>
+      </td>
+
+    </tr>
+  <% end %>
+<% else %>
+  <tr>
+    <th scope="row" class="text-center" colspan="12">No Repair Orders</th>
+  </tr>
+<% end %>
+</tbody>
+    </table>
+
+    <div class="mb-3 pb-3">
+      <div class="digg_pagination m--pull-left">
+        <span class="page_info">
+          <%= page_entries_info @repair_orders, model: "Repair Order" %>
+        </span>
+      </div>
+      <div class="digg_pagination m--pull-right">
+        <%= will_paginate @repair_orders, :container => false %>
+      </div>
+    </div>
+
+  </div>
+
+
+</div>
+
+
+<% end %>
+
+<%= render 'layouts/myindex/after_myindex_tabs' %>

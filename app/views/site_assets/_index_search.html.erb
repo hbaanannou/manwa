@@ -1,0 +1,20 @@
+<div class="m-subheader ">
+  <div class="d-flex align-items-center">
+    <div class="mr-auto">
+	  <!-- left side content here -->
+	</div>
+	<div>
+
+	  <%= search_form_for @q, remote: true, class: "m-form m-form--fit form-inline" do |f| %>
+
+        <%= f.search_field :site_asset_name_cont, class: "form-control m-input--fixed-small", placeholder: "Site Name" %>
+
+        <%= f.select :site_type_eq, SiteAsset.site_types.to_a.map { |w| [w[0].humanize, w[1]] }, {include_blank: "Site Type:"}, {class: "form-control m-input--fixed"} %>
+
+        <%= f.submit "Search", class: "btn btn-brand m-2" %>
+        
+      <% end %>
+
+    </div>
+  </div>
+</div>

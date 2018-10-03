@@ -1,0 +1,110 @@
+<div class="m-portlet__head">
+  <div class="m-portlet__head-caption">
+    <div class="m-portlet__head-title">
+      <span class="m-portlet__head-icon">
+        <i class="flaticon-truck m--font-brand"></i>
+      </span>
+      <h3 class="m-portlet__head-text">
+        Reasons
+      </h3>
+    </div>
+  </div>
+  <div class="m-portlet__head-tools">
+    <ul class="m-portlet__nav">
+
+
+      <li class="m-portlet__nav-item" id="clear_filters">
+        <% if params[:q] %>
+          <%= link_to request.path, class: "btn m-btn m-btn--pill m-btn--air btn-info mr-4" do %>
+            <span>
+              <i class="la la-filter"></i>
+              <span>
+                Clear Filters
+              </span>
+            </span>
+          <% end %>
+        <% end %>
+      </li>
+
+
+      <li class="m-portlet__nav-item">
+        <%= link_to new_pro_reason_path(asset_id: params[:asset_id]), class: "btn m-btn m-btn--icon m-btn--pill m-btn--air btn-success" do %>
+          <span>
+            <i class="la la-plus"></i>
+            <span>
+              Add Reason
+            </span>
+          </span>
+        <% end %>
+      </li>
+
+
+    </ul>
+  </div>
+</div>
+
+<!--Begin::m-portlet__body-->
+<div class="m-portlet__body">
+<div class="mb-5 pb-2">
+  <div class="digg_pagination m--pull-left">
+    <span class="page_info">
+      <%= page_entries_info @pro_reasons, model: 'reason' %>
+    </span>
+  </div>
+  <div class="digg_pagination m--pull-right">
+    <%= will_paginate @pro_reasons, :container => false %>
+  </div>
+</div>
+
+<!--Begin::Section-->
+<div class="m-section">
+  <div class="m-section__content">
+    <div class="table-responsive">
+    <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover text-center">
+      <thead>
+      <tr>
+        <th>Reason name</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% if @pro_reasons.any? %>
+        <% @pro_reasons.each do |pro_reason| %>
+          <tr>
+
+            <td><%= pro_reason.pro_reason_name %></td>
+
+            <td><%= link_to pro_reason, alt: "Show", class: "m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill", data: { toggle: "m-tooltip", placement: "bottom", original_title: "Show"} do %><i class="la la-ellipsis-h"></i><% end %>
+
+              <%= link_to edit_pro_reason_path(pro_reason), alt: "Edit", class: "m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill", data: { toggle: "m-tooltip", placement: "bottom", original_title: "Edit" } do %><i class="la la-edit"></i><% end %>
+
+              <% if current_user.role?(:production_admin) %>
+                <%= link_to pro_reason, alt: "Delete", class: "m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill", method: :delete, data: { toggle: "m-tooltip", placement: "bottom", original_title: "Delete", confirm: 'Are you sure?' } do %><i class="la la-trash"></i><% end %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      <% else %>
+        <tr>
+          <th scope="row" class="text-center" colspan="12">No Assets</th>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div>
+<!--End::Section-->
+
+<div class="mb-3 pb-3">
+  <div class="digg_pagination m--pull-left">
+    <span class="page_info">
+      <%= page_entries_info @pro_reasons, model: 'reason' %>
+    </span>
+  </div>
+  <div class="digg_pagination m--pull-right">
+    <%= will_paginate @pro_reasons, :container => false %>
+  </div>
+</div>
+</div>
+<!--End::m-portlet__body-->

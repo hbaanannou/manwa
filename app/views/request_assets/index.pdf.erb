@@ -1,0 +1,44 @@
+<!--Begin::Section-->
+<div class="m-section">
+  <div class="m-section__content">
+    <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover text-center">
+      <thead>
+        <tr style="font-size: 1.4rem;">
+          <th>*</th>
+          <th>#Serial</th>
+          <th>Site</th>
+          <th>By</th>
+          <th>Lowbed</th>
+          <th>Create Date</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @request_assets_pdf.any? %>
+        <% @request_assets_pdf.each_with_index do |request_asset, index| %>
+          <tr>
+            <td><%= index + 1 %></td>
+            <td class="m--font-brand"><strong>#R<%= request_asset.id %></strong></td>
+            <td><%= request_asset.site_asset_to.site_asset_name %></td>
+            <td>
+              <% if request_asset.sitemanager? %>
+                <span class="m--font-success"> Site Manager: </span><%= request_asset.user.assignments.first.employee.employee_name %>
+              <% elsif request_asset.provincemanager? %>
+                <span class="m--font-success"> Province Manager: </span><%= request_asset.user.assignments.first.employee.employee_name %>
+              <% end %>
+            </td>
+            <td><%= request_asset.data_asset_lowbed ? request_asset.data_asset_lowbed.data_asset_serial : "N/A" %></td>
+            <td><%= request_asset.created_at.to_date %></td>
+            <td><%= request_asset.request_status %></td>
+          </tr>
+        <% end %>
+        <% else %>
+        <tr>
+          <td colspan="12">No Requests</td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<!--End::Section-->

@@ -1,0 +1,12 @@
+<% if current_user.role?(:rfuel) %>
+	<%= render 'layouts/myform/before_myform_edit', mytitle: "Fuel (Riyadh)" %>
+<% elsif current_user.role?(:tfuel) %>
+	<%= render 'layouts/myform/before_myform_edit', mytitle: "Fuel (Tabuk)" %>
+<% else %>
+	<%= render 'layouts/myform/before_myform_edit', mytitle: "Fuel" %>
+<% end %>
+
+
+<%= render 'form', tank_fuelday: @tank_fuelday %>
+
+<%= render 'layouts/myform/after_myform' %>

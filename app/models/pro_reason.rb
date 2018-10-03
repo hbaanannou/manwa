@@ -1,0 +1,2 @@
+class ProReason < ApplicationRecord
+end

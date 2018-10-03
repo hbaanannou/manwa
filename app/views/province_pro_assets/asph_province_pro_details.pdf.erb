@@ -1,0 +1,65 @@
+<!--Begin::Section-->
+<div class="m-section">
+  <div class="m-section__content">
+    <strong> From: <%= @pdf_from_date %> To: <%= @pdf_to_date %> </strong>
+    <div class="table-responsive">
+
+    <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover text-center">
+      <thead>
+        <tr>
+          <th>Asphalt Work Hours Sum</th>
+          <th>Asphalt Amount Sum (Ton)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="m--font-info font-weight-bold" id="asphalt_hours_sum_id"><%= @province_hours_sum %></td>
+          <td class="m--font-brand font-weight-bold" id="asphalt_amount_sum_id"><%= @province_amount_sum %></td>
+        </tr>
+      </tbody>
+    </table>
+
+
+
+
+    <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover text-center">
+      <thead>
+        <tr>
+          <th>Type - Product</th>
+          <th>Amount (Ton)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="m--font-default"><strong>Base - 70/10</strong></td>
+          <td class="font-weight-bold" id="asphalt_base_70_10_id"><%= @province_base_70_10_amount_sum %></td>
+        </tr>
+        <tr>
+          <td class="m--font-default"><strong>Base - 76/10</strong></td>
+          <td class="font-weight-bold" id="asphalt_base_76_10_id"><%= @province_base_76_10_amount_sum %></td>
+        </tr>
+        <tr>
+          <td class="m--font-default"><strong>Base - 60/70</strong></td>
+          <td class="font-weight-bold" id="asphalt_base_60_70_id"><%= @province_base_60_70_amount_sum %></td>
+        </tr>
+        <tr>
+          <td class="m--font-default"><strong>Wearing - 70/10</strong></td>
+          <td class="font-weight-bold" id="asphalt_wearing_70_10_id"><%= @province_wearing_70_10_amount_sum %></td>
+        </tr>
+        <tr>
+          <td class="m--font-default"><strong>Wearing - 76/10</strong></td>
+          <td class="font-weight-bold" id="asphalt_wearing_76_10_id"><%= @province_wearing_76_10_amount_sum %></td>
+        </tr>
+        <tr>
+          <td class="m--font-default"><strong>Wearing - 60/70</strong></td>
+          <td class="font-weight-bold" id="asphalt_wearing_60_70_id"><%= @province_wearing_60_70_amount_sum %></td>
+        </tr>
+
+      </tbody>
+    </table>
+
+
+    </div>
+  </div>
+</div>
+<!--End::Section-->

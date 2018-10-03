@@ -1,0 +1,307 @@
+<div class="m-grid__item m-grid__item--fluid m-wrapper">
+	<div class="m-subheader ">
+		<div class="d-flex align-items-center">
+			<div class="mr-auto">
+
+				<h3 class="m-subheader__title ">
+					<% if current_user.assignments.any? %>
+					Dashboard:
+					<% if current_user.role?(:assets_site) %>
+					(<%= current_user.site_assets.first.site_asset_name %>)
+					<% end %>
+
+						<span class="m-portlet__head-icon">
+							<%= link_to home_pages_path(p_name: 'all'), class: "all-refresh", remote: true do %>
+			        <i class="flaticon-list-3"></i>
+			        <% end %>
+		      	</span>
+		      <% else %>
+						<div class="text-danger">You do not have any Role until now! ... Please contact your manager.</div>
+		      <% end %>
+
+		    <%= javascript_tag do %>
+
+	      	$(function() {
+					  setTimeout(updateTransfers, 5 * 60 * 1000);
+					});
+
+					function updateTransfers () {
+						$(".all-refresh")[0].click();
+					  setTimeout(updateTransfers, 5 * 60 * 1000);
+					}
+				    
+				<% end %>
+
+
+				</h3>
+			</div>
+		</div>
+	</div>
+	<div class="m-content">
+
+
+<% if current_user.rolexxx?(:assets_manager) %>
+<span class="left__div__border--brand m--font-brand h4"> &nbsp; Asset Operations:</span> &nbsp;
+
+
+		<%= link_to accepted_request_assets_path, class: "btn btn-outline-success btn-lg m-btn m-btn--icon m-btn--pill mb-2 mr-2" do %>
+			<span>
+				<i class="fa flaticon-transport"></i>
+				<span>Accepted Asset Requests</span>
+			</span>
+		<% end %>
+
+		<%= link_to new_withdraw_asset_path, class: "btn btn-outline-danger btn-lg m-btn m-btn--icon m-btn--pill mb-2 mr-2" do %>
+			<span>
+				<i class="fa flaticon-transport"></i>
+				<span>Withdraw Asset</span>
+			</span>
+		<% end %>
+
+		<hr>
+
+		<% end %>
+
+
+<% if current_user.role?(:assets_site) || current_user.role?(:assets_province) %>
+<span class="left__div__border--brand m--font-brand h4"> &nbsp; Asset Operations:</span> &nbsp;
+
+		<%= link_to new_request_asset_path, class: "btn btn-outline-primary btn-lg m-btn m-btn--icon m-btn--pill mb-2 mr-2" do %>
+			<span>
+				<i class="fa flaticon-edit"></i>
+				<span>Request Asset</span>
+			</span>
+		<% end %>
+
+		<%= link_to new_transfer_asset_path, class: "btn btn-outline-success btn-lg m-btn m-btn--icon m-btn--pill mb-2 mr-2" do %>
+			<span>
+				<i class="fa flaticon-transport"></i>
+				<span>Transfer Asset</span>
+			</span>
+		<% end %>
+
+		<%= link_to new_repair_order_path, class: "btn btn-outline-danger btn-lg m-btn m-btn--icon m-btn--pill mb-2 mr-2" do %>
+			<span>
+				<i class="fa flaticon-cogwheel-2"></i>
+				<span>Repair Asset</span>
+			</span>
+		<% end %>
+
+		<hr>
+
+		<% end %>
+
+
+<% if current_user.role?(:workshops_manager) %>
+		<span class="left__div__border--brand m--font-brand h4"> &nbsp; Operation Cards:</span> &nbsp;
+
+		<%= link_to monthly_checklists_path, class: "btn btn-outline-primary btn-lg m-btn m-btn--icon m-btn--pill mb-2 mr-2" do %>
+			<span>
+				<i class="fa flaticon-analytics"></i>
+				<span>OC Report</span>
+			</span>
+		<% end %>
+
+		<%= link_to checklists_path, class: "btn btn-outline-success btn-lg m-btn m-btn--icon m-btn--pill mb-2 mr-2" do %>
+			<span>
+				<i class="fa flaticon-light"></i>
+				<span>OC Details</span>
+			</span>
+		<% end %>
+
+		<%= link_to charts_data_assets_path, class: "btn btn-outline-danger btn-lg m-btn m-btn--icon m-btn--pill mb-2 mr-2" do %>
+			<span>
+				<i class="fa flaticon-line-graph"></i>&nbsp;
+				<i class="fa flaticon-transport"></i>
+				<span>OC By Asset</span>
+			</span>
+		<% end %>
+
+		<%= link_to emp_charts_data_assets_path, class: "btn btn-outline-brand btn-lg m-btn m-btn--icon m-btn--pill mb-2 mr-2" do %>
+			<span>
+				<i class="fa flaticon-line-graph"></i>&nbsp;
+				<i class="fa flaticon-user-ok"></i>
+				<span>OC By Employee</span>
+			</span>
+		<% end %>
+
+		<%= link_to new_checklist_path, class: "btn btn-outline-warning btn-lg m-btn m-btn--icon m-btn--pill mb-2 mr-2" do %>
+			<span>
+				<i class="fa flaticon-logout"></i>
+				<span>Add OC</span>
+			</span>
+		<% end %>
+
+		<hr>
+
+		<span class="left__div__border--brand m--font-brand h4"> &nbsp; Fuel - Tank - Assets:</span> &nbsp;
+
+		<%= link_to tank_fueldays_path, class: "btn btn-outline-primary btn-lg m-btn m-btn--icon m-btn--pill mb-2 mr-2" do %>
+			<span>
+				<i class="fa flaticon-analytics"></i>
+				<span>Tank Report</span>
+			</span>
+		<% end %>
+
+		<%= link_to asset_fueldays_path, class: "btn btn-outline-danger btn-lg m-btn m-btn--icon m-btn--pill mb-2 mr-2" do %>
+			<span>
+				<i class="fa flaticon-line-graph"></i>&nbsp;
+				<i class="fa flaticon-transport"></i>
+				<span>Asset Report</span>
+			</span>
+		<% end %>
+
+		<%= link_to new_tank_fuelday_path, class: "btn btn-outline-warning btn-lg m-btn m-btn--icon m-btn--pill mb-2 mr-2" do %>
+			<span>
+				<i class="fa flaticon-logout"></i>
+				<span>Add Fuel</span>
+			</span>
+		<% end %>
+
+		<hr>
+
+		<span class="left__div__border--brand m--font-brand h4"> &nbsp; Repair Orders:</span> &nbsp;
+
+		<%= link_to repair_orders_path, class: "btn btn-outline-primary btn-lg m-btn m-btn--icon m-btn--pill mb-2 mr-2" do %>
+			<span>
+				<i class="fa flaticon-analytics"></i>
+				<span>Repair Orders</span>
+			</span>
+		<% end %>
+
+		<%= link_to matrial_requests_path, class: "btn btn-outline-danger btn-lg m-btn m-btn--icon m-btn--pill mb-2 mr-2" do %>
+			<span>
+				<i class="fa flaticon-file-1"></i>&nbsp;
+				<i class="fa flaticon-transport"></i>
+				<span>Material Requests</span>
+			</span>
+		<% end %>
+
+		<%= link_to purchase_requests_path, class: "btn btn-outline-brand btn-lg m-btn m-btn--icon m-btn--pill mb-2 mr-2" do %>
+			<span>
+				<i class="fa flaticon-file-1"></i>
+				<span>Purchase Requests</span>
+			</span>
+		<% end %>
+
+		<hr>
+
+
+		<% end %>
+
+
+
+		<% if current_user.role?(:workshops_site) %>
+
+		<span class="left__div__border--brand m--font-brand h4"> &nbsp; Repair Orders:</span> &nbsp;
+
+		<%= link_to repair_orders_path, class: "btn btn-outline-primary btn-lg m-btn m-btn--icon m-btn--pill mb-2 mr-2" do %>
+			<span>
+				<i class="fa flaticon-analytics"></i>
+				<span>Repair Orders</span>
+			</span>
+		<% end %>
+
+		<%= link_to matrial_requests_path, class: "btn btn-outline-danger btn-lg m-btn m-btn--icon m-btn--pill mb-2 mr-2" do %>
+			<span>
+				<i class="fa flaticon-file-1"></i>&nbsp;
+				<i class="fa flaticon-transport"></i>
+				<span>Material Requests</span>
+			</span>
+		<% end %>
+
+		<hr>
+
+		<% end %>
+
+
+
+
+
+
+		<% if current_user.role?(:assets_admin) || current_user.role?(:assets_manager) || current_user.role?(:assets_province) || current_user.role?(:assets_site) %>
+		<div class="row">
+			<div class="col-xl-12" id="transfer">
+				<%= render 'transfer' %>				
+			</div>
+		</div>
+		<% end %>
+
+		<% if current_user.role?(:assets_admin) || current_user.role?(:assets_manager) || current_user.role?(:assets_province) || current_user.role?(:assets_site) %>
+		<div class="row">
+			<div class="col-xl-12" id="withdraw">
+				<%= render 'withdraw' %>				
+			</div>
+		</div>
+		<% end %>
+
+		<% if current_user.role?(:assets_admin) || current_user.role?(:assets_manager) || current_user.role?(:assets_province) || current_user.role?(:assets_site) %>
+		<div class="row">
+			<div class="col-xl-12" id="request">
+				<%= render 'request' %>				
+			</div>
+		</div>
+		<% end %>
+
+		<% if current_user.role?(:workshops_manager) || current_user.role?(:workshops_site) || current_user.role?(:assets_province) || current_user.role?(:assets_site) %>
+		<div class="row">
+			<div class="col-xl-12" id="repair">
+				<%= render 'repair' %>				
+			</div>
+		</div>
+		<% end %>
+
+
+<% if current_user.role?(:production_admin) %>
+
+<div class="row">
+  <div class="col-xl-12">
+		<div class="m-portlet m-portlet--bordered-semi m-portlet--full-height ">
+			<div class="m-portlet__head"  id="con_header">
+				<%= render 'con_header' %>
+			</div>
+			<div class="m-portlet__body" id="concrete">
+    		<%= render 'concrete' %>
+    	</div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xl-12">
+  	<div class="m-portlet m-portlet--bordered-semi m-portlet--full-height ">
+			<div class="m-portlet__head"  id="asph_header">
+				<%= render 'asph_header' %>
+			</div>
+			<div class="m-portlet__body" id="asphalt">
+    		<%= render 'asphalt' %>
+    	</div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xl-12">
+  	<div class="m-portlet m-portlet--bordered-semi m-portlet--full-height ">
+			<div class="m-portlet__head"  id="cru_header">
+				<%= render 'cru_header' %>
+			</div>
+			<div class="m-portlet__body" id="crusher">
+    		<%= render 'crusher' %>
+    	</div>
+    </div>
+  </div>
+</div>
+
+<% end %>
+
+	</div>
+</div>
+
+
+
+<%= javascript_tag do %>
+  concrete_high_line_one( '#line_concrete' , '/pages/con_pro_lines.json', 'one_line')
+  asphalt_high_line_one( '#line_asphalt' , '/pages/asph_pro_lines.json', 'one_line')
+  crusher_high_line_one( '#line_crusher' , '/pages/cru_pro_lines.json', 'one_line')
+<% end %>

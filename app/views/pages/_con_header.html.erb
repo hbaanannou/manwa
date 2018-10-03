@@ -1,0 +1,38 @@
+<div class="m-portlet__head-caption">
+  <div class="m-portlet__head-title">
+    <h3 class="m-portlet__head-text">
+      <% if params[:con_chart_display] == 'con_details' %>
+        <strong>Concrete Report - ( Saudi Arabia ) - Details:</strong>
+      <% else %>
+        <strong>Concrete Report - ( Saudi Arabia ) - Summary:</strong>
+      <% end %>
+    </h3>
+  </div>
+</div>
+<div class="m-portlet__head-tools">
+  <ul class="m-portlet__nav">
+
+    <li class="m-portlet__nav-item">
+      <% if params[:con_chart_display] == 'con_details' %>
+        <%= link_to con_pro_lines_pages_path(con_chart_display: 'con_summary', start_date: params[:start_date], end_date: params[:end_date]), remote: true, class: "btn m-btn m-btn--icon m-btn--pill m-btn--air btn-info" do %>
+          <span>
+            <i class="la la-minus"></i>
+            <span>
+              <strong>Summary - Chart</strong>
+            </span>
+          </span>
+        <% end %>
+      <% else %>
+        <%= link_to con_pro_lines_pages_path(con_chart_display: 'con_details', start_date: params[:start_date], end_date: params[:end_date]), remote: true, class: "btn m-btn m-btn--icon m-btn--pill m-btn--air btn-brand" do %>
+        <span>
+          <i class="la la-bars"></i>
+          <span>
+            <strong>Details - Chart</strong>
+          </span>
+        </span>
+      <% end %>
+      <% end %>
+    </li>
+
+  </ul>
+</div>

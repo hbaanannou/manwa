@@ -1,0 +1,2 @@
+class ProConcreteProduct < ApplicationRecord
+end

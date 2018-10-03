@@ -1,0 +1,32 @@
+<div class="form-group m-form__group row nested-fields">
+	<div class="col-lg-1"></div>
+	<div class="col-lg-2">
+		<span class="required">
+		<%= f.select :pro_asphalt_type_id, ProAsphaltType.all.collect {|p| [p.pro_asphalt_type_name, p.id]}, {include_blank: 'Select Asphalt Type'}, class: "form-control m-input m-select2", required: true %>
+		</span>
+		<span class="m-form__help">Asphalt Type</span>
+	</div>
+	<div class="col-lg-2">
+		<span class="required">
+		<%= f.select :pro_asphalt_product_id, ProAsphaltProduct.all.collect {|p| [p.pro_asphalt_product_name, p.id]}, {include_blank: 'Select Asphalt Product'}, class: "form-control m-input m-select2", required: true %>
+		</span>
+		<span class="m-form__help">Asphalt Product</span>
+	</div>
+	<div class="col-lg-2">
+		<%= f.number_field :pro_asphalt_amount, class: "form-control m-input required", placeholder: "Amount", min: '0', step: :any %>
+		<span class="m-form__help">Amount</span>
+	</div>
+	<div class="col-lg-2">
+		<%= f.select :pro_reason_id, ProReason.all.collect {|p| [p.pro_reason_name, p.id]}, {include_blank: 'Select Reason'}, class: "form-control m-input m-select2" %>
+		<span class="m-form__help">Reason</span>
+	</div>
+	<div class="col-lg-2">
+		<%= f.text_area :pro_asphalt_note, class: "form-control m-input", placeholder: "Notes" %>
+      <span class="m-form__help">Please enter Notes</span>
+	</div>
+	<div class="col-lg-1">
+		<%= link_to_remove_association f, class: "m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" do %>
+		<i class="la la-trash"></i>
+		<% end %>
+	</div>
+</div>

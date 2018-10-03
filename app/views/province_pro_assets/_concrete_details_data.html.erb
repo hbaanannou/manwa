@@ -1,0 +1,172 @@
+<!--begin:: Widgets/Authors Profit-->
+<div class="m-portlet m-portlet--bordered-semi m-portlet--full-height ">
+  <div class="m-portlet__head">
+    <div class="m-portlet__head-caption">
+      <div class="m-portlet__head-title">
+        <h3 class="m-portlet__head-text">
+          <strong>Concrete Details:</strong>
+        </h3>
+        
+      </div>
+    </div>
+    <div class="m-portlet__head-tools">
+      <ul class="m-portlet__nav">
+
+        <li class="m-portlet__nav-item">
+          <%= link_to con_province_pro_details_province_pro_assets_path(province_id: params[:province_id], q: request.parameters[:q],format: :pdf), class: "btn m-btn m-btn--icon m-btn--pill m-btn--air btn-danger", target: "_blank" do %>
+            <span>
+              <i class="la la-file"></i>
+              <span>
+                Create PDF document
+              </span>
+            </span>
+          <% end %>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+  <div class="m-portlet__body">
+
+
+    <!--Begin::Section-->
+    <div class="m-section">
+      <div class="m-section__content">
+        <div class="table-responsive">
+
+        <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover text-center">
+          <thead>
+            <tr>
+              <th>Concrete Work Hours Sum</th>
+              <th>Concrete Amount Sum (Meters)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="m--font-info font-weight-bold" id="concrete_hours_sum_id"></td>
+              <td class="m--font-brand font-weight-bold" id="concrete_amount_sum_id"></td>
+            </tr>
+          </tbody>
+        </table>
+
+
+
+
+        <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover text-center">
+          <thead>
+            <tr>
+              <th>Type - Product</th>
+              <th>Amount (Meters)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="m--font-default"><strong>200 - Normal</strong></td>
+              <td class="font-weight-bold" id="concrete_200_normal_id"></td>
+            </tr>
+            <tr>
+              <td class="m--font-default"><strong>200 - Resistant</strong></td>
+              <td class="font-weight-bold" id="concrete_200_resistant_id"></td>
+            </tr>
+            <tr>
+              <td class="m--font-default"><strong>250 - Normal</strong></td>
+              <td class="font-weight-bold" id="concrete_250_normal_id"></td>
+            </tr>
+            <tr>
+              <td class="m--font-default"><strong>250 - Resistant</strong></td>
+              <td class="font-weight-bold" id="concrete_250_resistant_id"></td>
+            </tr>
+            <tr>
+              <td class="m--font-default"><strong>280 - Normal</strong></td>
+              <td class="font-weight-bold" id="concrete_280_normal_id"></td>
+            </tr>
+            <tr>
+              <td class="m--font-default"><strong>280 - Resistant</strong></td>
+              <td class="font-weight-bold" id="concrete_280_resistant_id"></td>
+            </tr>
+            <tr>
+              <td class="m--font-default"><strong>300 - Normal</strong></td>
+              <td class="font-weight-bold" id="concrete_300_normal_id"></td>
+            </tr>
+            <tr>
+              <td class="m--font-default"><strong>300 - Resistant</strong></td>
+              <td class="font-weight-bold" id="concrete_300_resistant_id"></td>
+            </tr>
+            <tr>
+              <td class="m--font-default"><strong>350 - Normal</strong></td>
+              <td class="font-weight-bold" id="concrete_350_normal_id"></td>
+            </tr>
+            <tr>
+              <td class="m--font-default"><strong>350 - Resistant</strong></td>
+              <td class="font-weight-bold" id="concrete_350_resistant_id"></td>
+            </tr>
+            <tr>
+              <td class="m--font-default"><strong>375 - Normal</strong></td>
+              <td class="font-weight-bold" id="concrete_375_normal_id"></td>
+            </tr>
+            <tr>
+              <td class="m--font-default"><strong>375 - Resistant</strong></td>
+              <td class="font-weight-bold" id="concrete_375_resistant_id"></td>
+            </tr>
+            <tr>
+              <td class="m--font-default"><strong>400 - Normal</strong></td>
+              <td class="font-weight-bold" id="concrete_400_normal_id"></td>
+            </tr>
+            <tr>
+              <td class="m--font-default"><strong>400 - Resistant</strong></td>
+              <td class="font-weight-bold" id="concrete_400_resistant_id"></td>
+            </tr>
+            <tr>
+              <td class="m--font-default"><strong>420 - Normal</strong></td>
+              <td class="font-weight-bold" id="concrete_420_normal_id"></td>
+            </tr>
+            <tr>
+              <td class="m--font-default"><strong>420 - Resistant</strong></td>
+              <td class="font-weight-bold" id="concrete_420_resistant_id"></td>
+            </tr>
+            <tr>
+              <td class="m--font-default"><strong>425 - Normal</strong></td>
+              <td class="font-weight-bold" id="concrete_425_normal_id"></td>
+            </tr>
+            <tr>
+              <td class="m--font-default"><strong>425 - Resistant</strong></td>
+              <td class="font-weight-bold" id="concrete_425_resistant_id"></td>
+            </tr>
+            <tr>
+              <td class="m--font-default"><strong>440 - Normal</strong></td>
+              <td class="font-weight-bold" id="concrete_440_normal_id"></td>
+            </tr>
+            <tr>
+              <td class="m--font-default"><strong>440 - Resistant</strong></td>
+              <td class="font-weight-bold" id="concrete_440_resistant_id"></td>
+            </tr>
+            <tr>
+              <td class="m--font-default"><strong>450 - Normal</strong></td>
+              <td class="font-weight-bold" id="concrete_450_normal_id"></td>
+            </tr>
+            <tr>
+              <td class="m--font-default"><strong>450 - Resistant</strong></td>
+              <td class="font-weight-bold" id="concrete_450_resistant_id"></td>
+            </tr>
+            <tr>
+              <td class="m--font-default"><strong>475 - Normal</strong></td>
+              <td class="font-weight-bold" id="concrete_475_normal_id"></td>
+            </tr>
+            <tr>
+              <td class="m--font-default"><strong>475 - Resistant</strong></td>
+              <td class="font-weight-bold" id="concrete_475_resistant_id"></td>
+            </tr>
+
+          </tbody>
+        </table>
+
+
+        </div>
+      </div>
+    </div>
+    <!--End::Section-->
+
+
+  </div>
+
+</div>

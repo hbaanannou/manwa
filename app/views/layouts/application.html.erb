@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="google" content="notranslate">
+    <title>Manwa</title>
+    <%= csrf_meta_tags %>
+
+    <%= render 'layouts/meta' %>
+
+    <%= stylesheet_link_tag    'application' %>
+    <%= javascript_include_tag 'application' %>
+    <%= favicon_link_tag 'favicon.ico' %>
+  </head>
+
+  <body class="m-page--fluid m--skin- m-content--skin-light2 m-header--fixed m-header--fixed-mobile m-aside-left--enabled m-aside-left--skin-dark m-aside-left--offcanvas m-footer--push m-aside--offcanvas-default m-topbar--on m-quick-sidebar--on">
+    <!-- Begin::Page -->
+    <div class="m-grid m-grid--hor m-grid--root m-page">
+      <!-- BEGIN::Header -->
+      <%= render 'layouts/header' %>
+      <!-- END::Header -->
+      <!-- Begin::PageBody -->
+      <div class="m-grid__item m-grid__item--fluid m-grid m-grid--ver-desktop m-grid--desktop m-body">
+        <!-- BEGIN::Left Aside -->
+        <%= render 'layouts/side' %>
+        <!-- END::Left Aside -->
+        <!-- BEGIN::Container -->
+        <div class="m-grid__item m-grid__item--fluid m-wrapper">
+
+
+        <% if notice %>
+          <%= javascript_tag do %>
+              toastr.success("<%= notice %>", "Notice:");
+          <% end %>
+        <% elsif alert %>
+          <%= javascript_tag do %>
+              toastr.error("<%= alert %>", "Alert:");
+          <% end %>
+        <% end %>
+
+
+          <%= yield %>
+
+
+        </div>
+        <!-- End::Container --> 
+      </div>
+      <!-- End::PageBody -->
+
+      <!-- Begin::Footer -->
+      <%= render 'layouts/footer' %>
+      <!-- End::Footer -->
+
+    </div>  
+    <!-- End::Page -->
+
+    <!-- Begin::Scroll Top -->
+    <div class="m-scroll-top m-scroll-top--skin-top" data-toggle="m-scroll-top" data-scroll-offset="500" data-scroll-speed="300">
+      <i class="la la-arrow-up"></i>
+    </div>
+    <!-- End::Scroll Top -->
+
+  </body>
+</html>

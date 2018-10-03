@@ -1,0 +1,2 @@
+class ProAsphaltType < ApplicationRecord
+end

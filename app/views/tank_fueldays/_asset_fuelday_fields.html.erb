@@ -1,0 +1,18 @@
+<div class="form-group m-form__group row nested-fields">
+	<div class="col-lg-1"></div>
+	<div class="col-lg-5">
+		<span class="required">
+		<%= f.select :data_asset_id, DataAsset.all.collect {|p| [p.data_asset_serial, p.id]}, {include_blank: 'Select Asset Number'}, class: "form-control m-input m-select2", required: true %>
+		</span>
+		<span class="m-form__help">Asset Number</span>
+	</div>
+	<div class="col-lg-5">
+		<%= f.number_field :quantity, class: "form-control m-input required", placeholder: "Quantity by Liter", required: true, min: '0', step: :any %>
+		<span class="m-form__help">Quantity by Liter</span>
+	</div>
+	<div class="col-lg-1">
+		<%= link_to_remove_association f, class: "m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" do %>
+		<i class="la la-trash"></i>
+		<% end %>
+	</div>
+</div>

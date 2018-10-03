@@ -1,0 +1,31 @@
+<!--begin::Form-->
+<%= form_with(model: site_asset, local: true, class: "m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed") do |form| %>
+
+  <%= render 'layouts/myform/error_myform', object: site_asset %>
+
+  <div class="form-group m-form__group row">
+    <%= form.label :site_asset_name, "site Name", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <%= form.text_field :site_asset_name, class: "form-control m-input", placeholder: "site Name", required: true %>
+      <span class="m-form__help">Please enter site Name</span>
+    </div>
+    <%= form.label :province_asset_id, "Asset province", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <%= form.select :province_asset_id, ProvinceAsset.all.collect {|p| [p.province_asset_name, p.id]}, {include_blank: 'Select Asset province'}, class: "form-control m-input m-select2", required: true %>
+      <span class="m-form__help">Please enter Asset province</span>
+    </div>
+  </div>
+
+  <div class="form-group m-form__group row">
+    <%= form.label :user_id, "Site Manager", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <%= form.select :user_id, Admin::User.all.collect {|p| [p.email, p.id]}, {include_blank: 'Select Site Manager'}, class: "form-control m-input m-select2", required: true %>
+      <span class="m-form__help">Please enter Site Manager</span>
+    </div>
+  </div>
+
+
+  <%= render 'layouts/myform/submit_myform', form: form, cancelpath: site_assets_path %>
+
+<% end %>
+<!--end::Form-->

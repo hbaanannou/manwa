@@ -1,0 +1,143 @@
+<%= render 'layouts/myshow/before_myshow', mytitle: "C-L #{@checklist.id}" %>
+
+
+<form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed">
+
+<% if current_user.role?(:workshops_manager) || current_user.role?(:rchecklist) || current_user.role?(:tchecklist) %>
+
+<br>
+  <h4 class="text-center pt-3">Checklist Details:</h4>
+
+  <div class="form-group m-form__group row">
+    <label class="col-form-label col-lg-2">Asset Number</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @checklist.data_asset.data_asset_serial %></span>
+    </div>
+
+    <label class="col-form-label col-lg-2">Checklist Day</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @checklist.day %></span>
+    </div>
+  </div>
+
+  <div class="form-group m-form__group row">
+    <label class="col-form-label col-lg-2">Emp. Name</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @checklist.data_asset.employee.employee_name %></span>
+    </div>
+
+    <label class="col-form-label col-lg-2">Emp. No.</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @checklist.data_asset.employee.employee_number %></span>
+    </div>
+  </div>
+
+  <div class="form-group m-form__group row">
+    <label class="col-form-label col-lg-2">Hours</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @checklist.hours %></span>
+    </div>
+
+    <label class="col-form-label col-lg-2">Meters</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @checklist.meters %></span>
+    </div>
+  </div>
+
+
+  <div class="m-form__group text-center">
+
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @checklist.engine_oil %>">
+      Engine Oil
+      <span></span>
+    </label>
+
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @checklist.hydraulic_oil %>">
+      Hydraulic Oil
+      <span></span>
+    </label>
+
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @checklist.gear_oil %>">
+      Gear Oil
+      <span></span>
+    </label>
+
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @checklist.breake_oil %>">
+      Breake Oil
+      <span></span>
+    </label>
+
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @checklist.battery_water %>">
+      Battery Water
+      <span></span>
+    </label>
+
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @checklist.air_filter %>">
+      Air Filter
+      <span></span>
+    </label>
+
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @checklist.fuel_water_separator %>">
+      Fuel Water Separator
+      <span></span>
+    </label>
+
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @checklist.fuel_tank %>">
+      Fuel Tank
+      <span></span>
+    </label>
+
+  </div>
+
+
+  <div class="m-form__group text-center">
+
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @checklist.radiator_coolant_hoses %>">
+      Radiator Coolant Hoses
+      <span></span>
+    </label>
+
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @checklist.lights_gauges %>">
+      Lights Gauges
+      <span></span>
+    </label>
+
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @checklist.joints_pto_shaft %>">
+      Joints Pto Shaft
+      <span></span>
+    </label>
+
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @checklist.chain_tension %>">
+      Chain Tension
+      <span></span>
+    </label>
+
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @checklist.tire_pressure %>">
+      Tire Pressure
+      <span></span>
+    </label>
+
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @checklist.tire_bolt %>">
+      Tire Bolt
+      <span></span>
+    </label>
+
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @checklist.fan_belt_tension %>">
+      Fan Belt Tension
+      <span></span>
+    </label>
+
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @checklist.air_tank %>">
+      Air Tank
+      <span></span>
+    </label>
+
+  </div>
+
+
+<% end %>
+
+
+</form>
+
+<%= render 'layouts/myshow/after_myshow_back', backpath: checklists_path(asset_id: params[:asset_id]) %>

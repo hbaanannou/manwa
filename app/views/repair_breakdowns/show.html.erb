@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Repair order:</strong>
+  <%= @repair_breakdown.repair_order %>
+</p>
+
+<p>
+  <strong>Repair breakdown name:</strong>
+  <%= @repair_breakdown.repair_breakdown_name %>
+</p>
+
+<%= link_to 'Edit', edit_repair_breakdown_path(@repair_breakdown) %> |
+<%= link_to 'Back', repair_breakdowns_path %>

@@ -1,0 +1,45 @@
+<!--begin::Form-->
+<%= form_with(model: user, local: true, class: "m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed") do |form| %>
+
+  <%= render 'layouts/myform/error_myform', object: user %>
+
+  <div class="form-group m-form__group row">
+    <%= form.label :email, class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <%= form.email_field :email, class: "form-control m-input", placeholder: "Enter user email", required: true %>
+      <span class="m-form__help">Please enter user email</span>
+    </div>
+  </div>
+
+	<% if @user.new_record? %>
+  <div class="form-group m-form__group row">
+    <%= form.label :password, class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <%= form.password_field :password, autocomplete: "off", class: "form-control m-input", placeholder: "Password" %>
+      <span class="m-form__help">Please enter user password -> Min (6 letters)</span>
+    </div>
+    <%= form.label :password_confirmation, class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <%= form.password_field :password_confirmation, autocomplete: "off", class: "form-control m-input", placeholder: "Password Confirmation" %>
+      <span class="m-form__help">Please enter user password -> Min (6 letters)</span>
+    </div>
+  </div>
+  <% end %>
+
+
+  <%= render 'layouts/myform/submit_myform', form: form, cancelpath: admin_users_path %>
+
+<% end %>
+<!--end::Form-->
+
+
+
+
+
+
+
+
+
+
+
+

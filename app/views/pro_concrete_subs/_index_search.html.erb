@@ -1,0 +1,21 @@
+<div class="m-subheader ">
+  <div class="d-flex align-items-center">
+    <div class="mr-auto">
+	  <!-- left side content here -->
+	</div>
+	<div>
+
+	  <%= search_form_for @q, remote: true, class: "m-form m-form--fit form-inline" do |f| %>
+
+        <%= f.collection_select :pro_concrete_type_id_eq, ProConcreteType.order(:pro_concrete_type_name), :id, :pro_concrete_type_name, {include_blank: "Type: Any"}, {class: "form-control m-input--fixed m-select2"} %>
+        <%= f.collection_select :pro_concrete_product_id_eq, ProConcreteProduct.order(:pro_concrete_product_name), :id, :pro_concrete_product_name, {include_blank: "Product: Any"}, {class: "form-control m-input--fixed m-select2"} %>
+
+        <%= hidden_field_tag :pro_concrete_id, params[:pro_concrete_id] %>
+
+        <%= f.submit "Search", class: "btn btn-brand m-2" %>
+        
+      <% end %>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,198 @@
+<%= render 'layouts/myshow/before_myshow', mytitle: "W #{@withdraw_asset.id}" %>
+
+
+<form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed">
+ 
+<% if (@withdraw_asset.opened? || @withdraw_asset.posted? || @withdraw_asset.received?) && (current_user.id == @withdraw_asset.delivery_site_user_id || current_user.id == @withdraw_asset.receive_site_user_id || current_user.id == @withdraw_asset.delivery_province_user_id || current_user.id == @withdraw_asset.receive_province_user_id || current_user.role?(:assets_manager)) %>
+
+  <h4 class="text-center pt-3">Withdraw Request:</h4>
+
+  <div class="form-group m-form__group row">
+    <label class="col-form-label col-lg-2">Request Date</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @withdraw_asset.created_at.to_date %></span>
+    </div>
+
+    <label class="col-form-label col-lg-2">Location</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @withdraw_asset.site_asset_from.site_asset_name %></span>
+    </div>
+  </div>
+
+  <div class="form-group m-form__group row">
+    <label class="col-form-label col-lg-2">To Province</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @withdraw_asset.province_asset_to.province_asset_name %></span>
+    </div>
+
+    <label class="col-form-label col-lg-2">To Site</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @withdraw_asset.site_asset_to.site_asset_name %></span>
+    </div>
+  </div>
+
+  <div class="form-group m-form__group row">
+    <label class="col-form-label col-lg-2">Asset No.</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @withdraw_asset.data_asset.data_asset_serial %></span>
+    </div>
+
+    <label class="col-form-label col-lg-2">Asset Type</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @withdraw_asset.data_asset.type_asset.type_asset_name %></span>
+    </div>
+  </div>
+
+  <div class="form-group m-form__group row">
+    <label class="col-form-label col-lg-2">Emp. Name</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @withdraw_asset.data_asset.employee.employee_name %></span>
+    </div>
+
+    <label class="col-form-label col-lg-2">Emp. No.</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @withdraw_asset.data_asset.employee.employee_number %></span>
+    </div>
+  </div>
+
+  <div class="form-group m-form__group row">
+    <label class="col-form-label col-lg-2">Withdraw Reason</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @withdraw_asset.withdraw_reason %></span>
+    </div>
+
+    <label class="col-form-label col-lg-2">Withdraw Procedure</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @withdraw_asset.withdraw_procedure %></span>
+    </div>
+  </div>
+
+  <div class="form-group m-form__group row">
+    <label class="col-form-label col-lg-2">Request by</label>
+    <div class="col-lg-8">
+      <span class="form-control"><%= @withdraw_asset.user.assignments.first.employee.employee_name %></span>
+    </div>
+  </div>
+
+<% end %>
+
+<% if (@withdraw_asset.posted? || @withdraw_asset.received?) && (current_user.id == @withdraw_asset.delivery_site_user_id || current_user.id == @withdraw_asset.receive_site_user_id || current_user.id == @withdraw_asset.delivery_province_user_id || current_user.id == @withdraw_asset.receive_province_user_id || current_user.role?(:assets_manager)) %>
+
+  <h4 class="text-center pt-3">Delivery Details:</h4>
+
+  <div class="m-form__group text-center">
+
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @withdraw_asset.delivery_transfer_driver_form %>">
+      Transfer Driver Form
+      <span></span>
+    </label>
+
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @withdraw_asset.delivery_repair_order %>">
+      Repair order
+      <span></span>
+    </label>
+
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @withdraw_asset.delivery_accident_report %>">
+      Accident report
+      <span></span>
+    </label>
+
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @withdraw_asset.delivery_maintenance_card %>">
+      Maintenance card
+      <span></span>
+    </label>
+
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @withdraw_asset.delivery_car_license %>">
+      Car license
+      <span></span>
+    </label>
+
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @withdraw_asset.delivery_operation_card %>">
+      Operation card
+      <span></span>
+    </label>
+
+  </div>
+
+  <div class="form-group m-form__group row">
+    <label class="col-form-label col-lg-2">Delivered by</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @withdraw_asset.delivery_site_user.assignments.first.employee.employee_name %></span>
+    </div>
+    <label class="col-form-label col-lg-2">Delivery Date</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @withdraw_asset.delivery_site_action_date.to_date %></span>
+    </div>
+  </div>
+
+<% end %>
+
+
+<% if @withdraw_asset.received? && (current_user.id == @withdraw_asset.receive_site_user_id || current_user.id == @withdraw_asset.receive_province_user_id || current_user.role?(:assets_manager)) %>
+
+  <h4 class="text-center pt-3">Receiving Details:</h4>
+
+  <div class="m-form__group text-center">
+
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @withdraw_asset.receive_transfer_driver_form %>">
+      Transfer Driver Form
+      <span></span>
+    </label>
+
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @withdraw_asset.receive_repair_order %>">
+      Repair order
+      <span></span>
+    </label>
+
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @withdraw_asset.receive_accident_report %>">
+      Accident report
+      <span></span>
+    </label>
+
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @withdraw_asset.receive_maintenance_card %>">
+      Maintenance card
+      <span></span>
+    </label>
+
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @withdraw_asset.receive_car_license %>">
+      Car license
+      <span></span>
+    </label>
+
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @withdraw_asset.receive_operation_card %>">
+      Operation card
+      <span></span>
+    </label>
+
+  </div>
+
+  <div class="form-group m-form__group row">
+    <label class="col-form-label col-lg-2">Received by</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @withdraw_asset.receive_site_user.assignments.first.employee.employee_name %></span>
+    </div>
+    <label class="col-form-label col-lg-2">Receive Date</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @withdraw_asset.receive_site_action_date.to_date %></span>
+    </div>
+  </div>
+
+<% end %>
+
+
+
+</form>
+
+
+<div class="m-widget13__action m--align-right">
+  <%= link_to 'Back', root_path, class: "btn m-btn--pill btn-secondary" %>
+  <%= link_to 'PDF', withdraw_asset_path(@withdraw_asset, format: :pdf, asset_id: params[:asset_id]), class: "btn m-btn--pill btn-danger", target: "_blank" %>
+</div>
+</div>
+
+</div>
+</div>
+<!--end::Portlet-->
+</div>
+</div>
+</div>

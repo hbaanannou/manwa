@@ -1,0 +1,38 @@
+<%= render 'layouts/myindex/before_myindex', mytitle: "Employees", pages_collection: @employees, pages_model: "employee", newlink: true, newtitle: "Employee", newpath: new_employee_path %>
+
+<thead>
+<tr>
+  <th>Employee number</th>
+  <th>Employee name</th>
+  <th>Employee mobile</th>
+  <th>Actions</th>
+</tr>
+</thead>
+<tbody>
+<% if @employees.any? %>
+  <% @employees.each do |employee| %>
+    <tr>
+      <th scope="row"><%= employee.employee_number %></th>
+
+      <td><%= employee.employee_name %></td>
+
+      <td><%= employee.employee_mobile %></td>
+
+      <td><%= link_to employee, alt: "Show", class: "m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill", data: { toggle: "m-tooltip", placement: "bottom", original_title: "Show"} do %><i class="la la-ellipsis-h"></i><% end %>
+
+        <%= link_to edit_employee_path(employee), alt: "Edit", class: "m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill", data: { toggle: "m-tooltip", placement: "bottom", original_title: "Edit" } do %><i class="la la-edit"></i><% end %>
+
+        <% if current_user.role?(:assets_admin) %>
+          <%= link_to employee, alt: "Delete", class: "m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill", method: :delete, data: { toggle: "m-tooltip", placement: "bottom", original_title: "Delete", confirm: 'Are you sure?' } do %><i class="la la-trash"></i><% end %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+<% else %>
+  <tr>
+    <th scope="row" class="text-center" colspan="12">No Assets</th>
+  </tr>
+<% end %>
+</tbody>
+
+<%= render 'layouts/myindex/after_myindex', pages_collection: @employees, pages_model: "employee" %>

@@ -1,0 +1,3 @@
+emp_high_line( '#emp_line_charts' , '/data_assets/emp_hours_line.json?emp_id=<%= params[:emp_id] %>&emp_start_date=<%= session[:emp_start_date] if session[:emp_start_date].present? %>&emp_end_date=<%= session[:emp_end_date] if session[:emp_end_date].present? %>')
+
+emp_checklist_report('/data_assets/emp_hours_line.json?emp_id=<%= params[:emp_id] %>&emp_start_date=<%= session[:emp_start_date] if session[:emp_start_date].present? %>&emp_end_date=<%= session[:emp_end_date] if session[:emp_end_date].present? %>')

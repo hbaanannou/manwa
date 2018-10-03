@@ -1,0 +1,18 @@
+<!--begin::Form-->
+<%= form_with(model: pro_asphalt_product, local: true, class: "m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed") do |form| %>
+
+  <%= render 'layouts/myform/error_myform', object: pro_asphalt_product %>
+
+  <div class="form-group m-form__group row">
+    <%= form.label :pro_asphalt_product_name, "Asphalt Product Name", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <%= form.text_field :pro_asphalt_product_name, class: "form-control m-input", placeholder: "Asphalt Product Name", required: true %>
+      <span class="m-form__help">Please enter Asphalt Product Name</span>
+    </div>
+  </div>
+
+
+  <%= render 'layouts/myform/submit_myform', form: form, cancelpath: pro_asphalt_products_path %>
+
+<% end %>
+<!--end::Form-->

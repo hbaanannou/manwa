@@ -1,0 +1,2 @@
+class ProAsphaltProduct < ApplicationRecord
+end

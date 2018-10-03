@@ -1,0 +1,582 @@
+<!--begin::Form-->
+<%= form_with(model: data_asset, local: true, class: "m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed") do |form| %>
+
+  <%= render 'layouts/myform/error_myform', object: data_asset %>
+
+
+  <ul class="nav nav-pills m-2" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" data-toggle="tab" href="#m_tabs_1_1">
+        <i class="la la-database"></i>
+        Asset Main Data
+      </a>
+    </li>
+    <% if current_user.role?(:assets_admin) || current_user.role?(:assets_manager) %>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#m_tabs_1_2">
+        <i class="la la-gear"></i>
+        Engine
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#m_tabs_1_3">
+        <i class="la la-wrench"></i>
+        Transmission
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#m_tabs_1_4">
+        <i class="la la-cogs"></i>
+        Concrete Mixer
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#m_tabs_1_5">
+        <i class="la la-tencent-weibo"></i>
+        Concrete Pump
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#m_tabs_1_6">
+        <i class="la la-plug"></i>
+        Generator
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#m_tabs_1_7">
+        <i class="la la-money"></i>
+        Financial
+      </a>
+    </li>
+    <% end %>
+  </ul>
+
+<hr>
+
+  <div class="tab-content">
+    <div class="tab-pane active" id="m_tabs_1_1" role="tabpanel">
+      
+
+      <% if current_user.role?(:assets_admin) || current_user.role?(:assets_manager) %>
+        <div class="form-group m-form__group row">
+          <%= form.label :data_asset_serial, "Asset No.", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_serial, class: "form-control m-input", placeholder: "Asset Number", required: true %>
+            <span class="m-form__help">Please enter Asset Number</span>
+          </div>
+          <%= form.label :data_asset_chassis_no, "Chassis No.", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_chassis_no, class: "form-control m-input", placeholder: "Chassis Number" %>
+            <span class="m-form__help">Please enter Chassis Number</span>
+          </div>
+        </div>
+
+
+        <div class="form-group m-form__group row">
+          <%= form.label :type_asset_id, "Type", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.collection_select :type_asset_id, TypeAsset.order(:type_asset_name), :id, :type_asset_name, {include_blank: 'Select Asset Type'}, class: "form-control m-input m-select2", required: true %>
+            <span class="m-form__help">Please enter Asset Type</span>
+          </div>
+          <%= form.label :model_asset_id, "Model", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.grouped_collection_select :model_asset_id, TypeAsset.order(:type_asset_name), :model_assets, :type_asset_name, :id, :model_asset_name, {include_blank: 'Select Asset Model'}, class: "form-control m-input m-select2", required: true %>
+            <span class="m-form__help">Please enter Asset Model</span>
+          </div>
+        </div>
+
+
+        <div class="form-group m-form__group row">
+          <%= form.label :province_asset_id, "Province", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.grouped_collection_select :province_asset_id, AreaAsset.order(:area_asset_name), :province_assets, :area_asset_name, :id, :province_asset_name, {include_blank: 'Select Asset Province'}, class: "form-control m-input m-select2", required: true %>
+            <span class="m-form__help">Please enter Asset Province</span>
+          </div>
+          <%= form.label :site_asset_id, "Site", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.grouped_collection_select :site_asset_id, ProvinceAsset.order(:province_asset_name), :site_assets, :province_asset_name, :id, :site_asset_name, {include_blank: 'Select Asset Site'}, class: "form-control m-input m-select2", required: true %>
+            <span class="m-form__help">Please enter Asset Site</span>
+          </div>
+        </div>
+
+
+        <div class="form-group m-form__group row">
+          <%= form.label :data_asset_purchasefrom, "Purchase From", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_purchasefrom, class: "form-control m-input", placeholder: "Asset Purchase From" %>
+            <span class="m-form__help">Please enter Asset Purchase From</span>
+          </div>
+          <%= form.label :data_asset_invoice_no, "Invoice No.", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_invoice_no, class: "form-control m-input", placeholder: "Asset Invoice No" %>
+            <span class="m-form__help">Please enter Asset Invoice No</span>
+          </div>
+        </div>
+
+
+        <div class="form-group m-form__group row">
+          <%= form.label :data_asset_warranty, "Warranty", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_warranty, class: "form-control m-input", placeholder: "Asset Warranty" %>
+            <span class="m-form__help">Please enter Asset Warranty</span>
+          </div>
+          <%= form.label :data_asset_madein, "Made In", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_madein, class: "form-control m-input", placeholder: "Asset Made In" %>
+            <span class="m-form__help">Please enter Asset Made In</span>
+          </div>
+        </div>
+
+
+        <div class="form-group m-form__group row">
+          <%= form.label :data_asset_arrived_date, "Arrived Date", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.date_field :data_asset_arrived_date, class: "form-control m-input", placeholder: "Asset Arrived Date" %>
+            <span class="m-form__help">Please enter Asset Arrived Date</span>
+          </div>
+          <%= form.label :data_asset_arrangement_no, "Arrangement No", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_arrangement_no, class: "form-control m-input", placeholder: "Asset Arrangement No" %>
+            <span class="m-form__help">Please enter Asset Arrangement No</span>
+          </div>
+        </div>
+
+
+        <div class="form-group m-form__group row">
+          <%= form.label :color_asset_id, "Color", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.select :color_asset_id, ColorAsset.all.collect {|p| [p.color_asset_name, p.id]}, {include_blank: 'Select Asset Color'}, class: "form-control m-input m-select2", required: true %>
+            <span class="m-form__help">Please enter Asset Color</span>
+          </div>
+          <%= form.label :employee_id, "Employee", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.select :employee_id, Employee.all.collect {|p| [p.employee_number + " - " + p.employee_name, p.id]}, {include_blank: 'Select Employee'}, class: "form-control m-input m-select2", required: true %>
+            <span class="m-form__help">Please enter Employee</span>
+          </div>
+        </div>
+
+
+        <div class="form-group m-form__group row">
+          <%= form.label :data_asset_plate_no, "Plate", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_plate_no, class: "form-control m-input", placeholder: "Asset Plate number" %>
+            <span class="m-form__help">Please enter Asset Plate number</span>
+          </div>
+          <%= form.label :data_asset_manufacture_year, "Manu. Year", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_manufacture_year, class: "form-control m-input", placeholder: "Asset Manufacture Year" %>
+            <span class="m-form__help">Please enter Asset Manufacture Year</span>
+          </div>
+        </div>
+
+      <% end %>
+
+      <% if current_user.role?(:assets_admin) || current_user.role?(:assets_manager) || current_user.role?(:assets_province) || current_user.role?(:assets_site) %>
+
+        <div class="form-group m-form__group row">
+          <%= form.label :status_asset_id, "Status", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.select :status_asset_id, StatusAsset.all.collect {|p| [p.status_asset_name, p.id]}, {include_blank: 'Select Asset Status'}, class: "form-control m-input m-select2", required: true %>
+            <span class="m-form__help">Please enter Asset Status</span>
+          </div>
+          <%= form.label :data_asset_in_use, "In Use?", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.select :data_asset_in_use, [["Yes", true], ["No", false]], {include_blank: 'In Use?'}, class: "form-control m-input m-select2", required: true %>
+            <span class="m-form__help">Please enter Asset In Use?</span>
+          </div>
+        </div>
+
+
+        <div class="form-group m-form__group row">
+          <%= form.label :data_asset_current_condition, "Condition", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_area :data_asset_current_condition, class: "form-control m-input", placeholder: "Current Condition" %>
+            <span class="m-form__help">Please enter Asset Current Condition</span>
+          </div>
+          <%= form.label :data_asset_remarks, "Remarks", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_area :data_asset_remarks, class: "form-control m-input", placeholder: "Remarks" %>
+            <span class="m-form__help">Please enter Asset Remarks</span>
+          </div>
+        </div>
+
+      <% end %>
+
+      <% if current_user.role?(:assets_admin) || current_user.role?(:assets_manager) %>
+
+        <div class="form-group m-form__group row">
+          <div class="col-lg-6">
+            <%= form.file_field :images, multiple: true %>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="owl-carousel owl-theme show-nav-hover">
+              <% data_asset.images.each_with_index do |image, index| %>
+                  <div>
+                    <span class="img-thumbnail d-block">
+                      <%= image_tag image.variant(resize: "600x450"), alt: "", class: "img-fluid" %>
+                      Photo <%= index + 1 %>
+                    </span>
+                  </div>
+              <% end %>
+            </div>
+              <% data_asset.images.each_with_index do |image, index| %>
+                <div>
+                    <%= form.fields_for :images_attachments, image do |fields| %>
+                      <%= fields.check_box :_destroy %> * Check for delete this photo <%= index + 1 %>
+                    <% end %>
+                </div>
+              <% end %>
+          </div>
+        </div>
+
+      <% end %>
+
+
+
+
+    </div>
+    <div class="tab-pane" id="m_tabs_1_2" role="tabpanel">
+
+      <% if current_user.role?(:assets_admin) || current_user.role?(:assets_manager) %>
+
+
+        <div class="form-group m-form__group row">
+          <%= form.label :data_asset_engine_model_1, "Model 1", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_engine_model_1, class: "form-control m-input", placeholder: "Engine Model 1" %>
+            <span class="m-form__help">Please enter Engine Model 1</span>
+          </div>
+          <%= form.label :data_asset_engine_model_2, "Model 2", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_engine_model_2, class: "form-control m-input", placeholder: "Engine Model 2" %>
+            <span class="m-form__help">Please enter Engine Model 2</span>
+          </div>
+        </div>
+
+        <div class="form-group m-form__group row">
+          <%= form.label :data_asset_engine_serial_no_1, "Serial No. 1", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_engine_serial_no_1, class: "form-control m-input", placeholder: "Engine Serial No. 1" %>
+            <span class="m-form__help">Please enter Engine Serial No. 1</span>
+          </div>
+          <%= form.label :data_asset_engine_serial_2, "Serial No. 2", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_engine_serial_2, class: "form-control m-input", placeholder: "Engine Serial No. 2" %>
+            <span class="m-form__help">Please enter Engine Serial No. 2</span>
+          </div>
+        </div>
+
+        <div class="form-group m-form__group row">
+          <%= form.label :data_asset_engine_family_1, "Family 1", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_engine_family_1, class: "form-control m-input", placeholder: "Engine Family 1" %>
+            <span class="m-form__help">Please enter Engine Family 1</span>
+          </div>
+          <%= form.label :data_asset_engine_family_2, "Family 2", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_engine_family_2, class: "form-control m-input", placeholder: "Engine Family 2" %>
+            <span class="m-form__help">Please enter Engine Family 2</span>
+          </div>
+        </div>
+
+
+        <div class="form-group m-form__group row">
+          <%= form.label :data_asset_engine_arrangement_1, "Arrangement 1", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_engine_arrangement_1, class: "form-control m-input", placeholder: "Engine Arrangement 1" %>
+            <span class="m-form__help">Please enter Engine Arrangement 1</span>
+          </div>
+          <%= form.label :data_asset_engine_arrangement_2, "Arrangement 2", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_engine_arrangement_2, class: "form-control m-input", placeholder: "Engine Arrangement 2" %>
+            <span class="m-form__help">Please enter Engine Arrangement 2</span>
+          </div>
+        </div>
+
+        <div class="form-group m-form__group row">
+          <%= form.label :data_asset_engine_displacement_no_1, "Displacement No. 1", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_engine_displacement_no_1, class: "form-control m-input", placeholder: "Engine Displacement No. 1" %>
+            <span class="m-form__help">Please enter Engine Displacement No. 1</span>
+          </div>
+          <%= form.label :data_asset_engine_displacement_no_2, "Displacement No. 2", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_engine_displacement_no_2, class: "form-control m-input", placeholder: "Engine Displacement No. 2" %>
+            <span class="m-form__help">Please enter Engine Displacement No. 2</span>
+          </div>
+        </div>
+
+        <div class="form-group m-form__group row">
+          <%= form.label :data_asset_engine_rating_1, "Rating 1", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_engine_rating_1, class: "form-control m-input", placeholder: "Engine Rating 1" %>
+            <span class="m-form__help">Please enter Engine Rating 1</span>
+          </div>
+          <%= form.label :data_asset_engine_rating_2, "Rating 2", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_engine_rating_2, class: "form-control m-input", placeholder: "Engine Rating 2" %>
+            <span class="m-form__help">Please enter Engine Rating 2</span>
+          </div>
+        </div>
+
+        <div class="form-group m-form__group row">
+          <%= form.label :data_asset_engine_code_1, "Code 1", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_engine_code_1, class: "form-control m-input", placeholder: "Engine Code 1" %>
+            <span class="m-form__help">Please enter Engine Code 1</span>
+          </div>
+          <%= form.label :data_asset_engine_code_2, "Code 2", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_engine_code_2, class: "form-control m-input", placeholder: "Engine Code 2" %>
+            <span class="m-form__help">Please enter Engine Code 2</span>
+          </div>
+        </div>
+
+
+
+      <% end %>
+
+    </div>
+    <div class="tab-pane" id="m_tabs_1_3" role="tabpanel">
+
+
+      <% if current_user.role?(:assets_admin) || current_user.role?(:assets_manager) %>
+
+        <div class="form-group m-form__group row">
+          <%= form.label :data_asset_transmission_model, "Transmission Model", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_transmission_model, class: "form-control m-input", placeholder: "Transmission Model" %>
+            <span class="m-form__help">Please enter Transmission Model</span>
+          </div>
+          <%= form.label :data_asset_transmission_serial_no, "Serial No.", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_transmission_serial_no, class: "form-control m-input", placeholder: "Transmission Serial No." %>
+            <span class="m-form__help">Please enter Transmission Serial No.</span>
+          </div>
+        </div>
+
+        <div class="form-group m-form__group row">
+          <%= form.label :data_asset_transmission_arrangement, "Arrangement", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_transmission_arrangement, class: "form-control m-input", placeholder: "Transmission Arrangement" %>
+            <span class="m-form__help">Please enter Transmission Arrangement</span>
+          </div>
+        </div>
+
+      <% end %>
+
+
+    </div>
+    <div class="tab-pane" id="m_tabs_1_4" role="tabpanel">
+
+
+      <% if current_user.role?(:assets_admin) || current_user.role?(:assets_manager) %>
+
+        <div class="form-group m-form__group row">
+          <%= form.label :data_asset_concrete_mixer_name, "Name", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_concrete_mixer_name, class: "form-control m-input", placeholder: "Concrete Mixer Name" %>
+            <span class="m-form__help">Please enter Concrete Mixer Name</span>
+          </div>
+          <%= form.label :data_asset_concrete_mixer_model, "Model", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_concrete_mixer_model, class: "form-control m-input", placeholder: "Concrete Mixer Model" %>
+            <span class="m-form__help">Please enter Concrete Mixer Model</span>
+          </div>
+        </div>
+
+        <div class="form-group m-form__group row">
+          <%= form.label :data_asset_concrete_mixer_serial_no, "Serial No.", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_concrete_mixer_serial_no, class: "form-control m-input", placeholder: "Concrete Mixer Serial No." %>
+            <span class="m-form__help">Please enter Concrete Mixer Serial No.</span>
+          </div>
+          <%= form.label :data_asset_concrete_mixer_capacity, "Capacit", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_concrete_mixer_capacity, class: "form-control m-input", placeholder: "Concrete Mixer Capacit" %>
+            <span class="m-form__help">Please enter Concrete Mixer Capacit</span>
+          </div>
+        </div>
+
+      <% end %>
+
+
+    </div>
+    <div class="tab-pane" id="m_tabs_1_5" role="tabpanel">
+
+
+      <% if current_user.role?(:assets_admin) || current_user.role?(:assets_manager) %>
+
+        <div class="form-group m-form__group row">
+          <%= form.label :data_asset_concrete_pump_name, "Name", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_concrete_pump_name, class: "form-control m-input", placeholder: "Concrete Pump Name" %>
+            <span class="m-form__help">Please enter Concrete Pump Name</span>
+          </div>
+          <%= form.label :data_asset_concrete_pump_model, "Model", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_concrete_pump_model, class: "form-control m-input", placeholder: "Concrete Pump Model" %>
+            <span class="m-form__help">Please enter Concrete Pump Model</span>
+          </div>
+        </div>
+
+        <div class="form-group m-form__group row">
+          <%= form.label :data_asset_concrete_pump_serial_no, "Serial No.", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_concrete_pump_serial_no, class: "form-control m-input", placeholder: "Concrete Pump Serial No." %>
+            <span class="m-form__help">Please enter Concrete Pump Serial No.</span>
+          </div>
+        </div>
+
+      <% end %>
+
+    </div>
+    <div class="tab-pane" id="m_tabs_1_6" role="tabpanel">
+
+
+      <% if current_user.role?(:assets_admin) || current_user.role?(:assets_manager) %>
+
+
+        <div class="form-group m-form__group row">
+          <%= form.label :data_asset_generator_no, "Number", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_generator_no, class: "form-control m-input", placeholder: "Generator Number" %>
+            <span class="m-form__help">Please enter Generator Number</span>
+          </div>
+          <%= form.label :data_asset_generator_controller_no, "Controller No.", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_generator_controller_no, class: "form-control m-input", placeholder: "Generator Controller No." %>
+            <span class="m-form__help">Please enter Generator Controller No.</span>
+          </div>
+        </div>
+
+        <div class="form-group m-form__group row">
+          <%= form.label :data_asset_generator_governor_no, "Governor No.", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_generator_governor_no, class: "form-control m-input", placeholder: "Generator Governor No." %>
+            <span class="m-form__help">Please enter Generator Governor No.</span>
+          </div>
+          <%= form.label :data_asset_generator_alternator_no, "Alternator No.", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_generator_alternator_no, class: "form-control m-input", placeholder: "Generator Alternator No." %>
+            <span class="m-form__help">Please enter Generator Alternator No.</span>
+          </div>
+        </div>
+
+        <div class="form-group m-form__group row">
+          <%= form.label :data_asset_generator_alternator_model, "Alternator Model", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_generator_alternator_model, class: "form-control m-input", placeholder: "Generator Alternator Model" %>
+            <span class="m-form__help">Please enter Generator Alternator Model</span>
+          </div>
+          <%= form.label :data_asset_generator_alternator_serial_no, "Alternator Serial No.", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_generator_alternator_serial_no, class: "form-control m-input", placeholder: "Generator Alternator Serial No." %>
+            <span class="m-form__help">Please enter Generator Alternator Serial No.</span>
+          </div>
+        </div>
+
+        <div class="form-group m-form__group row">
+          <%= form.label :data_asset_generator_rated_voltage, "Rated Voltage", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_generator_rated_voltage, class: "form-control m-input", placeholder: "Generator Rated Voltage" %>
+            <span class="m-form__help">Please enter Generator Rated Voltage</span>
+          </div>
+          <%= form.label :data_asset_generator_phase, "Phase", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_generator_phase, class: "form-control m-input", placeholder: "Generator Phase" %>
+            <span class="m-form__help">Please enter Generator Phase</span>
+          </div>
+        </div>
+
+        <div class="form-group m-form__group row">
+          <%= form.label :data_asset_generator_rated_frequency, "Rated Frequency", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_generator_rated_frequency, class: "form-control m-input", placeholder: "Generator Rated Frequency" %>
+            <span class="m-form__help">Please enter Generator Rated Frequency</span>
+          </div>
+          <%= form.label :data_asset_generator_rated_current_prime, "Rated Current Prime", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_generator_rated_current_prime, class: "form-control m-input", placeholder: "Generator Rated Current Prime" %>
+            <span class="m-form__help">Please enter Generator Rated Current Prime</span>
+          </div>
+        </div>
+
+        <div class="form-group m-form__group row">
+          <%= form.label :data_asset_generator_rated_rpm, "Rated RPM", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_generator_rated_rpm, class: "form-control m-input", placeholder: "Generator Rated RPM" %>
+            <span class="m-form__help">Please enter Generator Rated RPM</span>
+          </div>
+          <%= form.label :data_asset_generator_altitude, "Altitude", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_generator_altitude, class: "form-control m-input", placeholder: "Generator Altitude" %>
+            <span class="m-form__help">Please enter Generator Altitude</span>
+          </div>
+        </div>
+
+        <div class="form-group m-form__group row">
+          <%= form.label :data_asset_generator_rated_power, "Rated Power", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_generator_rated_power, class: "form-control m-input", placeholder: "Generator Rated Power" %>
+            <span class="m-form__help">Please enter Generator Rated Power</span>
+          </div>
+          <%= form.label :data_asset_generator_manufacture_year, "Manufacture Year", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_generator_manufacture_year, class: "form-control m-input", placeholder: "Generator Manufacture Year" %>
+            <span class="m-form__help">Please enter Generator Manufacture Year</span>
+          </div>
+        </div>
+
+        <div class="form-group m-form__group row">
+          <%= form.label :data_asset_generator_madein, "Made In", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_generator_madein, class: "form-control m-input", placeholder: "Generator Made In" %>
+            <span class="m-form__help">Please enter Generator Made In</span>
+          </div>
+        </div>
+
+
+
+      <% end %>
+
+
+    </div>
+    <div class="tab-pane" id="m_tabs_1_7" role="tabpanel">
+      
+
+      <% if current_user.role?(:assets_admin) || current_user.role?(:assets_manager) %>
+
+        <div class="form-group m-form__group row">
+          <%= form.label :data_asset_acquisition_value, "Acquisition Value", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_acquisition_value, class: "form-control m-input", placeholder: "Acquisition Value" %>
+            <span class="m-form__help">Please enter Acquisition Value</span>
+          </div>
+          <%= form.label :data_asset_acquisition_date, "Acquisition Date", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.date_field :data_asset_acquisition_date, class: "form-control m-input", placeholder: "Acquisition Date" %>
+            <span class="m-form__help">Please enter Acquisition Date</span>
+          </div>
+        </div>
+
+        <div class="form-group m-form__group row">
+          <%= form.label :data_asset_book_value, "Book Value", class: "col-lg-2 col-form-label" %>
+          <div class="col-lg-3">
+            <%= form.text_field :data_asset_book_value, class: "form-control m-input", placeholder: "Book Value" %>
+            <span class="m-form__help">Please enter Book Value</span>
+          </div>
+        </div>
+
+      <% end %>
+
+
+
+    </div>
+
+  </div>
+
+  <%= render 'layouts/myform/submit_myform', form: form, cancelpath: data_assets_path %>
+<% end %>
+<!--end::Form-->

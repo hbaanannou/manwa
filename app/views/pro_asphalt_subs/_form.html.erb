@@ -1,0 +1,22 @@
+<%= form_with(model: pro_asphalt_sub, local: true) do |form| %>
+  <% if pro_asphalt_sub.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(pro_asphalt_sub.errors.count, "error") %> prohibited this pro_asphalt_sub from being saved:</h2>
+
+      <ul>
+      <% pro_asphalt_sub.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :pro_asphalt_id %>
+    <%= form.text_field :pro_asphalt_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

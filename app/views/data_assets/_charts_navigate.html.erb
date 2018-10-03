@@ -1,0 +1,35 @@
+<div class="m-btn-group m-btn-group--pill btn-group" role="group" aria-label="First group">
+
+<% unless params[:asset_id].blank? %>
+  <% current_asset = DataAsset.find(params[:asset_id]) %>
+
+  <% unless current_asset == @data_assets.first %>
+
+    <%= link_to charts_data_assets_path(asset_id: @data_assets.prev(current_asset.id)), remote: true, class: "m-btn btn btn-primary" do %>
+      <i class="la la-angle-double-left"></i>
+    <% end %>
+  
+  <% else %>
+
+    <%= link_to charts_data_assets_path(asset_id: @data_assets.prev(current_asset.id)), remote: true, class: "m-btn btn btn-primary disabled" do %>
+      <i class="la la-angle-double-left"></i>
+    <% end %>
+
+  <% end %>
+
+  
+  <% unless current_asset == @data_assets.last %>
+
+    <%= link_to charts_data_assets_path(asset_id: @data_assets.next(current_asset.id)), remote: true, class: "m-btn btn btn-warning" do %>
+      <i class="la la-angle-double-right"></i>
+    <% end %>
+  
+  <% else %>
+
+    <%= link_to charts_data_assets_path(asset_id: @data_assets.next(current_asset.id)), remote: true, class: "m-btn btn btn-warning disabled" do %>
+      <i class="la la-angle-double-right"></i>
+    <% end %>
+
+  <% end %>
+<% end %>
+</div>

@@ -1,0 +1,291 @@
+<%= render 'layouts/myshow/before_myshow', mytitle: "R #{@request_asset.id}" %>
+
+
+<form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed">
+ 
+<% if (@request_asset.opened? || @request_asset.pass? || @request_asset.notpass? || @request_asset.accepted? || @request_asset.refused? || @request_asset.ready? || @request_asset.received?) && (current_user.id == @request_asset.site_user_id || current_user.id == @request_asset.province_user_id || current_user.role?(:assets_manager)) %>
+
+  <h4 class="text-center pt-3">Transfer Request:</h4>
+
+  <div class="form-group m-form__group row">
+    <label class="col-form-label col-lg-2">Request Date</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @request_asset.created_at.to_date %></span>
+    </div>
+
+    <label class="col-form-label col-lg-2">Request Driver</label>
+    <div class="col-lg-3 pt-2">
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @request_asset.driver_request %>">
+      Request Driver
+      <span></span>
+    </label>
+    </div>
+  </div>
+
+  <div class="form-group m-form__group row">
+    <label class="col-form-label col-lg-2">Province</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @request_asset.province_asset_to.province_asset_name %></span>
+    </div>
+
+    <label class="col-form-label col-lg-2">Site</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @request_asset.site_asset_to.site_asset_name %></span>
+    </div>
+  </div>
+
+
+  <div class="form-group m-form__group row">
+    <label class="col-form-label col-lg-2">Asset Type</label>
+    <div class="col-lg-8">
+      <span class="form-control"><%= @request_asset.type_asset.type_asset_name %></span>
+    </div>
+  </div>
+
+  <div class="form-group m-form__group row">
+    <label class="col-form-label col-lg-2">Request Reason</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @request_asset.request_reason %></span>
+    </div>
+
+    <label class="col-form-label col-lg-2">Work Type</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @request_asset.work_type %></span>
+    </div>
+  </div>
+
+  <div class="form-group m-form__group row">
+    <label class="col-form-label col-lg-2">Need Date</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @request_asset.need_date %></span>
+    </div>
+
+    <label class="col-form-label col-lg-2">Need Days</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @request_asset.need_days %></span>
+    </div>
+  </div>
+
+  <div class="form-group m-form__group row">
+    <label class="col-form-label col-lg-2">The Request by</label>
+    <div class="col-lg-3">
+      <% if @request_asset.user_id == @request_asset.site_asset_to.user_id  %>
+        <span class="form-control">Site Manager: <%= @request_asset.site_asset_to.user.assignments.first.employee.employee_name %></span>
+      <% elsif @request_asset.user_id == @request_asset.site_asset_to.province_asset.user_id %>
+        <span class="form-control">Province Manager: <%= @request_asset.site_asset_to.province_asset.user.assignments.first.employee.employee_name %></span>
+      <% end %>
+    </div>
+
+    <label class="col-form-label col-lg-2">Request Date</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @request_asset.created_at.to_date %></span>
+    </div>
+  </div>
+
+<% end %>
+
+
+<% if @request_asset.notpass? && @request_asset.sitemanager? && (current_user.id == @request_asset.site_user_id || current_user.id == @request_asset.province_user_id ) %>
+
+<h4 class="text-center pt-3">Province Manager Refuse:</h4>
+
+  <div class="form-group m-form__group row">
+    <label class="col-form-label col-lg-2">Refused by</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @request_asset.province_user.assignments.first.employee.employee_name %></span>
+    </div>
+    <label class="col-form-label col-lg-2">Refuse Date</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @request_asset.province_user_action_date.to_date %></span>
+    </div>
+  </div>
+
+<% end %>
+
+
+<% if (@request_asset.pass? || @request_asset.accepted? || @request_asset.refused? || @request_asset.ready? || @request_asset.received?) && @request_asset.sitemanager? && (current_user.id == @request_asset.site_user_id || current_user.id == @request_asset.province_user_id || current_user.role?(:assets_manager)) %>
+
+  <h4 class="text-center pt-3">Province Manager Accept:</h4>
+
+    <div class="form-group m-form__group row">
+    <label class="col-form-label col-lg-2">Accepted by</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @request_asset.province_user.assignments.first.employee.employee_name %></span>
+    </div>
+    <label class="col-form-label col-lg-2">Accept Date</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @request_asset.province_user_action_date.to_date %></span>
+    </div>
+  </div>
+
+<% end %>
+
+
+<% if @request_asset.refused? && (current_user.id == @request_asset.site_user_id || current_user.id == @request_asset.province_user_id || current_user.role?(:assets_manager)) %>
+
+<h4 class="text-center pt-3">Request Refuse:</h4>
+
+  <% if @request_asset.refuse_reason.present? %>
+  <div class="form-group m-form__group row">
+    <label class="col-form-label col-lg-2">Refuse Reason</label>
+    <div class="col-lg-8">
+      <span class="form-control"><%= @request_asset.refuse_reason %></span>
+    </div>
+  </div>
+  <% end %>
+
+  <div class="form-group m-form__group row">
+    <label class="col-form-label col-lg-2">Refused by</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @request_asset.transfer_dep_user.assignments.first.employee.employee_name %></span>
+    </div>
+    <label class="col-form-label col-lg-2">Refuse Date</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @request_asset.transfer_dep_action_date.to_date %></span>
+    </div>
+  </div>
+
+<% end %>
+
+
+<% if (@request_asset.accepted? || @request_asset.ready? || @request_asset.received?) && (current_user.id == @request_asset.site_user_id || current_user.id == @request_asset.province_user_id || current_user.role?(:assets_manager)) %>
+
+  <h4 class="text-center pt-3">Transportation Department:</h4>
+
+  <div class="form-group m-form__group row">
+    <label class="col-form-label col-lg-2">Accept Status</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @request_asset.accept_status %></span>
+    </div>
+    <label class="col-form-label col-lg-2">Available Date</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @request_asset.available_date %></span>
+    </div>
+  </div>
+
+    <div class="form-group m-form__group row">
+    <label class="col-form-label col-lg-2">Accepted by</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @request_asset.transfer_dep_user.assignments.first.employee.employee_name %></span>
+    </div>
+    <label class="col-form-label col-lg-2">Accept Date</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @request_asset.transfer_dep_action_date.to_date %></span>
+    </div>
+  </div>
+
+<% end %>
+
+
+<% if (@request_asset.ready? || @request_asset.received?) && (current_user.id == @request_asset.site_user_id || current_user.id == @request_asset.province_user_id || current_user.role?(:assets_manager)) %>
+
+  <h4 class="text-center pt-3">Ready Details:</h4>
+
+  <div class="form-group m-form__group row">
+    <label class="col-form-label col-lg-2">Ready Date</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @request_asset.ready_date.to_date %></span>
+    </div>
+
+    <label class="col-form-label col-lg-2">Lowbed No.</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @request_asset.data_asset_lowbed ? @request_asset.data_asset_lowbed.data_asset_serial : "N/A" %></span>
+    </div>
+  </div>
+
+  <% if @request_asset.data_asset_lowbed.present? %>
+  <div class="form-group m-form__group row">
+    <label class="col-form-label col-lg-2">Lowbed Driver Name</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @request_asset.data_asset_lowbed.employee.employee_name %></span>
+    </div>
+
+    <label class="col-form-label col-lg-2">Lowbed Driver Mobile</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @request_asset.data_asset_lowbed.employee.employee_mobile %></span>
+    </div>
+  </div>
+  <% end %>
+
+  <div class="form-group m-form__group row">
+    <label class="col-form-label col-lg-2">Accepted by</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @request_asset.transfer_dep_user.assignments.first.employee.employee_name %></span>
+    </div>
+    <label class="col-form-label col-lg-2">Accept Date</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @request_asset.ready_dep_action_date.to_date %></span>
+    </div>
+  </div>
+
+<% end %>
+
+
+
+<% if @request_asset.received? && (current_user.id == @request_asset.site_user_id || current_user.id == @request_asset.province_user_id || current_user.role?(:assets_manager)) %>
+
+  <h4 class="text-center pt-3">Receiving Details:</h4>
+
+  <div class="m-form__group text-center">
+
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @request_asset.receive_transfer_driver_form %>">
+      Transfer Driver Form
+      <span></span>
+    </label>
+
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @request_asset.receive_repair_order %>">
+      Repair order
+      <span></span>
+    </label>
+
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @request_asset.receive_accident_report %>">
+      Accident report
+      <span></span>
+    </label>
+
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @request_asset.receive_maintenance_card %>">
+      Maintenance card
+      <span></span>
+    </label>
+
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @request_asset.receive_car_license %>">
+      Car license
+      <span></span>
+    </label>
+
+    <label class="m-checkbox ml-3 <%= 'm-checkbox--solid m-checkbox--state-brand' if @request_asset.receive_operation_card %>">
+      Operation card
+      <span></span>
+    </label>
+
+  </div>
+
+  <div class="form-group m-form__group row">
+    <label class="col-form-label col-lg-2">Received by</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @request_asset.site_user.assignments.first.employee.employee_name %></span>
+    </div>
+    <label class="col-form-label col-lg-2">Receive Date</label>
+    <div class="col-lg-3">
+      <span class="form-control"><%= @request_asset.receive_site_action_date.to_date %></span>
+    </div>
+  </div>
+
+<% end %>
+
+
+
+</form>
+
+<div class="m-widget13__action m--align-right">
+  <%= link_to 'Back', root_path, class: "btn m-btn--pill btn-secondary" %>
+  <%= link_to 'PDF', request_asset_path(@request_asset, format: :pdf), class: "btn m-btn--pill btn-danger", target: "_blank" %>
+</div>
+</div>
+
+</div>
+</div>
+<!--end::Portlet-->
+</div>
+</div>
+</div>

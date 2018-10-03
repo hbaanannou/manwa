@@ -1,0 +1,19 @@
+<h3 class="m-subheader__title m-subheader__title--separator">
+Operation Cards
+</h3>
+<big class="text-muted">
+  Asset: 
+  <% unless params[:asset_id].blank? %>
+  <strong>
+    <span class="m--font-brand"> <%= DataAsset.find(params[:asset_id]).data_asset_serial %></span>
+    / <%= DataAsset.find(params[:asset_id]).type_asset.type_asset_name %> 
+    / <%= DataAsset.find(params[:asset_id]).model_asset.model_asset_name %> 
+    / 
+    <% if DataAsset.find(params[:asset_id]).data_asset_in_use %>
+      <span class="m--font-success">In Use </span>
+    <% else %>
+      <span class="m--font-danger">Out of Use </span>
+    <% end %>
+  </strong> 
+  <% end %>
+</big>

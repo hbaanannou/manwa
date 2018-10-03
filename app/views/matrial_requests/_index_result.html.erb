@@ -1,0 +1,171 @@
+<div class="m-portlet__head">
+  <div class="m-portlet__head-caption">
+    <div class="m-portlet__head-title">
+      <span class="m-portlet__head-icon">
+        <i class="flaticon-truck m--font-brand"></i>
+      </span>
+      <h3 class="m-portlet__head-text">
+        Material Requests
+      </h3>
+    </div>
+  </div>
+  <div class="m-portlet__head-tools">
+    <ul class="m-portlet__nav">
+
+      <li class="m-portlet__nav-item" id="clear_filters">
+        <% if params[:q] %>
+          <%= link_to request.path, class: "btn m-btn m-btn--pill m-btn--air btn-info mr-4" do %>
+            <span>
+              <i class="la la-filter"></i>
+              <span>
+                Clear Filters
+              </span>
+            </span>
+          <% end %>
+        <% end %>
+      </li>
+
+    </ul>
+  </div>
+</div>
+
+<!--Begin::m-portlet__body-->
+<div class="m-portlet__body">
+<div class="mb-5 pb-2">
+  <div class="digg_pagination m--pull-left">
+    <span class="page_info">
+      <%= page_entries_info @matrial_requests, model: 'matrial_request' %>
+    </span>
+  </div>
+  <div class="digg_pagination m--pull-right">
+    <%= will_paginate @matrial_requests, :container => false %>
+  </div>
+</div>
+
+<!--Begin::Section-->
+<div class="m-section">
+  <div class="m-section__content">
+    <div class="table-responsive">
+    <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover text-center">
+      <thead>
+      <tr>
+        <th>#Serial</th>
+        <th>Repair order</th>
+        <th>Workshop</th>
+        <th>Date</th>
+        <th>Asset No.</th>
+        <th>Asset Type</th>
+        <th>Project</th>
+        <th>Status</th>
+        <th>Spares</th>
+        <% if current_user.role?(:rstore) || current_user.role?(:tstore) %>
+        <th>#PR</th>
+        <% end %>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% if @matrial_requests.any? %>
+        <% @matrial_requests.each do |matrial_request| %>
+          <tr>
+
+            <td>#MR <%= matrial_request.id %></td>
+
+            <td>#RO <%= matrial_request.repair_order_id %></td>
+
+            <td><%= matrial_request.repair_order.workshop_site.site_asset_name %></td>
+
+            <td><%= matrial_request.created_at.to_date %></td>
+
+            <td><%= matrial_request.repair_order.data_asset.data_asset_serial %></td>
+
+            <td><%= matrial_request.repair_order.data_asset.type_asset.type_asset_name %></td>
+
+            <td><%= matrial_request.repair_order.site_asset.site_asset_name %></td>
+            
+            <td>
+              <% if matrial_request.manager_done %>
+                <span class="m--font-danger">Manager Confirmed</span>
+              <% elsif matrial_request.store_done %>
+                <span class="m--font-brand">Store Checked</span>
+              <% else %>
+                <span class="m--font-success">New</span>
+              <% end %>
+            </td>
+
+            <td>
+              <% if matrial_request.breakdown_spares.any? %>
+                <%= link_to breakdown_spares_path(mr_id: matrial_request.id), alt: "Spares", class: "m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill", data: {toggle: "m-tooltip", placement: "bottom", original_title: "Spares"} do %><i class="la la-angle-double-right"></i><% end %>
+
+                <% if matrial_request.breakdown_spares.count > 0 %>
+                <span class="m-badge m-badge--default" data-toggle="m-tooltip" data-placement="bottom" data-original-title="Spares Num."><%= matrial_request.breakdown_spares.count %></span>
+                <% else %>
+                <span class="m-badge m-badge--danger" data-toggle="m-tooltip" data-placement="bottom" data-original-title="Spares Num."><%= matrial_request.breakdown_spares.count %></span>
+                <% end %>
+
+                <% if matrial_request.breakdown_spares.by_spare_status_2_or_8.count > 0 %>
+                  <span class="m-badge m-badge--success" data-toggle="m-tooltip" data-placement="bottom" data-original-title="In Store Spares"><%= matrial_request.breakdown_spares.by_spare_status_2_or_8.count %></span>
+                <% end %>
+
+                <% if matrial_request.breakdown_spares.by_spare_status_6.count > 0 %>
+                  <span class="m-badge m-badge--primary" data-toggle="m-tooltip" data-placement="bottom" data-original-title="Received Spares"><%= matrial_request.breakdown_spares.by_spare_status_6.count %></span>
+                <% end %>
+
+              <% end %>
+            </td>
+
+            <% if current_user.role?(:rstore) || current_user.role?(:tstore) %>
+            <td>
+              <% if (current_user.role?(:rstore) || current_user.role?(:tstore)) && matrial_request.manager_done %>
+
+                <% if matrial_request.breakdown_spares.first.purchase_request_id != nil %>
+
+                  #PR <%= matrial_request.breakdown_spares.first.purchase_request_id %>
+
+                <% elsif matrial_request.breakdown_spares.by_spare_status_4.count > 0 and matrial_request.breakdown_spares.first.purchase_request_id == nil %>
+
+                  <%= link_to create_purchase_request_with_willpurchase_spares_matrial_requests_path(mr_id: matrial_request.id), alt: "Create Purchase Request", class: "m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill", data: {toggle: "m-tooltip", placement: "bottom", original_title: "* Create Purchase Req."} do %><i class="la la-arrow-circle-right"></i><% end %>
+
+                  <span class="m-badge m-badge--primary" data-toggle="m-tooltip" data-placement="bottom" data-original-title="Will Purchase Spares Num."><%= matrial_request.breakdown_spares.by_spare_status_4.count %></span>
+                <% end %>
+
+              <% end %>
+            </td>
+            <% end %>
+
+            <td>
+              <% if ((current_user.role?(:rstore) || current_user.role?(:tstore)) && !matrial_request.store_done) || (current_user.role?(:workshops_manager) && matrial_request.store_done && !matrial_request.manager_done) || (current_user.role?(:workshops_site) && matrial_request.store_done && matrial_request.manager_done && ( matrial_request.breakdown_spares.exists?(spare_status: :instore) || matrial_request.breakdown_spares.exists?(spare_status: :receivedbystore) ) ) %>
+                <%= link_to edit_matrial_request_path(matrial_request), alt: "Edit", class: "m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill", data: { toggle: "m-tooltip", placement: "bottom", original_title: "Edit" } do %><i class="la la-edit"></i><% end %>
+              <% end %>
+
+              <% if current_user.role?(:assets_admin) || current_user.role?(:workshops_manager) %>
+                <%= link_to matrial_request_path(matrial_request), alt: "Delete", class: "m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill", method: :delete, data: { toggle: "m-tooltip", placement: "bottom", original_title: "Delete", confirm: 'Are you sure?' } do %><i class="la la-trash"></i><% end %>
+              <% end %>
+
+            </td>
+          </tr>
+        <% end %>
+      <% else %>
+        <tr>
+          <th scope="row" class="text-center" colspan="12">No Material Request Data</th>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div>
+<!--End::Section-->
+
+<div class="mb-3 pb-3">
+  <div class="digg_pagination m--pull-left">
+    <span class="page_info">
+      <%= page_entries_info @matrial_requests, model: 'matrial_request' %>
+    </span>
+  </div>
+  <div class="digg_pagination m--pull-right">
+    <%= will_paginate @matrial_requests, :container => false %>
+  </div>
+</div>
+</div>
+<!--End::m-portlet__body-->

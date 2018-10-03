@@ -1,0 +1,174 @@
+<!--Begin::Section-->
+<div class="m-section">
+  <div class="m-section__content">
+    <span style="font-size: medium">OC Report: ( Asset: <b><%= DataAsset.find(params[:asset_id]).data_asset_serial %></b> - Start date: <b><%= params[:start_date] %></b> - End date: <b><%= params[:end_date] %></b> )</span>
+    <div class="table-responsive">
+    <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover text-center">
+      <thead>
+      <tr>
+        <th>*</th>
+        <th style="width: 90px">#Day</th>
+        <th>Engine Oil</th>
+        <th>Hydraulic Oil</th>
+        <th>Gear Oil</th>
+        <th>Breake Oil</th>
+        <th>Battery Water</th>
+        <th>Air Filter</th>
+        <th>Fuel Water Separator</th>
+        <th>Fuel Tank</th>
+        <th>Radiator Coolant Hoses</th>
+        <th>Lights Gauges</th>
+        <th>Joints Pto Shaft</th>
+        <th>Chain Tension</th>
+        <th>Tire Pressure</th>
+        <th>Tire Bolt</th>
+        <th>Fan Belt Tension</th>
+        <th>Air Tank</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% if @checklists_pdf.any? %>
+        <% @checklists_pdf.each_with_index do |checklist, index| %>
+          <tr>
+            <td><%= index + 1 %></td>
+            <td class="m--font-brand" style="width: 90px"><strong><%= checklist.day.to_date.strftime('%d-%m-%Y') %></strong></td>
+            <td>
+              <% if checklist.engine_oil %>
+              <i class="la la-check m--font-success"></i>
+              <% else %>
+              <i class="la la-close m--font-danger"></i>
+              <% end %>
+            </td>
+
+            <td>
+              <% if checklist.hydraulic_oil %>
+              <i class="la la-check m--font-success"></i>
+              <% else %>
+              <i class="la la-close m--font-danger"></i>
+              <% end %>
+            </td>
+
+            <td>
+              <% if checklist.gear_oil %>
+              <i class="la la-check m--font-success"></i>
+              <% else %>
+              <i class="la la-close m--font-danger"></i>
+              <% end %>
+            </td>
+
+            <td>
+              <% if checklist.breake_oil %>
+              <i class="la la-check m--font-success"></i>
+              <% else %>
+              <i class="la la-close m--font-danger"></i>
+              <% end %>
+            </td>
+
+            <td>
+              <% if checklist.battery_water %>
+              <i class="la la-check m--font-success"></i>
+              <% else %>
+              <i class="la la-close m--font-danger"></i>
+              <% end %>
+            </td>
+
+            <td>
+              <% if checklist.air_filter %>
+              <i class="la la-check m--font-success"></i>
+              <% else %>
+              <i class="la la-close m--font-danger"></i>
+              <% end %>
+            </td>
+
+            <td>
+              <% if checklist.fuel_water_separator %>
+              <i class="la la-check m--font-success"></i>
+              <% else %>
+              <i class="la la-close m--font-danger"></i>
+              <% end %>
+            </td>
+
+            <td>
+              <% if checklist.fuel_tank %>
+              <i class="la la-check m--font-success"></i>
+              <% else %>
+              <i class="la la-close m--font-danger"></i>
+              <% end %>
+            </td>
+
+            <td>
+              <% if checklist.radiator_coolant_hoses %>
+              <i class="la la-check m--font-success"></i>
+              <% else %>
+              <i class="la la-close m--font-danger"></i>
+              <% end %>
+            </td>
+
+            <td>
+              <% if checklist.lights_gauges %>
+              <i class="la la-check m--font-success"></i>
+              <% else %>
+              <i class="la la-close m--font-danger"></i>
+              <% end %>
+            </td>
+
+            <td>
+              <% if checklist.joints_pto_shaft %>
+              <i class="la la-check m--font-success"></i>
+              <% else %>
+              <i class="la la-close m--font-danger"></i>
+              <% end %>
+            </td>
+
+            <td>
+              <% if checklist.chain_tension %>
+              <i class="la la-check m--font-success"></i>
+              <% else %>
+              <i class="la la-close m--font-danger"></i>
+              <% end %>
+            </td>
+
+            <td>
+              <% if checklist.tire_pressure %>
+              <i class="la la-check m--font-success"></i>
+              <% else %>
+              <i class="la la-close m--font-danger"></i>
+              <% end %>
+            </td>
+
+            <td>
+              <% if checklist.tire_bolt %>
+              <i class="la la-check m--font-success"></i>
+              <% else %>
+              <i class="la la-close m--font-danger"></i>
+              <% end %>
+            </td>
+
+            <td>
+              <% if checklist.fan_belt_tension %>
+              <i class="la la-check m--font-success"></i>
+              <% else %>
+              <i class="la la-close m--font-danger"></i>
+              <% end %>
+            </td>
+
+            <td>
+              <% if checklist.air_tank %>
+              <i class="la la-check m--font-success"></i>
+              <% else %>
+              <i class="la la-close m--font-danger"></i>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      <% else %>
+        <tr>
+          <th scope="row" class="text-center" colspan="18">No OC Report Data</th>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div>
+<!--End::Section-->

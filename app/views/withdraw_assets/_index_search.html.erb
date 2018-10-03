@@ -1,0 +1,41 @@
+<div class="m-subheader ">
+  <div class="d-flex align-items-center">
+    <div class="mr-auto">
+	    <!-- left side content here -->
+  	</div>
+  	<div>
+
+      <%= search_form_for @q, remote: true, class: "m-form m-form--fit form-inline" do |f| %>
+
+        <%= f.search_field :data_asset_data_asset_serial_cont, class: "form-control m-input--fixed-small", placeholder: "Asset No." %>
+
+        &nbsp;&nbsp;<%= f.collection_select :province_asset_from_area_asset_id_eq, AreaAsset.order(:area_asset_name), :id, :area_asset_name, {include_blank: "Area From: Any"}, {class: "form-control m-input--fixed m-select2"} %>
+
+        <%= f.grouped_collection_select :province_asset_from_id_eq, AreaAsset.order(:area_asset_name), :province_assets, :area_asset_name, :id, :province_asset_name, {include_blank: "Province From: Any"}, {class: "form-control m-input--fixed-normal m-select2"} %>
+
+        <%= f.grouped_collection_select :site_asset_from_id_eq, ProvinceAsset.order(:province_asset_name), :site_assets, :province_asset_name, :id, :site_asset_name, {include_blank: "Site From: Any"}, {class: "form-control m-input--fixed-normal m-select2"} %>
+
+
+        &nbsp;&nbsp;<%= f.collection_select :province_asset_to_area_asset_id_eq, AreaAsset.order(:area_asset_name), :id, :area_asset_name, {include_blank: "Area To: Any"}, {class: "form-control m-input--fixed m-select2"} %>
+
+        <%= f.grouped_collection_select :province_asset_to_id_eq, AreaAsset.order(:area_asset_name), :province_assets, :area_asset_name, :id, :province_asset_name, {include_blank: "Province To: Any"}, {class: "form-control m-input--fixed-normal m-select2"} %>
+
+        <%= f.grouped_collection_select :site_asset_to_id_eq, ProvinceAsset.order(:province_asset_name), :site_assets, :province_asset_name, :id, :site_asset_name, {include_blank: "Site To: Any"}, {class: "form-control m-input--fixed-normal m-select2"} %>
+
+
+        <%= f.collection_select :data_asset_lowbed_id_eq, DataAsset.where(type_asset_id: [56, 57]), :id, :data_asset_serial, {include_blank: 'Lowbed: Any'}, class: "form-control m-input--fixed-normal m-select2" %>
+
+
+        <%= f.select :withdraw_status_eq, WithdrawAsset.withdraw_statuses.to_a.map { |w| [w[0].humanize, w[1]] }, {include_blank: "Status:"}, {class: "form-control m-input--fixed"} %>
+
+        
+        &nbsp; From:&nbsp; <%= f.search_field :created_at_gteq, class: "form-control m-input--fixed", placeholder: "Date Start", type: "date" %>
+        &nbsp; To:&nbsp; <%= f.search_field :created_at_lteq, class: "form-control m-input--fixed", placeholder: "Date End", type: "date" %>
+
+        <%= f.submit "Search", class: "btn btn-brand m-2" %>
+        
+      <% end %>
+
+    </div>
+  </div>
+</div>

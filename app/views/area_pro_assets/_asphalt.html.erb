@@ -1,0 +1,235 @@
+<div class="form-group m-form__group row">
+  <div class="col-lg-4">
+    <%= form_tag asph_area_pro_lines_area_pro_assets_path, method: :get, remote: true, class: "m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" do %>
+    <div class="row">
+      <div class="col-lg-9">
+        <%= date_field_tag :start_date, nil, {class: "form-control m-input"} %>
+      </div>
+
+      <div class="col-lg-3">
+        <%= submit_tag 'Start', class: "btn m-btn--pill m-btn--air btn-outline-info m-btn m-btn--outline-2x" %>
+      </div>
+
+      <%= hidden_field_tag 'area_id', params[:area_id] %>
+
+    </div>
+    <% end %>
+  </div>
+<div class="col-lg-4 text-center">
+  <span data-toggle="m-tooltip" data-placement="top" data-original-title="Clear Dates">
+  <%= link_to asph_area_pro_lines_area_pro_assets_path(area_id: params[:area_id]), remote: true, alt: "Clear", class: "m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" do %><i class="la la-eraser"></i><% end %>
+  </span>
+</div>
+  <div class="col-lg-4">
+    <%= form_tag asph_area_pro_lines_area_pro_assets_path, method: :get, remote: true, class: "m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" do %>
+    <div class="row">
+      <div class="col-lg-9">
+        <%= date_field_tag :end_date, nil, {class: "form-control m-input"} %>
+      </div>
+
+      <div class="col-lg-3">
+        <%= submit_tag 'End', class: "btn m-btn--pill m-btn--air btn-outline-danger m-btn m-btn--outline-2x" %>
+      </div>
+
+      <%= hidden_field_tag 'area_id', params[:area_id] %>
+
+    </div>
+    <% end %>
+  </div>
+</div>
+
+
+<div id='line_asphalt'></div>
+
+
+<br>
+
+<% if params[:area_id] == '1' %>
+
+<div class="row">
+  <div class="col-xl-3">
+		<%= link_to province_pro_province_pro_assets_path(province_id: 3), class: "btn btn-brand btn-block m-btn m-btn--icon m-btn--wide" do %>
+			<span>
+				<i class="fa flaticon-pin"></i>
+				<span>Al Aflag</span>
+			</span>
+		<% end %>
+  </div>
+  <div class="col-xl-3">
+		<%= link_to province_pro_province_pro_assets_path(province_id: 1), class: "btn btn-success btn-block m-btn m-btn--icon m-btn--wide" do %>
+			<span>
+				<i class="fa flaticon-pin"></i>
+				<span>Al Jafi</span>
+			</span>
+		<% end %>
+  </div>
+  <div class="col-xl-3">
+		<%= link_to province_pro_province_pro_assets_path(province_id: 4), class: "btn btn-info btn-block m-btn m-btn--icon m-btn--wide" do %>
+			<span>
+				<i class="fa flaticon-pin"></i>
+				<span>Al Solayel</span>
+			</span>
+		<% end %>
+  </div>
+  <div class="col-xl-3">
+		<%= link_to province_pro_province_pro_assets_path(province_id: 2), class: "btn btn-primary btn-block m-btn m-btn--icon m-btn--wide" do %>
+			<span>
+				<i class="fa flaticon-pin"></i>
+				<span>Hota - Al Hareeq</span>
+			</span>
+		<% end %>
+  </div>
+</div>
+
+<% end %>
+
+<% if params[:area_id] == '2' %>
+
+<div class="row">
+  <div class="col-xl-2">
+    <%= link_to province_pro_province_pro_assets_path(province_id: 6), class: "btn btn-brand btn-block m-btn m-btn--icon m-btn--wide" do %>
+      <span>
+        <i class="fa flaticon-pin"></i>
+        <span>Al Badeaa</span>
+      </span>
+    <% end %>
+  </div>
+  <div class="col-xl-2">
+    <%= link_to province_pro_province_pro_assets_path(province_id: 8), class: "btn btn-success btn-block m-btn m-btn--icon m-btn--wide" do %>
+      <span>
+        <i class="fa flaticon-pin"></i>
+        <span>Al Kharytah</span>
+      </span>
+    <% end %>
+  </div>
+  <div class="col-xl-2">
+    <%= link_to province_pro_province_pro_assets_path(province_id: 10), class: "btn btn-info btn-block m-btn m-btn--icon m-btn--wide" do %>
+      <span>
+        <i class="fa flaticon-pin"></i>
+        <span>Al Wagh</span>
+      </span>
+    <% end %>
+  </div>
+  <div class="col-xl-2">
+    <%= link_to province_pro_province_pro_assets_path(province_id: 9), class: "btn btn-primary btn-block m-btn m-btn--icon m-btn--wide" do %>
+      <span>
+        <i class="fa flaticon-pin"></i>
+        <span>Sharma</span>
+      </span>
+    <% end %>
+  </div>
+  <div class="col-xl-2">
+    <%= link_to province_pro_province_pro_assets_path(province_id: 5), class: "btn btn-warning btn-block m-btn m-btn--icon m-btn--wide" do %>
+      <span>
+        <i class="fa flaticon-pin"></i>
+        <span>Tabuk-Camp</span>
+      </span>
+    <% end %>
+  </div>
+  <div class="col-xl-2">
+    <%= link_to province_pro_province_pro_assets_path(province_id: 7), class: "btn btn-danger btn-block m-btn m-btn--icon m-btn--wide" do %>
+      <span>
+        <i class="fa flaticon-pin"></i>
+        <span>Taymaa</span>
+      </span>
+    <% end %>
+  </div>
+</div>
+
+<% end %>
+
+<% if params[:area_id] == '3' %>
+
+<div class="row">
+  <div class="col-xl-1"></div> 
+  <div class="col-xl-2">
+    <%= link_to province_pro_province_pro_assets_path(province_id: 12), class: "btn btn-brand btn-block m-btn m-btn--icon m-btn--wide" do %>
+      <span>
+        <i class="fa flaticon-pin"></i>
+        <span>Al Hamaad</span>
+      </span>
+    <% end %>
+  </div>
+  <div class="col-xl-2">
+    <%= link_to province_pro_province_pro_assets_path(province_id: 14), class: "btn btn-success btn-block m-btn m-btn--icon m-btn--wide" do %>
+      <span>
+        <i class="fa flaticon-pin"></i>
+        <span>Al Khoaa</span>
+      </span>
+    <% end %>
+  </div>
+  <div class="col-xl-2">
+    <%= link_to province_pro_province_pro_assets_path(province_id: 13), class: "btn btn-info btn-block m-btn m-btn--icon m-btn--wide" do %>
+      <span>
+        <i class="fa flaticon-pin"></i>
+        <span>Al Quriaat</span>
+      </span>
+    <% end %>
+  </div>
+  <div class="col-xl-2">
+    <%= link_to province_pro_province_pro_assets_path(province_id: 15), class: "btn btn-primary btn-block m-btn m-btn--icon m-btn--wide" do %>
+      <span>
+        <i class="fa flaticon-pin"></i>
+        <span>Hael</span>
+      </span>
+    <% end %>
+  </div>
+  <div class="col-xl-2">
+    <%= link_to province_pro_province_pro_assets_path(province_id: 11), class: "btn btn-warning btn-block m-btn m-btn--icon m-btn--wide" do %>
+      <span>
+        <i class="fa flaticon-pin"></i>
+        <span>Kulib-Khedr</span>
+      </span>
+    <% end %>
+  </div>
+  <div class="col-xl-1"></div> 
+</div>
+
+<% end %>
+
+<% if params[:area_id] == '4' %>
+
+<div class="row">
+  <div class="col-xl-2">
+    <%= link_to province_pro_province_pro_assets_path(province_id: 19), class: "btn btn-brand btn-block m-btn m-btn--icon m-btn--wide" do %>
+      <span>
+        <i class="fa flaticon-pin"></i>
+        <span>Al Gamaa</span>
+      </span>
+    <% end %>
+  </div>
+  <div class="col-xl-2">
+    <%= link_to province_pro_province_pro_assets_path(province_id: 18), class: "btn btn-success btn-block m-btn m-btn--icon m-btn--wide" do %>
+      <span>
+        <i class="fa flaticon-pin"></i>
+        <span>Al Hosainya</span>
+      </span>
+    <% end %>
+  </div>
+  <div class="col-xl-3">
+    <%= link_to province_pro_province_pro_assets_path(province_id: 16), class: "btn btn-info btn-block m-btn m-btn--icon m-btn--wide" do %>
+      <span>
+        <i class="fa flaticon-pin"></i>
+        <span>Kamees Mesheet</span>
+      </span>
+    <% end %>
+  </div>
+  <div class="col-xl-2">
+    <%= link_to province_pro_province_pro_assets_path(province_id: 20), class: "btn btn-primary btn-block m-btn m-btn--icon m-btn--wide" do %>
+      <span>
+        <i class="fa flaticon-pin"></i>
+        <span>Sultanah</span>
+      </span>
+    <% end %>
+  </div>
+  <div class="col-xl-3">
+    <%= link_to province_pro_province_pro_assets_path(province_id: 17), class: "btn btn-warning btn-block m-btn m-btn--icon m-btn--wide" do %>
+      <span>
+        <i class="fa flaticon-pin"></i>
+        <span>Wadi Ben Hashbel</span>
+      </span>
+    <% end %>
+  </div>
+</div>
+
+<% end %>

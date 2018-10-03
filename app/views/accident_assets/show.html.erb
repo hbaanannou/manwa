@@ -1,0 +1,31 @@
+<%= render 'layouts/myshow/before_myshow', mytitle: "Accident" %>
+
+
+<div class="m-widget13__item">
+    <span class="m-widget13__desc m--align-right">
+      Asset Serial
+    </span>
+  <span class="m-widget13__text m-widget13__text-bolder">
+      <%= @accident_asset.data_asset.data_asset_serial %>
+    </span>
+</div>
+
+<div class="m-widget13__item">
+    <span class="m-widget13__desc m--align-right">
+      Accident Date
+    </span>
+  <span class="m-widget13__text m-widget13__text-bolder">
+      <%= @accident_asset.accident_asset_date %>
+    </span>
+</div>
+
+<div class="m-widget13__item">
+    <span class="m-widget13__desc m--align-right">
+      Accident Notes
+    </span>
+  <span class="m-widget13__text m-widget13__text-bolder">
+      <%= @accident_asset.accident_asset_remarks %>
+    </span>
+</div>
+
+<%= render 'layouts/myshow/after_myshow', editpath: edit_accident_asset_path(@accident_asset), backpath: accident_assets_path %>

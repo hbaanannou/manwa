@@ -1,0 +1,32 @@
+<div class="m-btn-group m-btn-group--pill btn-group" role="group" aria-label="First group">
+
+  <% unless @data_asset == @data_assets.first %>
+
+    <%= link_to data_asset_path(@data_assets.prev(@data_asset.id), request.query_parameters), remote: true, class: "m-btn btn btn-primary" do %>
+      <i class="la la-angle-double-left"></i>
+    <% end %>
+  
+  <% else %>
+
+    <%= link_to data_asset_path(@data_assets.prev(@data_asset.id), request.query_parameters), remote: true, class: "m-btn btn btn-primary disabled" do %>
+      <i class="la la-angle-double-left"></i>
+    <% end %>
+
+  <% end %>
+
+  
+  <% unless @data_asset == @data_assets.last %>
+
+    <%= link_to data_asset_path(@data_assets.next(@data_asset.id), request.query_parameters), remote: true, class: "m-btn btn btn-warning" do %>
+      <i class="la la-angle-double-right"></i>
+    <% end %>
+  
+  <% else %>
+
+    <%= link_to data_asset_path(@data_assets.next(@data_asset.id), request.query_parameters), remote: true, class: "m-btn btn btn-warning disabled" do %>
+      <i class="la la-angle-double-right"></i>
+    <% end %>
+
+  <% end %>
+
+</div>

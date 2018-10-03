@@ -1,0 +1,22 @@
+<!--begin::Form-->
+<%= form_with(model: role, local: true, class: "m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed") do |form| %>
+
+  <%= render 'layouts/myform/error_myform', object: role %>
+
+  <div class="form-group m-form__group row">
+    <%= form.label :role_name, class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <%= form.text_field :role_name, class: "form-control m-input", placeholder: "Role Name", required: true %>
+      <span class="m-form__help">Please enter Role Name</span>
+    </div>
+    <%= form.label :role_remarks, "Description", class: "col-lg-2 col-form-label" %>
+    <div class="col-lg-3">
+      <%= form.text_field :role_remarks, class: "form-control m-input", placeholder: "Role Description", required: true %>
+      <span class="m-form__help">Please enter Role Description</span>
+    </div>
+  </div>
+
+  <%= render 'layouts/myform/submit_myform', form: form, cancelpath: admin_roles_path %>
+
+<% end %>
+<!--end::Form-->

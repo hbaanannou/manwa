@@ -1,0 +1,47 @@
+<!--Begin::Section-->
+<div class="m-section">
+  <div class="m-section__content">
+    <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover text-center">
+      <thead>
+        <tr style="font-size: 1.4rem;">
+          <th>*</th>
+          <th>Tank Number</th>
+          <th>Day</th>
+          <th>Asset Number</th>
+          <th>Quantity</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @asset_fueldays_pdf.any? %>
+        <% @asset_fueldays_pdf.each_with_index do |asset_fuelday, index| %>
+          <tr>
+            <td><%= index + 1 %></td>
+            <td><%= asset_fuelday.tank_fuelday.data_asset.data_asset_serial %></td>
+
+            <td><%= asset_fuelday.day %></td>
+
+            <td><%= asset_fuelday.data_asset.data_asset_serial %></td>
+
+            <td><%= asset_fuelday.quantity %></td>
+          </tr>
+        <% end %>
+        <tr>
+          <td>Total: </td>
+          <td colspan="6">
+            <% total = 0 %>
+            <% @asset_fueldays.each do |asset_fuelday| %>
+            <% total += asset_fuelday.quantity %>
+            <% end %>
+            Total: <b>( <%= total %> )</b>
+          </td>
+        </tr>
+        <% else %>
+        <tr>
+          <td colspan="12">No Asset Fuel Requests</td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<!--End::Section-->

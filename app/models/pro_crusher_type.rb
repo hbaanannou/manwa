@@ -1,0 +1,2 @@
+class ProCrusherType < ApplicationRecord
+end

@@ -1,0 +1,32 @@
+<%= render 'layouts/myindex/before_myindex', mytitle: "Roles", pages_collection: @roles, pages_model: "role" %>
+
+<thead>
+<tr>
+  <th>ID</th>
+  <th>Name</th>
+  <th>Remarks</th>
+  <th>Actions</th>
+</tr>
+</thead>
+<tbody>
+<% if @roles.any? %>
+  <% @roles.each do |role| %>
+    <tr>
+      <th scope="row"><%= role.id %></th>
+
+      <td><%= role.role_name %></td>
+
+      <td><%= role.role_remarks %></td>
+
+      <td><%= link_to role, alt: "Show", class: "m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill", data: { toggle: "m-tooltip", placement: "bottom", original_title: "Show"} do %><i class="la la-ellipsis-h"></i><% end %>
+      </td>
+    </tr>
+  <% end %>
+<% else %>
+  <tr>
+    <th scope="row" class="text-center" colspan="12">No Assets</th>
+  </tr>
+<% end %>
+</tbody>
+
+<%= render 'layouts/myindex/after_myindex', pages_collection: @roles, pages_model: "role" %>

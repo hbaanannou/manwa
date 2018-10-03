@@ -1,0 +1,742 @@
+<button class="m-aside-left-close  m-aside-left-close--skin-dark " id="m_aside_left_close_btn">
+	<i class="la la-close"></i>
+</button>
+<div id="m_aside_left" class="m-grid__item	m-aside-left  m-aside-left--skin-dark ">
+	<!-- BEGIN: Aside Menu -->
+<div
+id="m_ver_menu" 
+class="m-aside-menu  m-aside-menu--skin-dark m-aside-menu--submenu-skin-dark " 
+data-menu-vertical="true"
+data-menu-scrollable="false" data-menu-dropdown-timeout="500"  
+>
+		<ul class="m-menu__nav  m-menu__nav--dropdown-submenu-arrow " >
+
+			<% if current_user.role?(:assets_manager) || current_user.role?(:assets_province) || current_user.role?(:assets_site) || current_user.role?(:workshops_manager) || current_user.role?(:workshops_site) %>
+			<li class="m-menu__item  <%= 'm-menu__item--active' if controller?('pages') && action?('home') %>" aria-haspopup="true" >
+        <%= link_to root_path, class: "m-menu__link" do %>
+					<i class="m-menu__link-icon flaticon-line-graph"></i>
+					<span class="m-menu__link-title">
+						<span class="m-menu__link-wrap">
+							<span class="m-menu__link-text">
+								Dashboard
+							</span>
+						</span>
+					</span>
+        <% end %>
+			</li>
+			<% end %>
+
+
+			<% if current_user.role?(:assets_admin) || current_user.role?(:assets_manager) || current_user.role?(:assets_province) || current_user.role?(:assets_site) || current_user.role?(:workshops_manager) || current_user.role?(:workshops_site) %>
+			<li class="m-menu__item <%= 'm-menu__item--active' if controller?('data_assets') && action?('index') %>" aria-haspopup="true" >
+				<%= link_to data_assets_path, class: "m-menu__link" do %>
+					<i class="m-menu__link-icon flaticon-interface-1"></i>
+					<span class="m-menu__link-title">
+						<span class="m-menu__link-wrap">
+							<span class="m-menu__link-text">
+								Your Assets 
+								<span class="m-menu__link-badge">
+									<span class="m-badge m-badge--brand">
+										<%= policy_scope(DataAsset.all).count %>
+									</span>
+								</span>
+							</span>
+						</span>
+					</span>
+				<% end %>
+			</li>
+			<% end %>
+
+
+			<% if current_user.role?(:production_admin) %>
+			<li class="m-menu__item  <%= 'm-menu__item--active' if controller?('pages') && action?('home') %>" aria-haspopup="true" >
+        <%= link_to root_path, class: "m-menu__link" do %>
+					<i class="m-menu__link-icon flaticon-line-graph"></i>
+					<span class="m-menu__link-title">
+						<span class="m-menu__link-wrap">
+							<span class="m-menu__link-text">
+								Dashboard
+							</span>
+						</span>
+					</span>
+        <% end %>
+			</li>
+			<% end %>
+
+			<% if current_user.role?(:production_admin) || current_user.role?(:production_province) %>
+
+			<% if policy_scope(ProvinceProAsset.where(concrete: true)).count > 0 %>
+			<li class="m-menu__item <%= 'm-menu__item--active' if controller?('pro_concretes') && action?('index') %>" aria-haspopup="true" >
+				<%= link_to pro_concretes_path, class: "m-menu__link" do %>
+					<i class="m-menu__link-icon flaticon-list-3"></i>
+					<span class="m-menu__link-title">
+						<span class="m-menu__link-wrap">
+							<span class="m-menu__link-text">
+								Concrete Entry
+							</span>
+						</span>
+					</span>
+				<% end %>
+			</li>
+			<% end %>
+			
+			<% if policy_scope(ProvinceProAsset.where(asphalt: true)).count > 0 %>
+			<li class="m-menu__item <%= 'm-menu__item--active' if controller?('pro_asphalts') && action?('index') %>" aria-haspopup="true" >
+				<%= link_to pro_asphalts_path, class: "m-menu__link" do %>
+					<i class="m-menu__link-icon flaticon-list-3"></i>
+					<span class="m-menu__link-title">
+						<span class="m-menu__link-wrap">
+							<span class="m-menu__link-text">
+								Asphalt Entry
+							</span>
+						</span>
+					</span>
+				<% end %>
+			</li>
+			<% end %>
+			
+			<% if policy_scope(ProvinceProAsset.where(crusher: true)).count > 0 %>
+			<li class="m-menu__item <%= 'm-menu__item--active' if controller?('pro_crushers') && action?('index') %>" aria-haspopup="true" >
+				<%= link_to pro_crushers_path, class: "m-menu__link" do %>
+					<i class="m-menu__link-icon flaticon-list-3"></i>
+					<span class="m-menu__link-title">
+						<span class="m-menu__link-wrap">
+							<span class="m-menu__link-text">
+								Crusher Entry
+							</span>
+						</span>
+					</span>
+				<% end %>
+			</li>
+			<% end %>
+			<% end %>
+
+
+			<% if current_user.role?(:assets_manager) || current_user.role?(:workshops_manager) %>
+			<li class="m-menu__item <%= 'm-menu__item--active' if controller?('data_assets') && action?('index') %>" aria-haspopup="true" >
+				<%= link_to charts_data_assets_path, class: "m-menu__link" do %>
+					<i class="m-menu__link-icon flaticon-graph"></i>
+					<span class="m-menu__link-title">
+						<span class="m-menu__link-wrap">
+							<span class="m-menu__link-text">
+								Operation by Asset
+							</span>
+						</span>
+					</span>
+				<% end %>
+			</li>
+
+			<li class="m-menu__item <%= 'm-menu__item--active' if controller?('data_assets') && action?('index') %>" aria-haspopup="true" >
+				<%= link_to emp_charts_data_assets_path, class: "m-menu__link" do %>
+					<i class="m-menu__link-icon flaticon-graph"></i>
+					<span class="m-menu__link-title">
+						<span class="m-menu__link-wrap">
+							<span class="m-menu__link-text">
+								Operation by Emp
+							</span>
+						</span>
+					</span>
+				<% end %>
+			</li>
+			<% end %>
+
+
+			<% if current_user.role?(:assets_admin) %>
+			<li class="m-menu__item <%= 'm-menu__item--active' if controller?('accident_assets') && action?('index') %>" aria-haspopup="true" >
+				<%= link_to accident_assets_path, class: "m-menu__link" do %>
+					<i class="m-menu__link-icon flaticon-map-location"></i>
+					<span class="m-menu__link-title">
+						<span class="m-menu__link-wrap">
+							<span class="m-menu__link-text">
+								Accidents
+							</span>
+						</span>
+					</span>
+				<% end %>
+			</li>
+			<% end %>
+
+
+			<% if current_user.role?(:assets_admin) || current_user.role?(:workshops_manager) %>
+			<li class="m-menu__item <%= 'm-menu__item--active' if controller?('wrong_data_assets') && action?('index') %>" aria-haspopup="true" >
+				<%= link_to wrong_data_assets_path, class: "m-menu__link" do %>
+					<i class="m-menu__link-icon flaticon-close"></i>
+					<span class="m-menu__link-title">
+						<span class="m-menu__link-wrap">
+							<span class="m-menu__link-text">
+								Wrong Data
+							</span>
+						</span>
+					</span>
+				<% end %>
+			</li>
+			<% end %>
+
+
+			<% if current_user.role?(:assets_admin) %>
+			<li class="m-menu__item <%= 'm-menu__item--active' if controller?('data_assets') && action?('index_soft') %>" aria-haspopup="true" >
+				<%= link_to index_soft_data_assets_path, class: "m-menu__link" do %>
+					<i class="m-menu__link-icon flaticon-close"></i>
+					<span class="m-menu__link-title">
+						<span class="m-menu__link-wrap">
+							<span class="m-menu__link-text">
+								Soft Delete
+							</span>
+						</span>
+					</span>
+				<% end %>
+			</li>
+			<% end %>
+
+
+
+			<% if current_user.role?(:assets_manager) %>
+			<li class="m-menu__item  <%= 'm-menu__item--active' if controller?('dashboad') && action?('index') %>" aria-haspopup="true" >
+        <%= link_to accepted_request_assets_path, class: "m-menu__link" do %>
+					<i class="m-menu__link-icon flaticon-time-2"></i>
+					<span class="m-menu__link-title">
+						<span class="m-menu__link-wrap">
+							<span class="m-menu__link-text">
+								Accepted Rs
+								<span class="m-menu__link-badge">
+									<span class="m-badge m-badge--success">
+										<%= RequestAsset.by_rent_by_us.count + RequestAsset.by_we_have.count %>
+									</span>
+								</span>
+							</span>
+						</span>
+					</span>
+        <% end %>
+			</li>
+			<% end %>
+			
+
+			<% if current_user.role?(:users_admin) %>
+			<li class="m-menu__section">
+				<h4 class="m-menu__section-text">
+					Users Admin Panel
+				</h4>
+				<i class="m-menu__section-icon flaticon-more-v3"></i>
+			</li>
+			
+			<li class="m-menu__item  m-menu__item--submenu <%= 'm-menu__item--open m-menu__item--expanded' if controller?('admin/users', 'admin/roles', 'admin/assignments') %>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+        <%= link_to "javascript:;", class: "m-menu__link m-menu__toggle" do %>
+					<i class="m-menu__link-icon flaticon-placeholder-1"></i>
+					<span class="m-menu__link-text">
+						Users & Roles
+					</span>
+					<i class="m-menu__ver-arrow la la-angle-right"></i>
+        <% end %>
+				<div class="m-menu__submenu ">
+					<span class="m-menu__arrow"></span>
+					<ul class="m-menu__subnav">
+						<li class="m-menu__item  m-menu__item--parent" aria-haspopup="true" >
+							<span class="m-menu__link">
+								<span class="m-menu__link-text">
+									Users & Roles
+								</span>
+							</span>
+						</li>
+						<li class="m-menu__item <%= 'm-menu__item--active' if controller?('admin/users') && action?('index') %>" aria-haspopup="true" >
+							<%= link_to admin_users_path, class: "m-menu__link" do %>
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-text">
+									Users
+								</span>
+							<% end %>
+						</li>
+						<li class="m-menu__item <%= 'm-menu__item--active' if controller?('admin/roles') && action?('index') %>" aria-haspopup="true" >
+							<%= link_to admin_roles_path, class: "m-menu__link" do %>
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-text">
+									Roles
+								</span>
+							<% end %>
+							<li class="m-menu__item <%= 'm-menu__item--active' if controller?('admin/assignments') && action?('index') %>" aria-haspopup="true" >
+							<%= link_to admin_assignments_path, class: "m-menu__link" do %>
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-text">
+									Assignments
+								</span>
+							<% end %>
+						</li>
+						</li>
+					</ul>
+				</div>
+			</li>
+			<% end %>
+
+
+			<% if current_user.role?(:assets_admin) %>
+			<li class="m-menu__section">
+				<h4 class="m-menu__section-text">
+					Assets Panel
+				</h4>
+				<i class="m-menu__section-icon flaticon-more-v3"></i>
+			</li>
+
+			<li class="m-menu__item  m-menu__item--submenu <%= 'm-menu__item--open m-menu__item--expanded' if controller?('type_assets', 'model_assets', 'area_assets', 'province_assets', 'site_assets', 'status_assets', 'color_assets') %>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+        <%= link_to "javascript:;", class: "m-menu__link m-menu__toggle" do %>
+					<i class="m-menu__link-icon flaticon-layers"></i>
+					<span class="m-menu__link-text">
+						Assets Settings
+					</span>
+					<i class="m-menu__ver-arrow la la-angle-right"></i>
+        <% end %>
+				<div class="m-menu__submenu ">
+					<span class="m-menu__arrow"></span>
+					<ul class="m-menu__subnav">
+						<li class="m-menu__item  m-menu__item--parent" aria-haspopup="true" >
+							<span class="m-menu__link">
+								<span class="m-menu__link-text">
+									Settings
+								</span>
+							</span>
+						</li>
+						<li class="m-menu__item <%= 'm-menu__item--active' if controller?('type_assets') && action?('index') %>" aria-haspopup="true" >
+              <%= link_to type_assets_path, class: "m-menu__link" do %>
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-text">
+									Types
+								</span>
+              <% end %>
+						</li>
+						<li class="m-menu__item <%= 'm-menu__item--active' if controller?('model_assets') && action?('index') %>" aria-haspopup="true" >
+              <%= link_to model_assets_path, class: "m-menu__link" do %>
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-text">
+									Models
+								</span>
+              <% end %>
+						</li>
+						<li class="m-menu__item <%= 'm-menu__item--active' if controller?('area_assets') && action?('index') %>" aria-haspopup="true" >
+              <%= link_to area_assets_path, class: "m-menu__link" do %>
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-text">
+									Areas
+								</span>
+              <% end %>
+						</li>
+						<li class="m-menu__item <%= 'm-menu__item--active' if controller?('province_assets') && action?('index') %>" aria-haspopup="true" >
+              <%= link_to province_assets_path, class: "m-menu__link" do %>
+                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                  <span></span>
+                </i>
+                <span class="m-menu__link-text">
+                  Provinces
+                </span>
+              <% end %>
+            </li>
+            <li class="m-menu__item <%= 'm-menu__item--active' if controller?('site_assets') && action?('index') %>" aria-haspopup="true" >
+              <%= link_to site_assets_path, class: "m-menu__link" do %>
+                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                  <span></span>
+                </i>
+                <span class="m-menu__link-text">
+                  Sites
+                </span>
+              <% end %>
+            </li>
+            <li class="m-menu__item <%= 'm-menu__item--active' if controller?('status_assets') && action?('index') %>" aria-haspopup="true" >
+              <%= link_to status_assets_path, class: "m-menu__link" do %>
+                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                  <span></span>
+                </i>
+                <span class="m-menu__link-text">
+                  Status
+                </span>
+              <% end %>
+            </li>
+            <li class="m-menu__item <%= 'm-menu__item--active' if controller?('color_assets') && action?('index') %>" aria-haspopup="true" >
+              <%= link_to color_assets_path, class: "m-menu__link" do %>
+                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                  <span></span>
+                </i>
+                <span class="m-menu__link-text">
+                  Color
+                </span>
+              <% end %>
+            </li>
+					</ul>
+				</div>
+			</li>
+
+			<li class="m-menu__item  m-menu__item--submenu <%= 'm-menu__item--open m-menu__item--expanded' if controller?('employees') %>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+        <%= link_to "javascript:;", class: "m-menu__link m-menu__toggle" do %>
+					<i class="m-menu__link-icon flaticon-share"></i>
+					<span class="m-menu__link-text">
+						Employees
+					</span>
+					<i class="m-menu__ver-arrow la la-angle-right"></i>
+        <% end %>
+				<div class="m-menu__submenu ">
+					<span class="m-menu__arrow"></span>
+					<ul class="m-menu__subnav">
+						<li class="m-menu__item  m-menu__item--parent" aria-haspopup="true" >
+							<span class="m-menu__link">
+								<span class="m-menu__link-text">
+									Employees
+								</span>
+							</span>
+						</li>
+					
+						<li class="m-menu__item <%= 'm-menu__item--active' if controller?('employees') && action?('index') %>" aria-haspopup="true" >
+              <%= link_to employees_path, class: "m-menu__link" do %>
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-text">
+									Employees Data
+								</span>
+              <% end %>
+						</li>
+					</ul>
+				</div>
+			</li>
+			<% end %>
+
+
+			<% if current_user.role?(:production_admin) %>
+			<li class="m-menu__section">
+				<h4 class="m-menu__section-text">
+					Production Panel
+				</h4>
+				<i class="m-menu__section-icon flaticon-more-v3"></i>
+			</li>
+
+			<li class="m-menu__item  m-menu__item--submenu <%= 'm-menu__item--open m-menu__item--expanded' if controller?('pages', 'area_pro_assets', 'province_pro_assets', 'pro_concrete_types', 'pro_concrete_products', 'pro_asphalt_types', 'pro_asphalt_products', 'pro_crusher_types', 'pro_reasons') %>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+        <%= link_to "javascript:;", class: "m-menu__link m-menu__toggle" do %>
+					<i class="m-menu__link-icon flaticon-layers"></i>
+					<span class="m-menu__link-text">
+						Production Settings 
+					</span>
+					<i class="m-menu__ver-arrow la la-angle-right"></i>
+        <% end %>
+				<div class="m-menu__submenu ">
+					<span class="m-menu__arrow"></span>
+					<ul class="m-menu__subnav">
+						<li class="m-menu__item  m-menu__item--parent" aria-haspopup="true" >
+							<span class="m-menu__link">
+								<span class="m-menu__link-text">
+									Settings
+								</span>
+							</span>
+						</li>
+						
+						<li class="m-menu__item <%= 'm-menu__item--active' if controller?('area_pro_assets') && action?('index') %>" aria-haspopup="true" >
+              <%= link_to area_pro_assets_path, class: "m-menu__link" do %>
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-text">
+									Areas
+								</span>
+              <% end %>
+						</li>
+						<li class="m-menu__item <%= 'm-menu__item--active' if controller?('province_pro_assets') && action?('index') %>" aria-haspopup="true" >
+              <%= link_to province_pro_assets_path, class: "m-menu__link" do %>
+                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                  <span></span>
+                </i>
+                <span class="m-menu__link-text">
+                  Provinces
+                </span>
+              <% end %>
+            </li>
+            <li class="m-menu__item <%= 'm-menu__item--active' if controller?('pro_concrete_types') && action?('index') %>" aria-haspopup="true" >
+              <%= link_to pro_concrete_types_path, class: "m-menu__link" do %>
+                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                  <span></span>
+                </i>
+                <span class="m-menu__link-text">
+                  Concrete Types
+                </span>
+              <% end %>
+            </li>
+            <li class="m-menu__item <%= 'm-menu__item--active' if controller?('pro_concrete_products') && action?('index') %>" aria-haspopup="true" >
+              <%= link_to pro_concrete_products_path, class: "m-menu__link" do %>
+                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                  <span></span>
+                </i>
+                <span class="m-menu__link-text">
+                  Concrete Products
+                </span>
+              <% end %>
+            </li>
+            <li class="m-menu__item <%= 'm-menu__item--active' if controller?('pro_asphalt_types') && action?('index') %>" aria-haspopup="true" >
+              <%= link_to pro_asphalt_types_path, class: "m-menu__link" do %>
+                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                  <span></span>
+                </i>
+                <span class="m-menu__link-text">
+                  Asphalt Types
+                </span>
+              <% end %>
+            </li>
+            <li class="m-menu__item <%= 'm-menu__item--active' if controller?('pro_asphalt_products') && action?('index') %>" aria-haspopup="true" >
+              <%= link_to pro_asphalt_products_path, class: "m-menu__link" do %>
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-text">
+									Asphalt Products
+								</span>
+              <% end %>
+						</li>
+						<li class="m-menu__item <%= 'm-menu__item--active' if controller?('pro_crusher_types') && action?('index') %>" aria-haspopup="true" >
+              <%= link_to pro_crusher_types_path, class: "m-menu__link" do %>
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-text">
+									Crusher Types
+								</span>
+              <% end %>
+						</li>
+						<li class="m-menu__item <%= 'm-menu__item--active' if controller?('pro_reasons') && action?('index') %>" aria-haspopup="true" >
+              <%= link_to pro_reasons_path, class: "m-menu__link" do %>
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-text">
+									Reasons
+								</span>
+              <% end %>
+						</li>
+					</ul>
+				</div>
+			</li>
+			<% end %>
+
+
+
+			<% if current_user.role?(:workshops_manager) || current_user.role?(:workshops_site) || current_user.role?(:rfuel) || current_user.role?(:tfuel) || current_user.role?(:rchecklist) || current_user.role?(:tchecklist) || current_user.role?(:rstore) || current_user.role?(:tstore) || current_user.role?(:purchase) %>
+			<li class="m-menu__section">
+				<h4 class="m-menu__section-text">
+					Maintenance Panel
+				</h4>
+				<i class="m-menu__section-icon flaticon-more-v3"></i>
+			</li>
+			<li class="m-menu__item  m-menu__item--submenu m-menu__item--open m-menu__item--expanded" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+        <%= link_to "javascript:;", class: "m-menu__link m-menu__toggle" do %>
+					<i class="m-menu__link-icon flaticon-settings"></i>
+					<span class="m-menu__link-text">
+						Maintenance
+					</span>
+					<i class="m-menu__ver-arrow la la-angle-right"></i>
+        <% end %>
+				<div class="m-menu__submenu ">
+					<span class="m-menu__arrow"></span>
+					<ul class="m-menu__subnav">
+						<li class="m-menu__item  m-menu__item--parent" aria-haspopup="true" >
+							<span class="m-menu__link">
+								<span class="m-menu__link-text">
+									Maintenance
+								</span>
+							</span>
+						</li>
+
+						<% if current_user.role?(:workshops_manager) || current_user.role?(:rfuel) || current_user.role?(:tfuel) %>
+						<li class="m-menu__item <%= 'm-menu__item--active' if controller?('tank_fueldays') && action?('new') %>" aria-haspopup="true" >
+              <%= link_to new_tank_fuelday_path, class: "m-menu__link" do %>
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-text">
+									Add Daily Fuel
+								</span>
+              <% end %>
+						</li>
+
+						<li class="m-menu__item <%= 'm-menu__item--active' if controller?('tank_fueldays') && action?('index') %>" aria-haspopup="true" >
+              <%= link_to tank_fueldays_path, class: "m-menu__link" do %>
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-text">
+									Tank Fuel Report
+								</span>
+              <% end %>
+						</li>
+
+						<li class="m-menu__item <%= 'm-menu__item--active' if controller?('asset_fueldays') && action?('index') %>" aria-haspopup="true" >
+              <%= link_to asset_fueldays_path, class: "m-menu__link" do %>
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-text">
+									Assets Fuel Report
+								</span>
+              <% end %>
+						</li>
+						<% end %>
+
+						<% if current_user.role?(:workshops_manager) || current_user.role?(:rchecklist) || current_user.role?(:tchecklist) %>
+						<li class="m-menu__item <%= 'm-menu__item--active' if controller?('checklists') && action?('new') %>" aria-haspopup="true" >
+              <%= link_to new_checklist_path, class: "m-menu__link" do %>
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-text">
+									Add Cards
+								</span>
+              <% end %>
+						</li>
+
+						<li class="m-menu__item <%= 'm-menu__item--active' if controller?('checklists') && action?('index') %>" aria-haspopup="true" >
+              <%= link_to checklists_path, class: "m-menu__link" do %>
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-text">
+									Operation Cards
+								</span>
+              <% end %>
+						</li>
+
+						<li class="m-menu__item <%= 'm-menu__item--active' if controller?('checklists') && action?('monthly') %>" aria-haspopup="true" >
+              <%= link_to monthly_checklists_path, class: "m-menu__link" do %>
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-text">
+									OC Report
+								</span>
+              <% end %>
+						</li>
+						<% end %>
+
+						<% if current_user.role?(:workshops_manager) || current_user.role?(:workshops_site) %>
+						<li class="m-menu__item <%= 'm-menu__item--active' if controller?('repair_orders') && action?('index') %>" aria-haspopup="true" >
+              <%= link_to repair_orders_path, class: "m-menu__link" do %>
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-text">
+									Repair Orders
+								</span>
+              <% end %>
+						</li>
+						<% end %>
+						<% if current_user.role?(:workshops_manager) || current_user.role?(:workshops_site) || current_user.role?(:rstore) || current_user.role?(:tstore) %>
+						<li class="m-menu__item <%= 'm-menu__item--active' if controller?('matrial_requests') && action?('index') %>" aria-haspopup="true" >
+              <%= link_to matrial_requests_path, class: "m-menu__link" do %>
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-text">
+									Material Requests
+								</span>
+              <% end %>
+						</li>
+						<% end %>
+
+						<% if current_user.role?(:workshops_manager) || current_user.role?(:rstore) || current_user.role?(:tstore) || current_user.role?(:purchase) %>
+						<li class="m-menu__item <%= 'm-menu__item--active' if controller?('purchase_requests') && action?('index') %>" aria-haspopup="true" >
+              <%= link_to purchase_requests_path, class: "m-menu__link" do %>
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-text">
+									Purchase Requests
+								</span>
+              <% end %>
+						</li>
+						<% end %>
+
+					</ul>
+				</div>
+			</li>
+			<% end %>
+
+			<% if current_user.role?(:assets_manager) || current_user.role?(:assets_province) || current_user.role?(:assets_site) %>
+			<li class="m-menu__section">
+				<h4 class="m-menu__section-text">
+					Follow Panel
+				</h4>
+				<i class="m-menu__section-icon flaticon-more-v3"></i>
+			</li>
+			<li class="m-menu__item  m-menu__item--submenu m-menu__item--open m-menu__item--expanded" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+        <%= link_to "javascript:;", class: "m-menu__link m-menu__toggle" do %>
+					<i class="m-menu__link-icon flaticon-calendar"></i>
+					<span class="m-menu__link-text">
+						Follow Up
+					</span>
+					<i class="m-menu__ver-arrow la la-angle-right"></i>
+        <% end %>
+				<div class="m-menu__submenu ">
+					<span class="m-menu__arrow"></span>
+					<ul class="m-menu__subnav">
+						<li class="m-menu__item  m-menu__item--parent" aria-haspopup="true" >
+							<span class="m-menu__link">
+								<span class="m-menu__link-text">
+									Follow Up
+								</span>
+							</span>
+						</li>
+						<li class="m-menu__item <%= 'm-menu__item--active' if controller?('transfer_assets') && action?('index') %>" aria-haspopup="true" >
+              <%= link_to transfer_assets_path, class: "m-menu__link" do %>
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-text">
+									Transfers
+									<span class="m-menu__link-badge">
+										<span class="m-badge m-badge--success">
+											<%= policy_scope(TransferAsset.all).count %>
+										</span>
+									</span>
+								</span>
+              <% end %>
+						</li>
+						<li class="m-menu__item <%= 'm-menu__item--active' if controller?('request_assets') && action?('index') %>" aria-haspopup="true" >
+              <%= link_to request_assets_path, class: "m-menu__link" do %>
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-text">
+									Requests
+									<span class="m-menu__link-badge">
+										<span class="m-badge m-badge--success">
+											<%= policy_scope(RequestAsset.all).count %>
+										</span>
+									</span>
+								</span>
+              <% end %>
+						</li>
+						<li class="m-menu__item <%= 'm-menu__item--active' if controller?('withdraw_assets') && action?('index') %>" aria-haspopup="true" >
+              <%= link_to withdraw_assets_path, class: "m-menu__link" do %>
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-text">
+									Withdraws
+									<span class="m-menu__link-badge">
+										<span class="m-badge m-badge--success">
+											<%= policy_scope(WithdrawAsset.all).count %>
+										</span>
+									</span>
+								</span>
+              <% end %>
+						</li>
+					</ul>
+				</div>
+			</li>
+			<% end %>
+
+		</ul>
+	</div >
+	<!-- END: Aside Menu -->
+</div>

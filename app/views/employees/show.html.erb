@@ -1,0 +1,28 @@
+<%= render 'layouts/myshow/before_myshow', mytitle: "Employee" %>
+
+<div class="m-widget13__item">
+    <span class="m-widget13__desc m--align-right">
+      Employee Number
+    </span>
+  <span class="m-widget13__text m-widget13__text-bolder">
+      <%= @employee.employee_number %>
+    </span>
+</div>
+<div class="m-widget13__item">
+    <span class="m-widget13__desc m--align-right">
+      Employee Name
+    </span>
+  <span class="m-widget13__text m-widget13__text-bolder">
+      <%= @employee.employee_name %>
+    </span>
+</div>
+<div class="m-widget13__item">
+    <span class="m-widget13__desc m--align-right">
+      Employee Mobile
+    </span>
+  <span class="m-widget13__text m-widget13__text-bolder">
+      <%= @employee.employee_mobile %>
+    </span>
+</div>
+
+<%= render 'layouts/myshow/after_myshow', editpath: edit_employee_path(@employee), backpath: employees_path %>

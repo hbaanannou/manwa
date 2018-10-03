@@ -1,0 +1,34 @@
+<%= render 'layouts/myindex/before_myindex', mytitle: "statuses", pages_collection: @status_assets, pages_model: "status", newlink: true, newtitle: "status", newpath: new_status_asset_path %>
+
+<thead>
+<tr>
+  <th>Status name</th>
+  <th>Actions</th>
+</tr>
+</thead>
+<tbody>
+<% if @status_assets.any? %>
+  <% @status_assets.each do |status_asset| %>
+    <tr>
+
+      <td><%= status_asset.status_asset_name %></td>
+
+
+      <td><%= link_to status_asset, alt: "Show", class: "m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill", data: { toggle: "m-tooltip", placement: "bottom", original_title: "Show"} do %><i class="la la-ellipsis-h"></i><% end %>
+
+        <%= link_to edit_status_asset_path(status_asset), alt: "Edit", class: "m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill", data: { toggle: "m-tooltip", placement: "bottom", original_title: "Edit" } do %><i class="la la-edit"></i><% end %>
+
+        <% if current_user.role?(:assets_admin) %>
+          <%= link_to status_asset, alt: "Delete", class: "m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill", method: :delete, data: { toggle: "m-tooltip", placement: "bottom", original_title: "Delete", confirm: 'Are you sure?' } do %><i class="la la-trash"></i><% end %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+<% else %>
+  <tr>
+    <th scope="row" class="text-center" colspan="12">No Assets</th>
+  </tr>
+<% end %>
+</tbody>
+
+<%= render 'layouts/myindex/after_myindex', pages_collection: @status_assets, pages_model: "status" %>

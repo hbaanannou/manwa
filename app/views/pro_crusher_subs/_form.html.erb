@@ -1,0 +1,22 @@
+<%= form_with(model: pro_crusher_sub, local: true) do |form| %>
+  <% if pro_crusher_sub.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(pro_crusher_sub.errors.count, "error") %> prohibited this pro_crusher_sub from being saved:</h2>
+
+      <ul>
+      <% pro_crusher_sub.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :pro_crusher_id %>
+    <%= form.text_field :pro_crusher_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

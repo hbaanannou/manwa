@@ -1,0 +1,145 @@
+<div class="m-portlet__head">
+  <div class="m-portlet__head-caption">
+    <div class="m-portlet__head-title">
+      <span class="m-portlet__head-icon">
+        <i class="flaticon-truck m--font-brand"></i>
+      </span>
+      <h3 class="m-portlet__head-text">
+        Transfer Requests
+      </h3>
+    </div>
+  </div>
+  <div class="m-portlet__head-tools">
+    <ul class="m-portlet__nav">
+
+
+      <li class="m-portlet__nav-item" id="clear_filters">
+        <% if params[:q] %>
+          <%= link_to request.path, class: "btn m-btn m-btn--pill m-btn--air btn-info mr-4" do %>
+            <span>
+              <i class="la la-filter"></i>
+              <span>
+                Clear Filters
+              </span>
+            </span>
+          <% end %>
+        <% end %>
+      </li>
+
+
+      <li class="m-portlet__nav-item">
+        <%= link_to transfer_assets_path(q: request.parameters[:q],format: :pdf), class: "btn m-btn m-btn--icon m-btn--pill m-btn--air btn-danger", target: "_blank" do %>
+          <span>
+            <i class="la la-file"></i>
+            <span>
+              Create PDF document
+            </span>
+          </span>
+        <% end %>
+      </li>
+
+    </ul>
+  </div>
+</div>
+
+<!--Begin::m-portlet__body-->
+<div class="m-portlet__body">
+<div class="mb-5 pb-2">
+  <div class="digg_pagination m--pull-left">
+    <span class="page_info">
+      <%= page_entries_info @transfer_assets, model: 'asset' %>
+    </span>
+  </div>
+  <div class="digg_pagination m--pull-right">
+    <%= will_paginate @transfer_assets, :container => false %>
+  </div>
+</div>
+
+<!--Begin::Section-->
+<div class="m-section">
+  <div class="m-section__content">
+    <div class="table-responsive">
+    <table class="table m-table m-table--border-success m-table--head-bg-success table-bordered table-hover text-center">
+      <thead>
+      <tr>
+        <th>#Serial</th>
+        <th>Asset No.</th>
+        <th>From</th>
+        <th>To</th>
+        <th>By</th>
+        <th>Lowbed</th>
+        <th>Create Date</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% if @transfer_assets.any? %>
+        <% @transfer_assets.each do |transfer_asset| %>
+          <tr>
+
+            <td>#T<%= transfer_asset.id %></td>
+            <td><%= transfer_asset.data_asset.data_asset_serial %></td>
+            <td><%= transfer_asset.site_asset_from.site_asset_name %></td>
+            <td><%= transfer_asset.site_asset_to.site_asset_name %></td>
+            <td>
+              <% if transfer_asset.sitemanager? %>
+                <span class="m--font-success"> Site Manager: </span><%= transfer_asset.user.assignments.first.employee.employee_name %>
+              <% elsif transfer_asset.provincemanager? %>
+                <span class="m--font-success"> Province Manager: </span><%= transfer_asset.user.assignments.first.employee.employee_name %>
+              <% end %>
+            </td>
+            <td><%= transfer_asset.data_asset_lowbed ? transfer_asset.data_asset_lowbed.data_asset_serial : "N/A" %></td>
+            <td><%= transfer_asset.created_at.to_date %></td>
+
+            <td>
+              <% if transfer_asset.transfer_status == 'opened' %>
+              <span class="m--font-info">Opened</span>
+              <% elsif transfer_asset.transfer_status == 'accepted' %>
+              <span class="m--font-success">Accepted</span>
+              <% elsif transfer_asset.transfer_status == 'refused' %>
+              <span class="m--font-danger">Refused</span>
+              <% elsif transfer_asset.transfer_status == 'posted' %>
+              <span class="m--font-primary">Posted</span>
+              <% elsif transfer_asset.transfer_status == 'received' %>
+              <span class="m--font-brand">Received</span>
+              <% end %>
+            </td>
+
+            <td><%= link_to transfer_asset, alt: "Show", class: "m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill", data: { toggle: "m-tooltip", placement: "bottom", original_title: "Show"} do %><i class="la la-ellipsis-h"></i><% end %>
+
+              <%= link_to transfer_asset_path(transfer_asset, format: :pdf, asset_id: DataAsset.find(transfer_asset.data_asset_id).id), alt: "PDF", class: "m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill", target: "_blank", data: { toggle: "m-tooltip", placement: "bottom", original_title: "PDF"} do %><i class="la la-file-pdf-o"></i><% end %>
+
+              <% if current_user.role?(:assets_admin) || current_user.role?(:assets_manager)%>
+
+                <%= link_to edit_transfer_asset_path(transfer_asset, asset_id: DataAsset.find(transfer_asset.data_asset_id).id), alt: "Edit", class: "m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill", data: { toggle: "m-tooltip", placement: "bottom", original_title: "Edit" } do %><i class="la la-edit"></i><% end %>
+
+                <%= link_to transfer_asset, alt: "Delete", class: "m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill", method: :delete, data: { toggle: "m-tooltip", placement: "bottom", original_title: "Delete", confirm: 'Are you sure?' } do %><i class="la la-trash"></i><% end %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      <% else %>
+        <tr>
+          <th scope="row" class="text-center" colspan="12"> No Transfer Requests</th>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div>
+<!--End::Section-->
+
+<div class="mb-3 pb-3">
+  <div class="digg_pagination m--pull-left">
+    <span class="page_info">
+      <%= page_entries_info @transfer_assets, model: 'asset' %>
+    </span>
+  </div>
+  <div class="digg_pagination m--pull-right">
+    <%= will_paginate @transfer_assets, :container => false %>
+  </div>
+</div>
+</div>
+<!--End::m-portlet__body-->

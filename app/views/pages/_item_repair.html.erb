@@ -1,0 +1,92 @@
+<div class="m-widget5__item">
+	<div class="m-widget5__pic">
+		<% if DataAsset.find(repair_order.data_asset_id).images.attached? %>
+		<%= image_tag DataAsset.find(repair_order.data_asset_id).images.first.variant(resize: "120x80"), alt: "", class: "m-widget7__img" %>
+
+		<% else %>
+    	<%= image_tag "no-image_120_90.jpg", alt: "", class: "img-fluid" %>
+    <% end %>
+
+	</div>
+	<div class="m-widget5__content">
+		<h4 class="m-widget5__title">
+
+			<strong><span class="m--font-brand"><%= DataAsset.find(repair_order.data_asset_id).data_asset_serial %> </span></strong>
+        / <%= DataAsset.find(repair_order.data_asset_id).type_asset.type_asset_name %> 
+        / <%= DataAsset.find(repair_order.data_asset_id).model_asset.model_asset_name %> 
+
+		</h4>
+		<div class="m-widget5__info">
+			<span class="m-widget5__author">
+				From:
+			</span>
+			<span class="m-widget5__info-date m--font-info">
+				<%= repair_order.site_asset.site_asset_name %>
+			</span>
+			<br>
+			<span class="m-widget5__info-label">
+				To:
+			</span>
+			<span class="m-widget5__info-date m--font-info">
+				<%= repair_order.workshop_site.site_asset_name %>
+			</span>
+		</div>
+	</div>
+
+	<div class="m-widget5__stats1">
+		<span class="m-widget5__sales m--font-brand">
+			<span class="m--font-primary"><strong>
+				<% if (local_assigns[:repair_status] != 'opened' && local_assigns[:repair_status] != 'hold') %>
+				<%= local_assigns[:repair_status].capitalize %>
+				<% else %>
+					Received
+				<% end %>
+				</strong></span> from
+		</span>
+		<br>
+		<span class="m-widget5__sales">
+			<% if local_assigns[:repair_status] == 'requested' %>
+			<%= time_ago_in_words(repair_order.created_at) %>
+			<% elsif local_assigns[:repair_status] == 'received' %>
+			<%= time_ago_in_words(repair_order.workshop_site_action_date) %>
+			<% elsif local_assigns[:repair_status] == 'repaired' %>
+			<%= time_ago_in_words(repair_order.workshop_site_repair_date) %>
+			<% elsif local_assigns[:repair_status] == 'returned' %>
+			<%= time_ago_in_words(repair_order.return_site_action_date) %>
+			<% else %>
+			<%= time_ago_in_words(repair_order.workshop_site_action_date) %>
+			<% end %>
+		</span>
+		<br>
+		<span class="m-widget5__desc">
+			<span class="m-widget5__sales m--font-brand">on: </span>
+			<% if local_assigns[:repair_status] == 'requested' %>
+			<%= repair_order.created_at.to_date %>
+			<% elsif local_assigns[:repair_status] == 'received' %>
+			<%= repair_order.workshop_site_action_date.to_date %>
+			<% elsif local_assigns[:repair_status] == 'repaired' %>
+			<%= repair_order.workshop_site_repair_date.to_date %>
+			<% elsif local_assigns[:repair_status] == 'returned' %>
+			<%= repair_order.return_site_action_date.to_date %>
+			<% else %>
+			<%= repair_order.workshop_site_action_date.to_date %>
+			<% end %>
+		</span>
+	</div>
+
+	<div class="m-widget5__stats1">
+		<%= link_to repair_order_path(repair_order, asset_id: DataAsset.find(repair_order.data_asset_id).id), alt: "Show", class: "m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill", data: { toggle: "m-tooltip", placement: "bottom", original_title: "Show"} do %><i class="la la-ellipsis-h"></i><% end %>
+
+		<%= link_to repair_order_path(repair_order, format: :pdf, asset_id: DataAsset.find(repair_order.data_asset_id).id), alt: "PDF", class: "m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill", target: "_blank", data: { toggle: "m-tooltip", placement: "bottom", original_title: "PDF"} do %><i class="la la-file-pdf-o"></i><% end %>
+
+		<% if current_user.role?(:workshops_site) %>
+		<%= link_to repair_breakdowns_path(ro_id: repair_order.id), alt: "Breakdowns", class: "m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill", data: {toggle: "m-tooltip", placement: "bottom", original_title: "Breakdowns"} do %><i class="la la-angle-double-right"></i><% end %>
+		<% end %>
+
+		<% if local_assigns[:can_edit] %>
+			<%= link_to edit_repair_order_path(repair_order, asset_id: DataAsset.find(repair_order.data_asset_id).id), alt: "Edit", class: "m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill", data: { toggle: "m-tooltip", placement: "bottom", original_title: "Edit"} do %><i class="la la-edit"></i><% end %>
+		<% end %>
+
+	</div>
+
+</div>

@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Repair breakdown:</strong>
+  <%= @breakdown_spare.repair_breakdown %>
+</p>
+
+<p>
+  <strong>Spare part number:</strong>
+  <%= @breakdown_spare.spare_part_number %>
+</p>
+
+<p>
+  <strong>Spare description:</strong>
+  <%= @breakdown_spare.spare_description %>
+</p>
+
+<p>
+  <strong>Spare quantity:</strong>
+  <%= @breakdown_spare.spare_quantity %>
+</p>
+
+<p>
+  <strong>Spare status:</strong>
+  <%= @breakdown_spare.spare_status %>
+</p>
+
+<%= link_to 'Edit', edit_breakdown_spare_path(@breakdown_spare) %> |
+<%= link_to 'Back', breakdown_spares_path %>
